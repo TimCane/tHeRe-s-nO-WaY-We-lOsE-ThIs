@@ -1,0 +1,621 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="SPIKE TIMER // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="bomb-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// TACTICAL UTILITY</span>
+      <h1>SPIKE TIMER</h1>
+      <p class="hero-sub">A COMPLETELY ACCURATE AND TRUSTWORTHY TOOL</p>
+    </div>
+  </section>
+
+  <section class="bomb-section">
+    <div class="timer-display">
+      <div class="timer-ring" id="timer-ring">
+        <svg viewBox="0 0 200 200" class="timer-svg">
+          <circle cx="100" cy="100" r="90" class="ring-bg" />
+          <circle cx="100" cy="100" r="90" class="ring-fill" id="ring-fill" />
+        </svg>
+        <div class="timer-inner">
+          <div class="timer-value" id="timer-value">45.0</div>
+          <div class="timer-label" id="timer-label">SECONDS</div>
+        </div>
+      </div>
+
+      <div class="spike-status" id="spike-status">SPIKE READY</div>
+    </div>
+
+    <div class="bomb-controls">
+      <button class="bomb-btn plant-btn" id="plant-btn">
+        <span class="btn-text">PLANT SPIKE</span>
+      </button>
+      <button class="bomb-btn defuse-btn" id="defuse-btn" disabled>
+        <span class="btn-text">DEFUSE</span>
+      </button>
+      <button class="bomb-btn reset-btn" id="reset-btn">
+        <span class="btn-text">RESET</span>
+      </button>
+    </div>
+
+    <div class="beep-indicator">
+      <div class="beep-dots" id="beep-dots">
+        <span class="beep-dot"></span>
+        <span class="beep-dot"></span>
+        <span class="beep-dot"></span>
+        <span class="beep-dot"></span>
+        <span class="beep-dot"></span>
+      </div>
+      <div class="beep-text" id="beep-text">AWAITING PLANT</div>
+    </div>
+
+    <div class="sabotage-log" id="sabotage-log"></div>
+  </section>
+
+  <script is:inline>
+  (function() {
+    var TOTAL = 45;
+    var remaining = TOTAL;
+    var running = false;
+    var defusing = false;
+    var exploded = false;
+    var defused = false;
+    var interval = null;
+    var lastTick = 0;
+
+    var timerValue = document.getElementById('timer-value');
+    var timerLabel = document.getElementById('timer-label');
+    var ringFill = document.getElementById('ring-fill');
+    var spikeStatus = document.getElementById('spike-status');
+    var plantBtn = document.getElementById('plant-btn');
+    var defuseBtn = document.getElementById('defuse-btn');
+    var resetBtn = document.getElementById('reset-btn');
+    var beepText = document.getElementById('beep-text');
+    var beepDots = document.getElementById('beep-dots');
+    var sabotageLog = document.getElementById('sabotage-log');
+    var timerRing = document.getElementById('timer-ring');
+
+    // Ring circumference
+    var circumference = 2 * Math.PI * 90;
+    if (ringFill) {
+      ringFill.style.strokeDasharray = circumference;
+      ringFill.style.strokeDashoffset = '0';
+    }
+
+    // Sabotage system - subtly mess with the speed
+    var sabotageEvents = [
+      { at: 40, speed: 1.15, log: null },
+      { at: 35, speed: 0.85, log: null },
+      { at: 30, speed: 1.0, log: null },
+      { at: 25, speed: 1.25, log: null },
+      { at: 20, speed: 0.7, log: null },
+      { at: 17, speed: 1.4, log: null },
+      { at: 14, speed: 0.9, log: null },
+      { at: 10, speed: 1.3, log: null },
+      { at: 7, speed: 0.6, log: null },
+      { at: 5, speed: 1.8, log: null },
+      { at: 3, speed: 0.5, log: null },
+      { at: 1.5, speed: 2.0, log: null },
+    ];
+
+    var currentSpeed = 1.0;
+    var sabotageIndex = 0;
+    var totalDrift = 0;
+
+    // Audio context for beeps
+    var audioCtx = null;
+    function beep(freq, duration) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.value = 0.08;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function updateDisplay() {
+      var display = Math.max(0, remaining).toFixed(1);
+      if (timerValue) timerValue.textContent = display;
+
+      // Update ring
+      var progress = remaining / TOTAL;
+      if (ringFill) {
+        ringFill.style.strokeDashoffset = (circumference * (1 - progress)).toString();
+      }
+
+      // Color changes
+      if (timerRing) {
+        if (remaining <= 5) {
+          timerRing.classList.add('critical');
+          timerRing.classList.remove('warning');
+        } else if (remaining <= 15) {
+          timerRing.classList.add('warning');
+          timerRing.classList.remove('critical');
+        } else {
+          timerRing.classList.remove('warning', 'critical');
+        }
+      }
+
+      // Beep frequency
+      if (running && !defusing) {
+        var beepRate;
+        if (remaining <= 5) beepRate = 100;
+        else if (remaining <= 10) beepRate = 250;
+        else if (remaining <= 20) beepRate = 500;
+        else beepRate = 1000;
+
+        var now = Date.now();
+        if (now - lastTick >= beepRate) {
+          lastTick = now;
+          beep(remaining <= 10 ? 880 : 660, 0.08);
+          // Pulse dots
+          var dots = beepDots ? beepDots.querySelectorAll('.beep-dot') : [];
+          var activeIdx = Math.floor((TOTAL - remaining) / (TOTAL / dots.length)) % dots.length;
+          dots.forEach(function(d, i) {
+            d.classList.toggle('active', i <= activeIdx);
+          });
+        }
+      }
+    }
+
+    function tick() {
+      if (!running || exploded || defused) return;
+
+      // Check sabotage events
+      while (sabotageIndex < sabotageEvents.length && remaining <= sabotageEvents[sabotageIndex].at) {
+        currentSpeed = sabotageEvents[sabotageIndex].speed;
+        sabotageIndex++;
+      }
+
+      // Subtract time with sabotaged speed (50ms tick interval)
+      var decrement = 0.05 * currentSpeed;
+      remaining -= decrement;
+      totalDrift += (decrement - 0.05);
+
+      if (defusing) {
+        // Defuse takes 7 seconds (but also sabotaged)
+        if (beepText) beepText.textContent = 'DEFUSING...';
+      }
+
+      if (remaining <= 0) {
+        remaining = 0;
+        exploded = true;
+        running = false;
+        clearInterval(interval);
+        if (spikeStatus) {
+          spikeStatus.textContent = 'DETONATED';
+          spikeStatus.classList.add('exploded');
+        }
+        if (timerLabel) timerLabel.textContent = 'BOOM';
+        if (beepText) beepText.textContent = 'SPIKE DETONATED';
+        if (timerRing) timerRing.classList.add('exploded');
+        beep(120, 0.5);
+        setTimeout(function() { beep(80, 0.8); }, 100);
+
+        // Show drift
+        if (sabotageLog) {
+          var realElapsed = TOTAL;
+          var drift = totalDrift.toFixed(1);
+          sabotageLog.innerHTML = '<span class="drift-text">Total time drift: ' + drift + 's // The timer lied to you</span>';
+          sabotageLog.classList.add('visible');
+        }
+      }
+
+      updateDisplay();
+    }
+
+    function startPlant() {
+      if (running || exploded) return;
+      remaining = TOTAL;
+      running = true;
+      defusing = false;
+      exploded = false;
+      defused = false;
+      currentSpeed = 1.0;
+      sabotageIndex = 0;
+      totalDrift = 0;
+      lastTick = 0;
+
+      if (spikeStatus) {
+        spikeStatus.textContent = 'SPIKE PLANTED';
+        spikeStatus.classList.remove('exploded', 'defused');
+        spikeStatus.classList.add('planted');
+      }
+      if (timerLabel) timerLabel.textContent = 'SECONDS';
+      if (beepText) beepText.textContent = 'SPIKE ACTIVE';
+      if (timerRing) timerRing.classList.remove('exploded', 'defused-ring');
+      if (defuseBtn) defuseBtn.disabled = false;
+      if (plantBtn) plantBtn.disabled = true;
+      if (sabotageLog) { sabotageLog.classList.remove('visible'); sabotageLog.innerHTML = ''; }
+
+      clearInterval(interval);
+      interval = setInterval(tick, 50);
+      updateDisplay();
+
+      beep(440, 0.15);
+      setTimeout(function() { beep(660, 0.15); }, 150);
+    }
+
+    function startDefuse() {
+      if (!running || defusing || exploded || defused) return;
+      defusing = true;
+      if (beepText) beepText.textContent = 'DEFUSING...';
+      if (spikeStatus) spikeStatus.textContent = 'DEFUSING';
+
+      // Defuse takes 7 seconds — but we make it feel wrong
+      var defuseTime = 7000;
+      var defuseStart = Date.now();
+
+      beep(550, 0.3);
+
+      var defuseCheck = setInterval(function() {
+        if (!running || exploded) { clearInterval(defuseCheck); return; }
+        var elapsed = Date.now() - defuseStart;
+        if (elapsed >= defuseTime) {
+          clearInterval(defuseCheck);
+          clearInterval(interval);
+          running = false;
+          defused = true;
+          if (spikeStatus) {
+            spikeStatus.textContent = 'DEFUSED';
+            spikeStatus.classList.add('defused');
+          }
+          if (timerLabel) timerLabel.textContent = 'SAFE';
+          if (beepText) beepText.textContent = 'SPIKE DEFUSED';
+          if (timerRing) timerRing.classList.add('defused-ring');
+          if (defuseBtn) defuseBtn.disabled = true;
+
+          beep(880, 0.2);
+          setTimeout(function() { beep(1100, 0.2); }, 150);
+          setTimeout(function() { beep(1320, 0.3); }, 300);
+
+          if (sabotageLog) {
+            var drift = totalDrift.toFixed(1);
+            sabotageLog.innerHTML = '<span class="drift-text">Total time drift: ' + drift + 's // The timer was never real</span>';
+            sabotageLog.classList.add('visible');
+          }
+        }
+      }, 50);
+    }
+
+    function reset() {
+      clearInterval(interval);
+      remaining = TOTAL;
+      running = false;
+      defusing = false;
+      exploded = false;
+      defused = false;
+      currentSpeed = 1.0;
+      sabotageIndex = 0;
+      totalDrift = 0;
+      lastTick = 0;
+
+      if (spikeStatus) {
+        spikeStatus.textContent = 'SPIKE READY';
+        spikeStatus.classList.remove('planted', 'exploded', 'defused');
+      }
+      if (timerLabel) timerLabel.textContent = 'SECONDS';
+      if (beepText) beepText.textContent = 'AWAITING PLANT';
+      if (timerRing) timerRing.classList.remove('warning', 'critical', 'exploded', 'defused-ring');
+      if (defuseBtn) defuseBtn.disabled = true;
+      if (plantBtn) plantBtn.disabled = false;
+      if (sabotageLog) { sabotageLog.classList.remove('visible'); sabotageLog.innerHTML = ''; }
+
+      var dots = beepDots ? beepDots.querySelectorAll('.beep-dot') : [];
+      dots.forEach(function(d) { d.classList.remove('active'); });
+
+      updateDisplay();
+    }
+
+    if (plantBtn) plantBtn.addEventListener('click', startPlant);
+    if (defuseBtn) defuseBtn.addEventListener('click', startDefuse);
+    if (resetBtn) resetBtn.addEventListener('click', reset);
+
+    updateDisplay();
+  })();
+  </script>
+</Layout>
+
+<style>
+  .bomb-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+  .back-link:hover { opacity: 1; color: var(--val-red); }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    line-height: 0.9;
+  }
+
+  .hero-sub {
+    margin-top: 1rem;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    font-weight: 600;
+  }
+
+  /* BOMB SECTION */
+  .bomb-section {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+    text-align: center;
+  }
+
+  /* TIMER DISPLAY */
+  .timer-display {
+    margin-bottom: 3rem;
+  }
+
+  .timer-ring {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 2rem;
+  }
+
+  .timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg {
+    fill: none;
+    stroke: rgba(236,232,225,0.06);
+    stroke-width: 6;
+  }
+
+  .ring-fill {
+    fill: none;
+    stroke: var(--val-red);
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke 0.3s;
+  }
+
+  .timer-ring.warning .ring-fill { stroke: #f5a623; }
+  .timer-ring.critical .ring-fill {
+    stroke: var(--val-red);
+    animation: ringPulse 0.3s ease infinite;
+  }
+  .timer-ring.exploded .ring-fill { stroke: #ff2040; stroke-width: 8; }
+  .timer-ring.defused-ring .ring-fill { stroke: var(--val-teal); }
+
+  @keyframes ringPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .timer-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .timer-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-cream);
+    line-height: 1;
+  }
+
+  .timer-ring.critical .timer-value {
+    color: var(--val-red);
+    animation: textPulse 0.3s ease infinite;
+  }
+
+  .timer-ring.exploded .timer-value { color: #ff2040; }
+  .timer-ring.defused-ring .timer-value { color: var(--val-teal); }
+
+  @keyframes textPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .timer-label {
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+
+  .spike-status {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    opacity: 0.5;
+    transition: all 0.3s;
+  }
+
+  .spike-status.planted {
+    color: var(--val-red);
+    opacity: 1;
+    text-shadow: 0 0 20px rgba(255,70,85,0.4);
+  }
+
+  .spike-status.exploded {
+    color: #ff2040;
+    opacity: 1;
+    font-size: 1.2rem;
+    text-shadow: 0 0 30px rgba(255,32,64,0.6);
+    animation: textPulse 0.5s ease infinite;
+  }
+
+  .spike-status.defused {
+    color: var(--val-teal);
+    opacity: 1;
+    text-shadow: 0 0 20px rgba(23,236,194,0.4);
+  }
+
+  /* CONTROLS */
+  .bomb-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .bomb-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    padding: 0.8rem 2rem;
+    border: none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plant-btn {
+    background: var(--val-red);
+    color: white;
+    box-shadow: 0 0 20px rgba(255,70,85,0.3);
+  }
+
+  .plant-btn:hover:not(:disabled) {
+    background: white;
+    color: var(--val-dark);
+    box-shadow: 0 0 30px rgba(255,70,85,0.5);
+    transform: translateY(-2px);
+  }
+
+  .defuse-btn {
+    background: var(--val-teal);
+    color: var(--val-dark);
+    box-shadow: 0 0 20px rgba(23,236,194,0.3);
+  }
+
+  .defuse-btn:hover:not(:disabled) {
+    background: white;
+    color: var(--val-dark);
+    box-shadow: 0 0 30px rgba(23,236,194,0.5);
+    transform: translateY(-2px);
+  }
+
+  .reset-btn {
+    background: rgba(236,232,225,0.08);
+    color: var(--val-cream);
+    border: 1px solid rgba(236,232,225,0.15);
+  }
+
+  .reset-btn:hover {
+    background: rgba(236,232,225,0.15);
+    transform: translateY(-2px);
+  }
+
+  .bomb-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  /* BEEP INDICATOR */
+  .beep-indicator {
+    margin-bottom: 2rem;
+  }
+
+  .beep-dots {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .beep-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(236,232,225,0.1);
+    transition: all 0.15s;
+  }
+
+  .beep-dot.active {
+    background: var(--val-red);
+    box-shadow: 0 0 10px rgba(255,70,85,0.6);
+  }
+
+  .beep-text {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    opacity: 0.3;
+    font-weight: 600;
+  }
+
+  /* SABOTAGE LOG */
+  .sabotage-log {
+    margin-top: 2rem;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .sabotage-log.visible {
+    opacity: 1;
+  }
+
+  .drift-text {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--val-red);
+    opacity: 0.6;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .bomb-hero { padding: 8rem 2rem 3rem; }
+    .bomb-section { padding: 3rem 1.5rem 4rem; }
+    .timer-ring { width: 200px; height: 200px; }
+    .timer-value { font-size: 2.8rem; }
+  }
+</style>
