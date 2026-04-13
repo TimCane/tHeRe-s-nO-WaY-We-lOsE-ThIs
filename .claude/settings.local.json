@@ -18,7 +18,13 @@
       "Bash(awk:*)",
       "Bash(find src:*)",
       "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/goodchillnight/chillgoodnight/g' {} +)",
-      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/GOODCHILLNIGHT/CHILLGOODNIGHT/g' {} +)"
+      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/GOODCHILLNIGHT/CHILLGOODNIGHT/g' {} +)",
+      "Bash(git commit:*)",
+      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/PRETTY MOUTH BOY/PRETTY MOUTH MAN/g' {} +)",
+      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/Pretty Mouth Boy/Pretty Mouth Man/g' {} +)",
+      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/pretty mouth boy/pretty mouth man/g' {} +)",
+      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/prettymouthboy/prettymouthman/g' {} +)",
+      "Bash(find /workspaces/valorant-vibe-coding/src -name \"*.astro\" -exec sed -i 's/PRETTYMOUTHBOY/PRETTYMOUTHMAN/g' {} +)"
     ]
   }
 }

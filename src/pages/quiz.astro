@@ -356,8 +356,8 @@ import Layout from '../layouts/Layout.astro';
       description: "You say you will do exactly one, and then you do four. You are deeply committed beneath a casual exterior. You have a dedicated OS for your hobbies, you bait rez your friends just to see what happens, and you wield a Wasteland Vandal like it is Excalibur. THIS IS WHY YOU ARE THE VIPER.",
       quote: "\"I COULD DO EXACTLY ONE\""
     },
-    prettymouthboy: {
-      name: "PRETTY MOUTH BOY",
+    prettymouthman: {
+      name: "PRETTY MOUTH MAN",
       accent: "#f5a623",
       role: "CONTROLLER // BRIMSTONE",
       description: "You claim you are done. You are NOT done. You are never done. You will say \"not a gamer anymore\" and then queue up four games. Your real strategy is dying first so you can alt-tab to whatever side project has captured your brain. You live in a state of beautiful contradiction. Purchance.",
@@ -385,7 +385,7 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "Send a cryptic one-word message in the group chat. \"Boing?\"", player: "doodlleus" },
         { label: "Say \"I could do exactly one\" knowing full well it will be four.", player: "tjc" },
-        { label: "\"Not a gamer anymore\" you type, already launching Valorant.", player: "prettymouthboy" },
+        { label: "\"Not a gamer anymore\" you type, already launching Valorant.", player: "prettymouthman" },
         { label: "\"Mayb.\" (You are already logging in.)", player: "chillgoodnight" },
         { label: "\"Aye.\" Then close your eyes for just a second...", player: "neilatron" }
       ]
@@ -395,7 +395,7 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "Immediately blame the gaming chair. It is losing power.", player: "doodlleus" },
         { label: "\"This is why I'm the Viper.\" (You were playing Sage.)", player: "tjc" },
-        { label: "Alt-tab. You have a factory that needs optimizing.", player: "prettymouthboy" },
+        { label: "Alt-tab. You have a factory that needs optimizing.", player: "prettymouthman" },
         { label: "Stare silently. Site adjacent was the correct call. The site was wrong.", player: "chillgoodnight" },
         { label: "\"Aye, that's rough.\" Continue vibing regardless.", player: "neilatron" }
       ]
@@ -405,7 +405,7 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "Rez them while yelling encouragement. THE HEART OF THE SQUAD.", player: "doodlleus" },
         { label: "Rez them with no smoke, no wall, no plan. Just vibes. 12% survival rate.", player: "tjc" },
-        { label: "You died before them. You are already in Factorio.", player: "prettymouthboy" },
+        { label: "You died before them. You are already in Factorio.", player: "prettymouthman" },
         { label: "Healing goes against everything you believe in. Place a turret instead.", player: "chillgoodnight" },
         { label: "Switch to whatever agent fixes this. You are the flex. You adapt.", player: "neilatron" }
       ]
@@ -415,7 +415,7 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "\"FUCK YOU CHILL GOOD NIGHT\" (said with love, always with love)", player: "doodlleus" },
         { label: "\"One more.\" (The one-game commitment is void. It was always void.)", player: "tjc" },
-        { label: "\"Purchance we run it back.\" You were going to anyway.", player: "prettymouthboy" },
+        { label: "\"Purchance we run it back.\" You were going to anyway.", player: "prettymouthman" },
         { label: "A single \"nice\" in chat. Emotional range: site adjacent.", player: "chillgoodnight" },
         { label: "\"Im up for losing some RR.\" (You just gained RR but the bit must continue.)", player: "neilatron" }
       ]
@@ -425,7 +425,7 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "Whatever is loudest and most obnoxious. It matches your energy.", player: "doodlleus" },
         { label: "Wasteland Vandal. The squad has staged interventions. You will not change.", player: "tjc" },
-        { label: "You forgot to buy a skin. You forgot to buy armor. You are alt-tabbed.", player: "prettymouthboy" },
+        { label: "You forgot to buy a skin. You forgot to buy armor. You are alt-tabbed.", player: "prettymouthman" },
         { label: "Default skin. Skins are a distraction from turret placement.", player: "chillgoodnight" },
         { label: "Whatever the squad is running. You are here for the vibes, not the drip.", player: "neilatron" }
       ]
@@ -435,7 +435,7 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "You are already fading. The gaming chair has lost all power. One more though.", player: "doodlleus" },
         { label: "Boot back into Valorant OS. Dual-booting is a lifestyle, not a choice.", player: "tjc" },
-        { label: "\"I should sleep\" you say, queueing up. You are always a gamer.", player: "prettymouthboy" },
+        { label: "\"I should sleep\" you say, queueing up. You are always a gamer.", player: "prettymouthman" },
         { label: "\"Mebe3.\" This translates to yes but you need 10 minutes.", player: "chillgoodnight" },
         { label: "You are asleep. The lobby is loading. Your agent is auto-locked.", player: "neilatron" }
       ]
@@ -445,14 +445,14 @@ import Layout from '../layouts/Layout.astro';
       answers: [
         { label: "Type something so cryptic they stop fighting to figure out what it means.", player: "doodlleus" },
         { label: "\"This is why I'm the Viper.\" They have no idea what this means. Good.", player: "tjc" },
-        { label: "You are not reading chat. You are thinking about conveyor belt ratios.", player: "prettymouthboy" },
+        { label: "You are not reading chat. You are thinking about conveyor belt ratios.", player: "prettymouthman" },
         { label: "You do not engage. You place a turret facing their spawn. Statement made.", player: "chillgoodnight" },
         { label: "\"Aye.\" One word. Zero elaboration. Maximum confusion.", player: "neilatron" }
       ]
     }
   ];
 
-  const scores = { doodlleus: 0, tjc: 0, prettymouthboy: 0, chillgoodnight: 0, neilatron: 0 };
+  const scores = { doodlleus: 0, tjc: 0, prettymouthman: 0, chillgoodnight: 0, neilatron: 0 };
   let currentQ = 0;
 
   const questionArea = document.getElementById('question-area');
