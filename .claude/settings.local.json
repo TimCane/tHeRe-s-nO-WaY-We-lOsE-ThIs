@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(mv /workspaces/valorant-vibe-coding/stale-singularity/* /workspaces/valorant-vibe-coding/stale-singularity/.* /workspaces/valorant-vibe-coding/)",
+      "Bash(rmdir /workspaces/valorant-vibe-coding/stale-singularity)",
+      "Bash(mkdir -p /workspaces/valorant-vibe-coding/public/assets)",
+      "Bash(cp /workspaces/valorant-vibe-coding/valorant-assets/* /workspaces/valorant-vibe-coding/public/assets/)",
+      "Bash(npm install:*)",
+      "Bash(npx astro:*)",
+      "Bash(unzip:*)",
+      "Bash(wc:*)",
+      "Bash(xargs -0 ls -la)",
+      "WebFetch(domain:tracker.gg)",
+      "Bash(curl -s -L -H \"User-Agent: Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\" \"https://api.tracker.gg/api/v2/valorant/standard/profile/riot/doodlleus%237316?playlist=competitive\")",
+      "Bash(git rm:*)",
+      "WebFetch(domain:api.tracker.gg)",
+      "Bash(curl:*)",
+      "Bash(grep -o \".{0,50}[0-9]\\\\+\\\\.[0-9]\\\\+.{0,50}\" \"/workspaces/valorant-vibe-coding/tmp/pretty mouth man#imbad's Competitive Multiplayer Overview - Valorant Tracker.html\")",
+      "Bash(python3:*)",
+      "Bash(grep -E \"^[0-9]+$|^[0-9]+\\\\.[0-9]+$\")",
+      "Bash(perl -ne 'print $1.\"\\\\n\" while /<\\(?:[^<>]+\\)>\\([^<>]+\\)<\\\\/[^>]+>/g' \"/workspaces/valorant-vibe-coding/tmp/pretty mouth man#imbad's Competitive Multiplayer Overview - Valorant Tracker.html\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
