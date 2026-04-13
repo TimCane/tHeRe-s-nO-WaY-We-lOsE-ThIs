@@ -1,0 +1,564 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const members = {
+  DOODLLEUS: '#c742f5',
+  TJC: '#17ecc2',
+  'PRETTY MOUTH BOY': '#f5a623',
+  'GOOD CHILL NIGHT': '#f5d623',
+  NEILATRON: '#7aff4a',
+};
+
+const maps = {
+  BIND: [
+    { real: "A Short", squad: "TJC's Graveyard", coined: "DOODLLEUS", explanation: "TJC dies here every single round without fail. The squad has started pre-mourning." },
+    { real: "B Long", squad: "The Factorio Hallway", coined: "TJC", explanation: "Pretty Mouth Boy was alt-tabbed in Factorio and walked straight off the map here. Twice." },
+    { real: "Hookah", squad: "Nap Room", coined: "GOOD CHILL NIGHT", explanation: "Neilatron fell asleep holding an angle here. Woke up to 'ROUND LOST' and said 'aye fair enough.'" },
+    { real: "A Bath", squad: "The Splash Zone", coined: "PRETTY MOUTH BOY", explanation: "Where Doodlleus panic-knifes the air every time he hears footsteps. Has never hit anyone." },
+    { real: "B Hall", squad: "The Odin Corridor", coined: "NEILATRON", explanation: "The squad bought 5 Odins and held this hallway. The enemy team typed 'reported' in all chat." },
+    { real: "A Lobby", squad: "Purchance Plaza", coined: "TJC", explanation: "Pretty Mouth Boy said 'purchance we rush A' and the squad got aced in 4 seconds." },
+    { real: "Teleporter", squad: "The Panic Button", coined: "DOODLLEUS", explanation: "Good Chill Night uses this exclusively to escape fights she started and cannot finish." },
+  ],
+  HAVEN: [
+    { real: "Garage", squad: "The Bait Rez Zone", coined: "DOODLLEUS", explanation: "TJC has attempted 14 rezzes here. 0 survived. He keeps trying. The definition of insanity." },
+    { real: "C Long", squad: "Doodlleus After 11pm Lane", coined: "TJC", explanation: "Where Doodlleus goes to miss every shot once his gaming chair runs out of power." },
+    { real: "A Short", squad: "The Crashout Corridor", coined: "TJC", explanation: "Where TJC types CRASHOUT in chat while simultaneously dying to a Sheriff headshot." },
+    { real: "Mid Window", squad: "The Viper Whiff Window", coined: "GOOD CHILL NIGHT", explanation: "TJC missed a snake bite through this window by a full tile then said 'this is why im the viper.'" },
+    { real: "B Site", squad: "The Sage Cemetery", coined: "NEILATRON", explanation: "More of TJC's teammates have died post-rez on this site than any other location in Valorant history." },
+    { real: "A Lobby", squad: "Not A Gamer Lobby", coined: "PRETTY MOUTH BOY", explanation: "Where Pretty Mouth Boy announced his retirement from gaming, then top-fragged the next 3 rounds." },
+    { real: "C Garage", squad: "The Chair Cutoff", coined: "DOODLLEUS", explanation: "At exactly 11pm, Doodlleus's crosshair starts drifting south here. The chair has spoken." },
+  ],
+  SPLIT: [
+    { real: "A Ramps", squad: "The Turret Throne", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night places her Killjoy turret here and goes AFK to get snacks. The turret outfrags her." },
+    { real: "Mid Vent", squad: "Sploink Shaft", coined: "DOODLLEUS", explanation: "Where Doodlleus sends 'Sploink?' in the group chat to summon the squad. The echo carries." },
+    { real: "B Main", squad: "The Exactly One Entrance", coined: "TJC", explanation: "TJC said 'I could do exactly one more round' then proceeded to entry frag B for 4 more games." },
+    { real: "A Main", squad: "Healing Denial Highway", coined: "NEILATRON", explanation: "Good Chill Night was asked to heal here as Sage. She placed a slow orb on her own teammate instead." },
+    { real: "Mid Mail", squad: "The Wasteland Gallery", coined: "PRETTY MOUTH BOY", explanation: "Where TJC proudly showed off his Wasteland Vandal skin. The squad held an intervention on the spot." },
+    { real: "B Tower", squad: "The Aye Tower", coined: "TJC", explanation: "Neilatron was asked 'are you watching B?' and replied 'aye' from A site. He was not watching B." },
+    { real: "A Screens", squad: "The RR Graveyard", coined: "NEILATRON", explanation: "Where the squad collectively lost 87 RR in one session. Neilatron predicted it. He always does." },
+  ],
+  ASCENT: [
+    { real: "Mid", squad: "Factorio Gap", coined: "TJC", explanation: "Pretty Mouth Boy was alt-tabbed to Factorio here for 3 full rounds. Nobody noticed until round 4." },
+    { real: "A Main", squad: "The Brimjob Boulevard", coined: "DOODLLEUS", explanation: "Where Pretty Mouth Boy accidentally did something good as Brimstone and the squad lost their minds." },
+    { real: "B Main", squad: "The Odin Throne Room", coined: "PRETTY MOUTH BOY", explanation: "The enemy team surrendered after the squad held this with 5 Odins for 3 rounds straight." },
+    { real: "Mid Catwalk", squad: "The 11pm Tightrope", coined: "TJC", explanation: "Doodlleus fell off this catwalk 3 times in one half. All after 11pm. The chair knows." },
+    { real: "A Wine", squad: "The Mayhaps Cellar", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night said 'mayhaps I rotate' then sat in Wine for the entire round doing nothing." },
+    { real: "B Market", squad: "The Ace Watch Zone", coined: "NEILATRON", explanation: "Good Chill Night got a 4K here once. The 5th kill was stolen by Doodlleus. She has not forgiven him." },
+    { real: "Defender Spawn", squad: "The Mebe3 Meetup", coined: "GOOD CHILL NIGHT", explanation: "Where the squad waits for Good Chill Night who said 'mebe3 minutes.' It was 10 minutes." },
+    { real: "A Garden", squad: "Neilatron's Nap Garden", coined: "DOODLLEUS", explanation: "Neilatron held an angle here for so long the squad thought he disconnected. He was just 'focused.'" },
+  ],
+  ICEBOX: [
+    { real: "Mid Tube", squad: "The Tube of Broken Dreams", coined: "TJC", explanation: "The squad has a combined 3-47 record in fights through this tube. They keep peeking it." },
+    { real: "A Belt", squad: "The Conveyor of Shame", coined: "DOODLLEUS", explanation: "Pretty Mouth Boy rode the belt into 4 enemies while alt-tabbed. He didn't even notice he died." },
+    { real: "B Kitchen", squad: "The Snack Break", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night actually went to her kitchen IRL during a round because 'the vibes aligned.'" },
+    { real: "A Nest", squad: "The Aye Nest", coined: "NEILATRON", explanation: "Neilatron says 'aye' from nest every round. He has never actually been in nest. No one knows where he is." },
+    { real: "B Snowman", squad: "The Crashout Snowman", coined: "TJC", explanation: "TJC typed CRASHOUT 47 times in chat while holding this angle. He got a 3K. Correlation unclear." },
+    { real: "A Screens", squad: "The Dual Boot Display", coined: "PRETTY MOUTH BOY", explanation: "Where TJC explained his Valorant OS dual-boot setup in the middle of a clutch. He lost the clutch." },
+    { real: "B Hall", squad: "The Site Adjacent Hallway", coined: "DOODLLEUS", explanation: "Good Chill Night's favorite position. Near the site. Not ON the site. Philosophically adjacent." },
+  ],
+  BREEZE: [
+    { real: "A Hall", squad: "The Sploink Tunnel", coined: "DOODLLEUS", explanation: "Doodlleus sends 'Sploink?' here at the start of every round. It has become a ritual." },
+    { real: "Mid", squad: "The Retirement Home", coined: "TJC", explanation: "Where Pretty Mouth Boy announces 'not a gamer anymore' before immediately getting a double kill." },
+    { real: "B Main", squad: "The Gun Game Gauntlet", coined: "NEILATRON", explanation: "The squad attempted a Stinger-only rush here. It worked once. They've tried it 30 more times since." },
+    { real: "A Cave", squad: "Chimchimcheroo Cave", coined: "DOODLLEUS", explanation: "Named after Doodlleus's second most cryptic game-night summon message. Nobody knows what it means." },
+    { real: "B Elbow", squad: "The Turret's Elbow", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night's turret has more kills here than Good Chill Night does. The turret is the carry." },
+    { real: "Mid Nest", squad: "The Wasteland Perch", coined: "TJC", explanation: "Where TJC scopes in with his Wasteland Vandal and talks about it like it's a vintage wine." },
+    { real: "A Bridge", squad: "The F-You Bridge", coined: "PRETTY MOUTH BOY", explanation: "Named after Doodlleus yelled 'FUCK YOU GOOD CHILL NIGHT' here apropos of absolutely nothing." },
+  ],
+  FRACTURE: [
+    { real: "A Main", squad: "The Double Entry of Regret", coined: "TJC", explanation: "The squad tried attacking from both sides simultaneously. Both groups died. 10 deaths in 4 seconds." },
+    { real: "B Arcade", squad: "The Factorio Arcade", coined: "DOODLLEUS", explanation: "Pretty Mouth Boy said 'this map has arcade? like games?' and alt-tabbed to Factorio again." },
+    { real: "B Tree", squad: "Neilatron's Sleeping Tree", coined: "PRETTY MOUTH BOY", explanation: "Neilatron was found AFK here 3 rounds in a row. Claims he was 'reading chat.' There was no chat." },
+    { real: "Mid Dish", squad: "The Signal Lost Dish", coined: "NEILATRON", explanation: "Where Neilatron's internet conveniently dies whenever the squad is losing. Always comes back at 12-12." },
+    { real: "A Hall", squad: "Brimjob Alley", coined: "TJC", explanation: "Pretty Mouth Boy's Brimstone ult landed perfectly here once. The squad won't let him forget the ONE time." },
+    { real: "B Main", squad: "The Exactly Four Entrance", coined: "GOOD CHILL NIGHT", explanation: "TJC said 'exactly one game' then entered B Main for 4 consecutive games. The prophecy was fulfilled." },
+    { real: "A Drop", squad: "The Chair Drop", coined: "DOODLLEUS", explanation: "Post-11pm, Doodlleus dropped here and couldn't aim up for 6 seconds. The chair was in power-save mode." },
+  ],
+  PEARL: [
+    { real: "Mid Plaza", squad: "The Purchance Plaza", coined: "PRETTY MOUTH BOY", explanation: "Pretty Mouth Boy said 'purchance we hold mid' 7 rounds in a row. They lost mid 7 rounds in a row." },
+    { real: "B Main", squad: "The Oingoboingo Tunnel", coined: "DOODLLEUS", explanation: "Doodlleus's third most popular game-night summon. He typed it here once mid-round. Squad was confused." },
+    { real: "A Art", squad: "The Wasteland Gallery", coined: "TJC", explanation: "Where TJC insists his Wasteland Vandal 'fits the aesthetic.' The squad has filed a formal complaint." },
+    { real: "B Hall", squad: "The Heal Refusal Hall", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night walked past 3 injured teammates here without healing. 'Healing goes against everything I believe in.'" },
+    { real: "Mid Top", squad: "The Doink Overlook", coined: "DOODLLEUS", explanation: "Named when Doodlleus typed 'Doink?' in chat, then immediately headshot someone. Coincidence? Unclear." },
+    { real: "A Main", squad: "The Moo Corridor", coined: "NEILATRON", explanation: "Doodlleus typed 'Moo?' to invite to game night and Neilatron responded 'aye' 47 minutes later from this spot." },
+    { real: "B Link", squad: "The RR Drain", coined: "TJC", explanation: "The squad has lost a cumulative 200+ RR in fights at this position. They refuse to stop taking it." },
+  ],
+  LOTUS: [
+    { real: "A Main", squad: "The Knife Zone", coined: "TJC", explanation: "Where the legendary 4-knife round happened. The greatest achievement in squad history. Undisputed." },
+    { real: "C Main", squad: "The Team Gun Game Gauntlet", coined: "DOODLLEUS", explanation: "Where the Bucky phase of Team Gun Game claimed 14 consecutive lives. Nobody wants to talk about it." },
+    { real: "B Main", squad: "The Lotus Incident Memorial", coined: "NEILATRON", explanation: "A plaque should be placed here honoring the 4-knife round. If you weren't there, you wouldn't understand." },
+    { real: "A Rubble", squad: "The Crashout Rubble", coined: "TJC", explanation: "TJC achieved peak crashout here: 12 CRASHOUT messages in 1 round while simultaneously getting 2 kills." },
+    { real: "C Mound", squad: "The Site Adjacent Mound", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night's favorite spot. Near C. Not on C. Close enough to hear the plant. Far enough to survive." },
+    { real: "B Upper", squad: "The Boing Balcony", coined: "DOODLLEUS", explanation: "Named after Doodlleus typed 'Boing?' to summon the squad and then jumped off this balcony to his death." },
+    { real: "A Root", squad: "The Viper Root", coined: "TJC", explanation: "TJC placed a Viper wall so bad it blocked his own team. 'This is why im the viper.' No it isn't, TJC." },
+    { real: "Mid", squad: "The Boom Boom Pow Junction", coined: "PRETTY MOUTH BOY", explanation: "Named after Doodlleus's most unhinged game-night invite: just 'Boom boom pow?' at 2am on a Tuesday." },
+  ],
+  SUNSET: [
+    { real: "A Main", squad: "The Not A Gamer Gate", coined: "PRETTY MOUTH BOY", explanation: "Pretty Mouth Boy retired from gaming here. He was back in 6 minutes. Personal record." },
+    { real: "Mid", squad: "The Exactly One Roundabout", coined: "TJC", explanation: "TJC's 'exactly one' game somehow always becomes 4 when the squad rotates through mid." },
+    { real: "B Main", squad: "The Ace Denial Zone", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night was on her 4th kill. Doodlleus stole the ace. She didn't speak for 3 rounds." },
+    { real: "A Elbow", squad: "The Bait Rez Elbow", coined: "NEILATRON", explanation: "TJC rezzed someone here with no cover, no smoke, nothing. They died instantly. 'Unlucky' said TJC." },
+    { real: "Mid Courtyard", squad: "The 2am Courtyard", coined: "DOODLLEUS", explanation: "Where Doodlleus typed 'Boom boom pow?' at 2am and somehow 4 people responded within a minute." },
+    { real: "B Market", squad: "The Turret Market", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night's turret got a 3K here while she was getting water. The turret is now team MVP." },
+    { real: "A Alley", squad: "The Aye Alley", coined: "NEILATRON", explanation: "Where Neilatron responds 'aye' to every callout. 'They're A Main.' 'Aye.' 'ALL FIVE B.' 'Aye.'" },
+  ],
+  ABYSS: [
+    { real: "A Main", squad: "The Void of RR", coined: "NEILATRON", explanation: "Neilatron predicted they'd lose RR here. He was right. He's always right. It's his curse." },
+    { real: "Mid", squad: "The Edge of Factorio", coined: "PRETTY MOUTH BOY", explanation: "Pretty Mouth Boy walked off the map here because he was alt-tabbed to Factorio. Literal abyss." },
+    { real: "B Main", squad: "The FUCK YOU Corridor", coined: "DOODLLEUS", explanation: "Doodlleus said 'FUCK YOU GOOD CHILL NIGHT' 6 times in this corridor in one half. New record." },
+    { real: "A Drop", squad: "The Chair Abyss", coined: "TJC", explanation: "Post-11pm Doodlleus walked off this ledge because his gaming chair entered sleep mode. He didn't even flinch." },
+    { real: "B Tower", squad: "The Sage's Last Stand", coined: "GOOD CHILL NIGHT", explanation: "TJC attempted to rez someone who fell off the map here. The rez worked. They fell off again." },
+    { real: "Mid Link", squad: "The Crashout Bridge", coined: "TJC", explanation: "TJC reached peak crashout: typed CRASHOUT so fast he walked off the bridge mid-message. Poetic." },
+    { real: "A Site", squad: "The Mayb Site", coined: "GOOD CHILL NIGHT", explanation: "Good Chill Night was asked 'are you on site?' She said 'mayb.' She was in spawn. She's always in spawn." },
+  ],
+};
+
+const mapNames = Object.keys(maps);
+---
+
+<Layout title="MAP CALLOUTS // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="callouts-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// TACTICAL INTEL</span>
+      <h1>MAP CALLOUTS</h1>
+      <p class="hero-sub">THE SQUAD'S OFFICIAL (UNOFFICIAL) LOCATION NAMES</p>
+      <p class="hero-desc">Real callouts are for people who win games. These are for us.</p>
+    </div>
+  </section>
+
+  <section class="map-tabs-section">
+    <div class="map-tabs" id="map-tabs">
+      {mapNames.map((name, i) => (
+        <button class={`map-tab ${i === 0 ? 'active' : ''}`} data-map={name}>{name}</button>
+      ))}
+    </div>
+  </section>
+
+  <section class="callouts-container" id="callouts-container">
+    {mapNames.map((mapName, mi) => (
+      <div class={`map-callouts ${mi === 0 ? 'active' : ''}`} data-map-content={mapName}>
+        <div class="map-title-bar">
+          <div class="map-title-decor"></div>
+          <h2 class="map-title">{mapName}</h2>
+          <div class="map-title-decor"></div>
+        </div>
+        <div class="callout-grid">
+          {maps[mapName].map((c, ci) => (
+            <div class="callout-card" style={`--accent: ${members[c.coined]}; --i: ${ci}`}>
+              <div class="callout-header">
+                <span class="callout-real">{c.real}</span>
+                <span class="callout-arrow">&rarr;</span>
+                <span class="callout-squad" style={`color: ${members[c.coined]}`}>{c.squad}</span>
+              </div>
+              <div class="callout-body">
+                <p class="callout-explanation">{c.explanation}</p>
+              </div>
+              <div class="callout-footer">
+                <span class="callout-coined" style={`color: ${members[c.coined]}; border-color: ${members[c.coined]}`}>
+                  {c.coined}
+                </span>
+              </div>
+              <div class="callout-glow"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <script is:inline>
+  (function() {
+    const tabs = document.querySelectorAll('.map-tab');
+    const panels = document.querySelectorAll('.map-callouts');
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        const map = tab.getAttribute('data-map');
+
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+
+        panels.forEach(function(p) {
+          if (p.getAttribute('data-map-content') === map) {
+            p.classList.add('active');
+            // Animate cards in
+            var cards = p.querySelectorAll('.callout-card');
+            cards.forEach(function(card, i) {
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(20px)';
+              setTimeout(function() {
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              }, i * 80);
+            });
+          } else {
+            p.classList.remove('active');
+          }
+        });
+      });
+    });
+  })();
+  </script>
+</Layout>
+
+<style>
+  /* HERO */
+  .callouts-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(255,70,85,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 60%, rgba(23,236,194,0.05) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .section-tag {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .callouts-hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    line-height: 1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--val-cream) 0%, rgba(236,232,225,0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    letter-spacing: 5px;
+    opacity: 0.5;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-desc {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    opacity: 0.35;
+    font-weight: 500;
+  }
+
+  /* MAP TABS */
+  .map-tabs-section {
+    position: sticky;
+    top: 60px;
+    z-index: 50;
+    background: rgba(10,16,24,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,70,85,0.15);
+    padding: 0;
+  }
+
+  .map-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .map-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .map-tab {
+    flex: 1 0 auto;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--val-cream);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    transition: all 0.3s;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .map-tab:hover {
+    opacity: 0.7;
+    background: rgba(255,70,85,0.05);
+  }
+
+  .map-tab.active {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .map-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--val-red);
+  }
+
+  /* MAP CONTENT PANELS */
+  .callouts-container {
+    padding: 3rem 4rem 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .map-callouts {
+    display: none;
+  }
+
+  .map-callouts.active {
+    display: block;
+  }
+
+  .map-title-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .map-title-decor {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,70,85,0.3), transparent);
+  }
+
+  .map-title-decor:last-child {
+    background: linear-gradient(270deg, rgba(255,70,85,0.3), transparent);
+  }
+
+  .map-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 10px;
+    color: var(--val-red);
+  }
+
+  /* CALLOUT CARDS */
+  .callout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .callout-card {
+    position: relative;
+    background: rgba(15,25,35,0.6);
+    border: 1px solid rgba(236,232,225,0.06);
+    padding: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .callout-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    background: rgba(15,25,35,0.8);
+  }
+
+  .callout-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .callout-card:hover::before {
+    opacity: 1;
+  }
+
+  .callout-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, var(--accent), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .callout-card:hover .callout-glow {
+    opacity: 0.03;
+  }
+
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .callout-real {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    opacity: 0.45;
+    text-transform: uppercase;
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,70,85,0.4);
+  }
+
+  .callout-arrow {
+    color: var(--val-red);
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+
+  .callout-squad {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .callout-body {
+    margin-bottom: 1rem;
+  }
+
+  .callout-explanation {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    opacity: 0.65;
+    font-weight: 500;
+  }
+
+  .callout-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .callout-coined {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid;
+    opacity: 0.7;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  }
+
+  /* LIGHT MODE */
+  :global(html.light-mode) .callouts-hero {
+    background: var(--val-darker);
+  }
+
+  :global(html.light-mode) .map-tabs-section {
+    background: rgba(245,241,234,0.95);
+    border-bottom-color: rgba(255,70,85,0.2);
+  }
+
+  :global(html.light-mode) .map-tab {
+    color: #1a1a2e;
+  }
+
+  :global(html.light-mode) .map-tab.active {
+    color: var(--val-red);
+  }
+
+  :global(html.light-mode) .callout-card {
+    background: rgba(255,255,255,0.5);
+    border-color: rgba(26,26,46,0.08);
+  }
+
+  :global(html.light-mode) .callout-card:hover {
+    background: rgba(255,255,255,0.8);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .callouts-hero {
+      padding: 8rem 1.5rem 3rem;
+    }
+
+    .callouts-hero h1 {
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+    }
+
+    .hero-sub {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+    }
+
+    .map-tabs-section {
+      top: 52px;
+    }
+
+    .map-tab {
+      padding: 0.75rem 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+    }
+
+    .callouts-container {
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .callout-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .map-title {
+      font-size: 1.3rem;
+      letter-spacing: 6px;
+    }
+  }
+</style>

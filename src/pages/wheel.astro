@@ -1,0 +1,506 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="EXCUSE WHEEL // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="wheel-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// COPIUM DISPENSER</span>
+      <h1>EXCUSE WHEEL</h1>
+      <p class="hero-sub">SPIN TO FIND OUT WHY WE LOST</p>
+    </div>
+  </section>
+
+  <section class="wheel-section">
+    <div class="wheel-container">
+      <div class="pointer-arrow"></div>
+      <canvas id="wheel-canvas" width="500" height="500"></canvas>
+    </div>
+    <button id="spin-btn" class="spin-btn">SPIN</button>
+    <div id="result-display" class="result-display hidden">
+      <div class="result-label">TONIGHT'S EXCUSE</div>
+      <div id="result-text" class="result-text"></div>
+      <button id="spin-again-btn" class="spin-btn spin-again-btn">SPIN AGAIN</button>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .wheel-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: opacity 0.3s;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-teal);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    line-height: 1;
+    color: var(--val-cream);
+  }
+
+  .hero-sub {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    margin-top: 0.75rem;
+    font-weight: 600;
+  }
+
+  .wheel-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem 6rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .wheel-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    max-width: 90vw;
+    max-height: 90vw;
+  }
+
+  #wheel-canvas {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 30px rgba(255, 70, 85, 0.2));
+  }
+
+  .pointer-arrow {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 36px solid var(--val-red);
+    z-index: 10;
+    filter: drop-shadow(0 4px 12px rgba(255, 70, 85, 0.6));
+  }
+
+  .spin-btn {
+    margin-top: 2.5rem;
+    padding: 1rem 4rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-cream);
+    background: var(--val-red);
+    border: 2px solid var(--val-red);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.3s;
+    position: relative;
+    z-index: 2;
+  }
+
+  .spin-btn:hover {
+    background: transparent;
+    color: var(--val-red);
+    transform: scale(1.05);
+  }
+
+  .spin-btn:active {
+    transform: scale(0.97);
+  }
+
+  .spin-btn:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .result-display {
+    margin-top: 3rem;
+    text-align: center;
+    max-width: 700px;
+    transition: all 0.5s;
+  }
+
+  .result-display.hidden {
+    display: none;
+  }
+
+  .result-label {
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    color: var(--val-teal);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .result-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--val-cream);
+    line-height: 1.2;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .result-text.glitch-active {
+    animation: glitchResult 0.8s steps(3) forwards;
+  }
+
+  .result-text.glitch-active::before,
+  .result-text.glitch-active::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .result-text.glitch-active::before {
+    color: var(--val-teal);
+    animation: glitchClipA 0.8s steps(3) infinite;
+    clip-path: inset(0 0 60% 0);
+  }
+
+  .result-text.glitch-active::after {
+    color: var(--val-red);
+    animation: glitchClipB 0.8s steps(3) infinite;
+    clip-path: inset(60% 0 0 0);
+  }
+
+  @keyframes glitchResult {
+    0% { transform: translate(0); }
+    10% { transform: translate(-5px, 3px); }
+    20% { transform: translate(5px, -3px); }
+    30% { transform: translate(-3px, -2px); }
+    40% { transform: translate(3px, 2px); }
+    50% { transform: translate(-2px, 1px); }
+    60% { transform: translate(2px, -1px); }
+    70% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes glitchClipA {
+    0% { clip-path: inset(0 0 65% 0); transform: translateX(-6px); }
+    33% { clip-path: inset(15% 0 50% 0); transform: translateX(6px); }
+    66% { clip-path: inset(5% 0 60% 0); transform: translateX(-4px); }
+    100% { clip-path: inset(0 0 65% 0); transform: translateX(4px); }
+  }
+
+  @keyframes glitchClipB {
+    0% { clip-path: inset(65% 0 0 0); transform: translateX(6px); }
+    33% { clip-path: inset(50% 0 15% 0); transform: translateX(-6px); }
+    66% { clip-path: inset(60% 0 5% 0); transform: translateX(4px); }
+    100% { clip-path: inset(65% 0 0 0); transform: translateX(-4px); }
+  }
+
+  .spin-again-btn {
+    margin-top: 2rem;
+    padding: 0.8rem 3rem;
+    font-size: 1.1rem;
+    background: transparent;
+    border-color: var(--val-teal);
+    color: var(--val-teal);
+  }
+
+  .spin-again-btn:hover {
+    background: var(--val-teal);
+    color: var(--val-darker);
+  }
+
+  @media (max-width: 768px) {
+    .wheel-hero {
+      padding: 8rem 2rem 3rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+    }
+
+    .wheel-container {
+      width: 340px;
+      height: 340px;
+    }
+
+    .result-text {
+      font-size: 1.6rem;
+    }
+
+    .pointer-arrow {
+      top: -14px;
+      border-left-width: 14px;
+      border-right-width: 14px;
+      border-top-width: 28px;
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  const excuses = [
+    "Gaming chair lost power at 11pm",
+    "Pretty Mouth Boy was in Factorio",
+    "TJC bait rez'd everyone",
+    "Neilatron fell asleep round 4",
+    "Good Chill Night was site adjacent",
+    "Nobody bought armor",
+    "We all bought Odins and it didn't work this time",
+    "Doodlleus blue-screened",
+    "TJC was on the sofa, not at his desk",
+    "We don't know any lineups",
+    "Lag (definitely not skill issue)",
+    "The enemies were cheating (they weren't)",
+    "Good Chill Night's turret did more damage than all of us",
+    "Pretty Mouth Boy said 'not a gamer anymore' and meant it",
+    "Neilatron's Gekko ult went the wrong way",
+    "CRASHOUT"
+  ];
+
+  const segmentColors = [
+    '#ff4655', '#17ecc2', '#f5a623', '#4a90d9',
+    '#c742f5', '#ff4655', '#17ecc2', '#f5a623',
+    '#4a90d9', '#c742f5', '#ff4655', '#17ecc2',
+    '#f5a623', '#4a90d9', '#c742f5', '#ff4655'
+  ];
+
+  const canvas = document.getElementById('wheel-canvas');
+  const ctx = canvas.getContext('2d');
+  const spinBtn = document.getElementById('spin-btn');
+  const spinAgainBtn = document.getElementById('spin-again-btn');
+  const resultDisplay = document.getElementById('result-display');
+  const resultText = document.getElementById('result-text');
+
+  const numSegments = excuses.length;
+  const segmentAngle = (2 * Math.PI) / numSegments;
+  let currentAngle = 0;
+  let spinning = false;
+
+  // High-DPI canvas setup
+  function setupCanvas() {
+    var dpr = window.devicePixelRatio || 1;
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+
+  setupCanvas();
+  window.addEventListener('resize', function() {
+    setupCanvas();
+    drawWheel(currentAngle);
+  });
+
+  function drawWheel(angle) {
+    var size = canvas.getBoundingClientRect();
+    var w = size.width;
+    var h = size.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var radius = Math.min(cx, cy) - 10;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Draw outer glow ring
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 4, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 70, 85, 0.3)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    for (var i = 0; i < numSegments; i++) {
+      var startAngle = angle + i * segmentAngle;
+      var endAngle = startAngle + segmentAngle;
+
+      // Draw segment
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, startAngle, endAngle);
+      ctx.closePath();
+      ctx.fillStyle = segmentColors[i];
+      ctx.fill();
+
+      // Darker border between segments
+      ctx.strokeStyle = 'rgba(10, 16, 24, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Draw text
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(startAngle + segmentAngle / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#0a1018';
+      ctx.font = '600 ' + Math.max(9, radius * 0.055) + 'px Rajdhani';
+
+      // Wrap text for long excuses
+      var text = excuses[i].toUpperCase();
+      var maxWidth = radius - 30;
+      if (ctx.measureText(text).width > maxWidth) {
+        var words = text.split(' ');
+        var line1 = '';
+        var line2 = '';
+        var halfway = Math.ceil(words.length / 2);
+        for (var j = 0; j < words.length; j++) {
+          if (j < halfway) {
+            line1 += (line1 ? ' ' : '') + words[j];
+          } else {
+            line2 += (line2 ? ' ' : '') + words[j];
+          }
+        }
+        ctx.fillText(line1, radius - 18, -4);
+        ctx.fillText(line2, radius - 18, 4 + Math.max(9, radius * 0.055));
+      } else {
+        ctx.fillText(text, radius - 18, 4);
+      }
+
+      ctx.restore();
+    }
+
+    // Center circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.12, 0, Math.PI * 2);
+    ctx.fillStyle = '#0a1018';
+    ctx.fill();
+    ctx.strokeStyle = '#ff4655';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Center dot
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.04, 0, Math.PI * 2);
+    ctx.fillStyle = '#ff4655';
+    ctx.fill();
+  }
+
+  drawWheel(currentAngle);
+
+  function getSelectedIndex(angle) {
+    // The pointer is at the top (- PI/2). Normalize angle.
+    var pointerAngle = -Math.PI / 2;
+    var normalizedAngle = ((pointerAngle - angle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    var index = Math.floor(normalizedAngle / segmentAngle);
+    return index % numSegments;
+  }
+
+  function spin() {
+    if (spinning) return;
+    spinning = true;
+    spinBtn.disabled = true;
+    resultDisplay.classList.add('hidden');
+    resultText.classList.remove('glitch-active');
+
+    // Random spin: 4-8 full rotations + random offset
+    var totalRotation = (4 + Math.random() * 4) * 2 * Math.PI + Math.random() * 2 * Math.PI;
+    var startAngle = currentAngle;
+    var targetAngle = startAngle + totalRotation;
+    var duration = 4000 + Math.random() * 1500; // 4-5.5 seconds
+    var startTime = null;
+
+    function easeOutQuart(t) {
+      return 1 - Math.pow(1 - t, 4);
+    }
+
+    function animate(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var elapsed = timestamp - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var easedProgress = easeOutQuart(progress);
+
+      currentAngle = startAngle + totalRotation * easedProgress;
+      drawWheel(currentAngle);
+
+      // Tick sound simulation via subtle canvas flash near end
+      if (progress > 0.7 && progress < 1) {
+        var idx = getSelectedIndex(currentAngle);
+        canvas.style.filter = 'drop-shadow(0 0 ' + (30 + Math.random() * 10) + 'px rgba(255, 70, 85, ' + (0.2 + (1 - progress) * 0.3) + '))';
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Normalize angle
+        currentAngle = currentAngle % (2 * Math.PI);
+        canvas.style.filter = 'drop-shadow(0 0 30px rgba(255, 70, 85, 0.2))';
+        spinning = false;
+        spinBtn.disabled = false;
+        showResult();
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  function showResult() {
+    var idx = getSelectedIndex(currentAngle);
+    var excuse = excuses[idx];
+
+    // Dramatic delay then reveal
+    setTimeout(function() {
+      resultText.textContent = excuse;
+      resultText.setAttribute('data-text', excuse);
+      resultDisplay.classList.remove('hidden');
+      resultText.classList.add('glitch-active');
+
+      // Flash the canvas
+      canvas.style.filter = 'drop-shadow(0 0 60px rgba(23, 236, 194, 0.5))';
+      setTimeout(function() {
+        canvas.style.filter = 'drop-shadow(0 0 30px rgba(255, 70, 85, 0.2))';
+      }, 300);
+
+      // Remove glitch after animation
+      setTimeout(function() {
+        resultText.classList.remove('glitch-active');
+      }, 1500);
+    }, 400);
+  }
+
+  spinBtn.addEventListener('click', spin);
+  spinAgainBtn.addEventListener('click', spin);
+})();
+</script>

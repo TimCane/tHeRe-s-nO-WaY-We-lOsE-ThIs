@@ -1,0 +1,691 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const alignments = [
+  {
+    label: "LAWFUL GOOD",
+    name: "GOOD CHILL NIGHT",
+    color: "#f5d623",
+    quote: "Shows up. Does her job. Places turret. Never heals anyone. Wait..."
+  },
+  {
+    label: "NEUTRAL GOOD",
+    name: "TJC",
+    color: "#17ecc2",
+    quote: "Will play support. Will heal you. Will also rez you in the open with no cover."
+  },
+  {
+    label: "CHAOTIC GOOD",
+    name: "DOODLLEUS",
+    color: "#c742f5",
+    quote: "Rallies the squad every night. Gaming chair powered by pure chaos energy."
+  },
+  {
+    label: "LAWFUL NEUTRAL",
+    name: "THE ODIN PROTOCOL",
+    color: "#ff4655",
+    quote: "We buy Odins. This is the law. There are no exceptions."
+  },
+  {
+    label: "TRUE NEUTRAL",
+    name: "NEILATRON",
+    color: "#7aff4a",
+    quote: "'Aye.' (Falls asleep)"
+  },
+  {
+    label: "CHAOTIC NEUTRAL",
+    name: "PRETTY MOUTH BOY",
+    color: "#f5a623",
+    quote: "'Not a gamer anymore.' *queues up* *alt-tabs to Factorio* *dies first*"
+  },
+  {
+    label: "LAWFUL EVIL",
+    name: "TJC'S BAIT REZ",
+    color: "#17ecc2",
+    quote: "There are rules. The rules say I rez you. The rules don't say you survive."
+  },
+  {
+    label: "NEUTRAL EVIL",
+    name: "THE GAMING CHAIR",
+    color: "#c742f5",
+    quote: "It gives power. It takes power. Always at 11pm. It cannot be reasoned with."
+  },
+  {
+    label: "CHAOTIC EVIL",
+    name: "\"FUCK YOU GOOD CHILL NIGHT\"",
+    color: "#c742f5",
+    quote: "It's not targeted. It's not personal. It is simply the natural state of Doodlleus."
+  }
+];
+
+const players = [
+  { name: "DOODLLEUS", color: "#c742f5", x: 35, y: 20 },
+  { name: "TJC", color: "#17ecc2", x: 45, y: 30 },
+  { name: "PRETTY MOUTH BOY", color: "#f5a623", x: 80, y: 55 },
+  { name: "GOOD CHILL NIGHT", color: "#f5d623", x: 30, y: 45 },
+  { name: "NEILATRON", color: "#7aff4a", x: 65, y: 85 },
+];
+---
+
+<Layout title="SQUAD ALIGNMENT CHART // tHeRe's nO WaY">
+  <main class="alignment-page">
+    <!-- HERO -->
+    <section class="hero">
+      <a href="/" class="back-link">&#9664; BACK TO BASE</a>
+      <div class="hero-content">
+        <div class="hero-label">INTEL DOSSIER</div>
+        <h1>SQUAD <span class="accent">ALIGNMENT</span> CHART</h1>
+        <p class="hero-sub">CLASSIFYING THE UNCLASSIFIABLE SINCE 2024</p>
+        <div class="hero-line"></div>
+      </div>
+    </section>
+
+    <!-- D&D ALIGNMENT GRID -->
+    <section class="chart-section">
+      <div class="section-header">
+        <div class="section-tag">// MORAL COMPASS (BROKEN)</div>
+        <h2 data-text="THE ALIGNMENT GRID">THE ALIGNMENT GRID</h2>
+      </div>
+
+      <div class="axis-labels-row">
+        <span class="axis-col-label">LAWFUL</span>
+        <span class="axis-col-label">NEUTRAL</span>
+        <span class="axis-col-label">CHAOTIC</span>
+      </div>
+
+      <div class="alignment-grid-wrapper">
+        <div class="axis-labels-col">
+          <span>GOOD</span>
+          <span>NEUTRAL</span>
+          <span>EVIL</span>
+        </div>
+        <div class="alignment-grid">
+          {alignments.map((a) => (
+            <div class="alignment-cell">
+              <div class="cell-label">{a.label}</div>
+              <div class="cell-name" style={`color: ${a.color}; text-shadow: 0 0 20px ${a.color}40;`}>{a.name}</div>
+              <div class="cell-quote">"{a.quote}"</div>
+              <div class="cell-glow" style={`background: ${a.color};`}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- VALORANT ALIGNMENT SCATTER -->
+    <section class="chart-section scatter-section">
+      <div class="section-header">
+        <div class="section-tag">// ADVANCED ANALYTICS</div>
+        <h2 data-text="THE VALORANT ALIGNMENT">THE VALORANT ALIGNMENT</h2>
+      </div>
+
+      <div class="scatter-chart">
+        <div class="scatter-y-axis">
+          <span class="scatter-axis-label-top">AWAKE</span>
+          <span class="scatter-axis-label-bottom">ASLEEP</span>
+        </div>
+        <div class="scatter-area">
+          <div class="scatter-gridlines">
+            <div class="gridline-h" style="top: 25%;"></div>
+            <div class="gridline-h" style="top: 50%;"></div>
+            <div class="gridline-h" style="top: 75%;"></div>
+            <div class="gridline-v" style="left: 25%;"></div>
+            <div class="gridline-v" style="left: 50%;"></div>
+            <div class="gridline-v" style="left: 75%;"></div>
+          </div>
+          {players.map((p) => (
+            <div
+              class="scatter-dot"
+              style={`left: ${p.x}%; top: ${p.y}%; --dot-color: ${p.color};`}
+              data-name={p.name}
+            >
+              <div class="dot-ping"></div>
+              <div class="dot-core"></div>
+              <div class="dot-label">{p.name}</div>
+            </div>
+          ))}
+        </div>
+        <div class="scatter-x-axis">
+          <span class="scatter-axis-label-left">ACTUALLY TRYING</span>
+          <span class="scatter-axis-label-right">VIBING</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .alignment-page {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 4rem;
+  }
+
+  /* ==================== HERO ==================== */
+  .hero {
+    padding: 8rem 3rem 4rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .back-link {
+    position: absolute;
+    top: 6.5rem;
+    left: 3rem;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-red);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .hero h1 .accent {
+    color: var(--val-red);
+    position: relative;
+  }
+
+  .hero-sub {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    font-weight: 600;
+  }
+
+  .hero-line {
+    width: 60px;
+    height: 3px;
+    background: var(--val-red);
+    margin: 2rem auto 0;
+  }
+
+  /* ==================== SECTIONS ==================== */
+  .chart-section {
+    max-width: 1100px;
+    margin: 0 auto 6rem;
+    padding: 0 2rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-teal);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ==================== AXIS LABELS ==================== */
+  .axis-labels-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1050px;
+    margin: 0 auto 0.75rem;
+    padding-left: 50px;
+    gap: 6px;
+  }
+
+  .axis-col-label {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    opacity: 0.6;
+  }
+
+  .alignment-grid-wrapper {
+    display: flex;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .axis-labels-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 50px;
+    flex-shrink: 0;
+  }
+
+  .axis-labels-col span {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    opacity: 0.6;
+    text-align: center;
+  }
+
+  /* ==================== ALIGNMENT GRID ==================== */
+  .alignment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    flex: 1;
+  }
+
+  .alignment-cell {
+    background: linear-gradient(135deg, rgba(15, 25, 35, 0.9) 0%, rgba(10, 16, 24, 0.95) 100%);
+    border: 1px solid rgba(236, 232, 225, 0.08);
+    padding: 1.5rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .alignment-cell:hover {
+    border-color: rgba(236, 232, 225, 0.2);
+    transform: scale(1.02);
+    z-index: 2;
+  }
+
+  .alignment-cell:hover .cell-glow {
+    opacity: 0.08;
+  }
+
+  .cell-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .cell-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-cream);
+    opacity: 0.35;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cell-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    line-height: 1.3;
+  }
+
+  .cell-quote {
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--val-cream);
+    opacity: 0.55;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Corner accents on cells */
+  .alignment-cell::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid rgba(236, 232, 225, 0.1);
+    border-left: 2px solid rgba(236, 232, 225, 0.1);
+    transition: border-color 0.3s;
+  }
+
+  .alignment-cell::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    border-bottom: 2px solid rgba(236, 232, 225, 0.1);
+    border-right: 2px solid rgba(236, 232, 225, 0.1);
+    transition: border-color 0.3s;
+  }
+
+  .alignment-cell:hover::before,
+  .alignment-cell:hover::after {
+    border-color: var(--val-red);
+  }
+
+  /* ==================== SCATTER CHART ==================== */
+  .scatter-section {
+    margin-top: 8rem;
+  }
+
+  .scatter-chart {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .scatter-y-axis {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 40px;
+    width: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .scatter-axis-label-top,
+  .scatter-axis-label-bottom,
+  .scatter-axis-label-left,
+  .scatter-axis-label-right {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--val-red);
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+
+  .scatter-axis-label-top,
+  .scatter-axis-label-bottom {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+  }
+
+  .scatter-area {
+    margin-left: 40px;
+    aspect-ratio: 1.4 / 1;
+    background: linear-gradient(135deg, rgba(15, 25, 35, 0.6) 0%, rgba(10, 16, 24, 0.8) 100%);
+    border: 1px solid rgba(236, 232, 225, 0.12);
+    border-left: 2px solid rgba(236, 232, 225, 0.25);
+    border-bottom: 2px solid rgba(236, 232, 225, 0.25);
+    position: relative;
+    overflow: visible;
+  }
+
+  .scatter-gridlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .gridline-h,
+  .gridline-v {
+    position: absolute;
+    background: rgba(236, 232, 225, 0.04);
+  }
+
+  .gridline-h {
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+
+  .gridline-v {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  .scatter-x-axis {
+    margin-left: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+  }
+
+  /* ==================== SCATTER DOTS ==================== */
+  .scatter-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+
+  .dot-core {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--dot-color);
+    box-shadow: 0 0 12px var(--dot-color), 0 0 30px color-mix(in srgb, var(--dot-color) 40%, transparent);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .scatter-dot:hover .dot-core {
+    transform: scale(1.5);
+    box-shadow: 0 0 20px var(--dot-color), 0 0 50px color-mix(in srgb, var(--dot-color) 50%, transparent);
+  }
+
+  .dot-ping {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid var(--dot-color);
+    transform: translate(-50%, -50%);
+    animation: dotPing 2.5s ease-out infinite;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  @keyframes dotPing {
+    0% {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+    }
+    100% {
+      width: 50px;
+      height: 50px;
+      opacity: 0;
+    }
+  }
+
+  .dot-label {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--dot-color);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  }
+
+  .scatter-dot:hover .dot-label {
+    opacity: 1;
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 900px) {
+    .axis-labels-row {
+      padding-left: 0;
+    }
+
+    .alignment-grid-wrapper {
+      flex-direction: column;
+    }
+
+    .axis-labels-col {
+      flex-direction: row;
+      width: 100%;
+      height: auto;
+      margin-bottom: 0.5rem;
+    }
+
+    .axis-labels-col span {
+      writing-mode: horizontal-tb;
+      transform: none;
+      flex: 1;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hero {
+      padding: 7rem 1.5rem 3rem;
+    }
+
+    .back-link {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: block;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .chart-section {
+      padding: 0 1rem;
+    }
+
+    .axis-labels-row {
+      display: none;
+    }
+
+    .axis-labels-col {
+      display: none;
+    }
+
+    .alignment-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .alignment-cell {
+      min-height: 140px;
+      padding: 1.25rem 1rem;
+    }
+
+    .cell-name {
+      font-size: 1rem;
+    }
+
+    .scatter-chart {
+      max-width: 100%;
+    }
+
+    .scatter-y-axis {
+      left: -5px;
+    }
+
+    .scatter-area {
+      margin-left: 30px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .scatter-x-axis {
+      margin-left: 30px;
+    }
+
+    .scatter-axis-label-top,
+    .scatter-axis-label-bottom,
+    .scatter-axis-label-left,
+    .scatter-axis-label-right {
+      font-size: 0.5rem;
+      letter-spacing: 2px;
+    }
+
+    .dot-label {
+      opacity: 1;
+      font-size: 0.45rem;
+    }
+  }
+
+  /* ==================== LIGHT MODE ==================== */
+  :global(html.light-mode) .alignment-cell {
+    background: linear-gradient(135deg, rgba(232, 228, 221, 0.9) 0%, rgba(245, 241, 234, 0.95) 100%);
+    border-color: rgba(26, 26, 46, 0.1);
+  }
+
+  :global(html.light-mode) .alignment-cell::before {
+    border-color: rgba(26, 26, 46, 0.1);
+  }
+
+  :global(html.light-mode) .alignment-cell::after {
+    border-color: rgba(26, 26, 46, 0.1);
+  }
+
+  :global(html.light-mode) .scatter-area {
+    background: linear-gradient(135deg, rgba(232, 228, 221, 0.6) 0%, rgba(245, 241, 234, 0.8) 100%);
+    border-color: rgba(26, 26, 46, 0.15);
+    border-left-color: rgba(26, 26, 46, 0.3);
+    border-bottom-color: rgba(26, 26, 46, 0.3);
+  }
+
+  :global(html.light-mode) .gridline-h,
+  :global(html.light-mode) .gridline-v {
+    background: rgba(26, 26, 46, 0.06);
+  }
+</style>

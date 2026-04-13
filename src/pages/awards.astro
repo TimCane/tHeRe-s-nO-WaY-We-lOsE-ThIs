@@ -1,0 +1,315 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const awards = [
+  {
+    icon: "🏆",
+    title: "MOST LIKELY TO CLUTCH",
+    winner: "DOODLLEUS",
+    color: "#c742f5",
+    desc: "But only before 11pm. After that, the gaming chair has no power."
+  },
+  {
+    icon: "◆",
+    title: "MOST LIKELY TO BAIT REZ",
+    winner: "TJC",
+    color: "#17ecc2",
+    desc: "No smoke. No wall. Just vibes. 12% survival rate."
+  },
+  {
+    icon: "◆",
+    title: "MOST LIKELY TO BE IN ANOTHER GAME",
+    winner: "PRETTY MOUTH BOY",
+    color: "#f5a623",
+    desc: "Factorio isn't going to play itself."
+  },
+  {
+    icon: "◆",
+    title: "MOST LIKELY TO SAY 'MAYB' AND MEAN 'YES'",
+    winner: "GOOD CHILL NIGHT",
+    color: "#f5d623",
+    desc: "The translation guide nobody asked for."
+  },
+  {
+    icon: "◆",
+    title: "MOST LIKELY TO FALL ASLEEP",
+    winner: "NEILATRON",
+    color: "#7aff4a",
+    desc: "Aye... *snoring*"
+  },
+  {
+    icon: "◆",
+    title: "BEST EXCUSE FOR LOSING",
+    winner: "DOODLLEUS",
+    color: "#c742f5",
+    desc: "'Gaming chair lost power.' Scientific. Irrefutable."
+  },
+  {
+    icon: "◆",
+    title: "MOST DEDICATED SKIN ENJOYER",
+    winner: "TJC",
+    color: "#17ecc2",
+    desc: "The Wasteland Vandal. In 2026. We've staged interventions."
+  },
+  {
+    icon: "◆",
+    title: "LEAST LIKELY TO HEAL YOU",
+    winner: "GOOD CHILL NIGHT",
+    color: "#f5d623",
+    desc: "Healing goes against everything she believes in."
+  },
+  {
+    icon: "◆",
+    title: "MOST ODIN ENTHUSIASTIC",
+    winner: "ENTIRE SQUAD",
+    color: "#ff4655",
+    desc: "10/10 across the board. Unanimous. Unquestioned."
+  },
+  {
+    icon: "◆",
+    title: "BEST ALT-TAB SPEED",
+    winner: "PRETTY MOUTH BOY",
+    color: "#f5a623",
+    desc: "Valorant → Factorio in 0.3 seconds. World record."
+  },
+  {
+    icon: "◆",
+    title: "MOST CRYPTIC GAME INVITE",
+    winner: "DOODLLEUS",
+    color: "#c742f5",
+    desc: "'Oingoboingo?' 'Chimchimcheroo?' 'Boom boom pow?'"
+  },
+  {
+    icon: "★",
+    title: "SQUAD MVP (VIBES ONLY)",
+    winner: "THE WHOLE SQUAD",
+    color: "#ff4655",
+    desc: "We don't win games. We win friendships. Purchance."
+  },
+];
+---
+
+<Layout title="SQUAD AWARDS // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="awards-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// OFFICIAL CEREMONY</span>
+      <h1>SQUAD AWARDS</h1>
+      <p class="hero-sub">SUPERLATIVES FOR THE UNSUPERLATIVE</p>
+    </div>
+  </section>
+
+  <section class="awards-grid">
+    {awards.map((a, i) => (
+      <div class="award-card" style={`--accent: ${a.color}; --i: ${i}`}>
+        <div class="card-edge"></div>
+        <div class="card-inner">
+          <div class="award-icon">{a.icon}</div>
+          <h2 class="award-title">{a.title}</h2>
+          <div class="award-winner">{a.winner}</div>
+          <p class="award-desc">"{a.desc}"</p>
+        </div>
+        <div class="card-index">{String(i + 1).padStart(2, '0')}</div>
+      </div>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  /* HERO */
+  .awards-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(199,66,245,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 60%, rgba(23,236,194,0.05) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover { opacity: 1; color: var(--val-red); }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+  }
+
+  .awards-hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    margin-top: 0.5rem;
+  }
+
+  /* GRID */
+  .awards-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem 8rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+
+  /* CARD */
+  .award-card {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      rgba(15, 25, 35, 0.95) 0%,
+      rgba(10, 16, 24, 0.98) 100%
+    );
+    border: 1px solid rgba(236, 232, 225, 0.06);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: card-reveal 0.6s ease forwards;
+    animation-delay: calc(var(--i) * 0.08s);
+  }
+
+  .award-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .card-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .award-card:hover .card-edge {
+    opacity: 1;
+  }
+
+  .card-inner {
+    padding: 2.5rem 2rem 2rem;
+  }
+
+  .card-index {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    opacity: 0.25;
+    font-weight: 700;
+  }
+
+  .award-icon {
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent);
+    filter: grayscale(1) brightness(2);
+  }
+
+  .award-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--val-cream);
+    opacity: 0.55;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .award-winner {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 25px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .award-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    opacity: 0.5;
+    font-style: italic;
+    color: var(--val-cream);
+  }
+
+  /* SCROLL REVEAL */
+  @keyframes card-reveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .awards-hero { padding: 8rem 1.5rem 3rem; }
+    .awards-grid {
+      padding: 2rem 1.5rem 6rem;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Intersection Observer for staggered scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target as HTMLElement;
+        card.style.animationPlayState = 'running';
+        observer.unobserve(card);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  document.querySelectorAll('.award-card').forEach(card => {
+    (card as HTMLElement).style.animationPlayState = 'paused';
+    observer.observe(card);
+  });
+</script>

@@ -1,0 +1,560 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="WHICH PLAYER ARE YOU? // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="quiz-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// SQUAD INTEL</span>
+      <h1>WHICH PLAYER<br/>ARE YOU?</h1>
+      <p class="hero-sub">ANSWER 7 QUESTIONS. DISCOVER YOUR SQUAD IDENTITY.</p>
+    </div>
+    <div class="hero-accent"></div>
+  </section>
+
+  <section class="quiz-container" id="quiz-container">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+      <span class="progress-label" id="progress-label">01 / 07</span>
+    </div>
+
+    <div id="question-area"></div>
+
+    <div id="result-area" class="result-area hidden"></div>
+  </section>
+</Layout>
+
+<style>
+  /* ===== HERO ===== */
+  .quiz-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-accent {
+    position: absolute;
+    bottom: 0;
+    right: 5%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(23,236,194,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover { opacity: 1; color: var(--val-red); }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+  }
+
+  .quiz-hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    margin-top: 1rem;
+  }
+
+  /* ===== QUIZ CONTAINER ===== */
+  .quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem 8rem;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    position: relative;
+    width: 100%;
+    height: 3px;
+    background: rgba(236,232,225,0.08);
+    margin-bottom: 3rem;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--val-red), var(--val-teal));
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .progress-label {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    opacity: 0.35;
+    font-weight: 600;
+  }
+
+  /* ===== QUESTION ===== */
+  :global(.question-card) {
+    animation: fadeSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(.question-number) {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 700;
+    opacity: 0.6;
+    margin-bottom: 0.75rem;
+  }
+
+  :global(.question-text) {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    margin-bottom: 2.5rem;
+    color: var(--val-cream);
+  }
+
+  :global(.answers-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  :global(.answer-btn) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.06);
+    color: var(--val-cream);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: left;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.25s;
+    overflow: hidden;
+  }
+
+  :global(.answer-btn::before) {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,70,85,0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  :global(.answer-btn:hover) {
+    background: rgba(236,232,225,0.06);
+    border-color: rgba(255,70,85,0.3);
+    transform: translateX(4px);
+  }
+
+  :global(.answer-btn:hover::before) {
+    opacity: 1;
+  }
+
+  :global(.answer-btn:hover .answer-index) {
+    color: var(--val-red);
+    opacity: 1;
+  }
+
+  :global(.answer-index) {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    opacity: 0.3;
+    min-width: 1.5rem;
+    transition: all 0.25s;
+    position: relative;
+    z-index: 1;
+  }
+
+  :global(.answer-label) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== RESULT ===== */
+  .result-area {
+    text-align: center;
+  }
+
+  .result-area.hidden {
+    display: none;
+  }
+
+  :global(.result-card) {
+    animation: fadeSlideIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(.result-tag) {
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    color: var(--val-red);
+    font-weight: 700;
+    opacity: 0.6;
+    margin-bottom: 1rem;
+  }
+
+  :global(.result-title) {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    opacity: 0.35;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  :global(.result-name) {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.result-role) {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    opacity: 0.45;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+  }
+
+  :global(.result-divider) {
+    width: 60px;
+    height: 2px;
+    margin: 0 auto 2.5rem;
+    opacity: 0.5;
+  }
+
+  :global(.result-description) {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    opacity: 0.65;
+    max-width: 550px;
+    margin: 0 auto 1.5rem;
+  }
+
+  :global(.result-quote) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+  }
+
+  :global(.result-glow) {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+    filter: blur(60px);
+    opacity: 0.15;
+  }
+
+  :global(.retake-btn) {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: transparent;
+    border: 1px solid rgba(255,70,85,0.4);
+    color: var(--val-cream);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.3s;
+    margin-top: 1rem;
+  }
+
+  :global(.retake-btn:hover) {
+    background: var(--val-red);
+    border-color: var(--val-red);
+    transform: scale(1.02);
+  }
+
+  /* ===== ANIMATION ===== */
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .quiz-hero { padding: 8rem 1.5rem 3rem; }
+    .quiz-container { padding: 2rem 1.25rem 6rem; }
+
+    :global(.answer-btn) {
+      padding: 1rem 1.25rem;
+      font-size: 0.88rem;
+    }
+  }
+</style>
+
+<script>
+  const PLAYERS = {
+    doodlleus: {
+      name: "DOODLLEUS",
+      accent: "#c742f5",
+      role: "DUELIST // REYNA & NEON",
+      description: "You are the heart and soul of whatever group you are in. You show up with chaotic energy, cryptic messages, and an unshakable good mood. You might lose power at 11pm and your callouts might just be \"Sploink?\" but when you are there, EVERYONE has a good time. You also say \"Fuck you Good Chill Night\" with the warmth of a thousand suns.",
+      quote: "\"SPLOINK?\""
+    },
+    tjc: {
+      name: "TJC",
+      accent: "#17ecc2",
+      role: "SUPPORT / CONTROLLER // SAGE & VIPER",
+      description: "You say you will do exactly one, and then you do four. You are deeply committed beneath a casual exterior. You have a dedicated OS for your hobbies, you bait rez your friends just to see what happens, and you wield a Wasteland Vandal like it is Excalibur. THIS IS WHY YOU ARE THE VIPER.",
+      quote: "\"I COULD DO EXACTLY ONE\""
+    },
+    prettymouthboy: {
+      name: "PRETTY MOUTH BOY",
+      accent: "#f5a623",
+      role: "CONTROLLER // BRIMSTONE",
+      description: "You claim you are done. You are NOT done. You are never done. You will say \"not a gamer anymore\" and then queue up four games. Your real strategy is dying first so you can alt-tab to whatever side project has captured your brain. You live in a state of beautiful contradiction. Purchance.",
+      quote: "\"PURCHANCE.\""
+    },
+    goodchillnight: {
+      name: "GOOD CHILL NIGHT",
+      accent: "#f5d623",
+      role: "SENTINEL // KILLJOY",
+      description: "Mayb. Mayhaps. Mebe3. You are the squad member who answers every invitation with glorious noncommitment, but you ALWAYS show up. Healing goes against everything you believe in. You position site-adjacent. The ace watch continues. But you are the steady, reliable presence that keeps it all together.",
+      quote: "\"MAYB.\""
+    },
+    neilatron: {
+      name: "NEILATRON",
+      accent: "#7aff4a",
+      role: "FLEX / INITIATOR // GEKKO & CLOVE & RAZE",
+      description: "You are up for it. You are always up for it. You accept every invite with \"Aye\" and a willingness to lose some RR. You flex onto whatever the squad needs, you keep the vibes immaculate, and there is only a small chance you will fall asleep before the lobby loads. The RR will be lost. The vibes will remain.",
+      quote: "\"IM UP FOR LOSING SOME RR\""
+    }
+  };
+
+  const QUESTIONS = [
+    {
+      text: "IT'S 10:30PM ON A TUESDAY. THE SQUAD NEEDS ONE MORE. WHAT DO YOU DO?",
+      answers: [
+        { label: "Send a cryptic one-word message in the group chat. \"Boing?\"", player: "doodlleus" },
+        { label: "Say \"I could do exactly one\" knowing full well it will be four.", player: "tjc" },
+        { label: "\"Not a gamer anymore\" you type, already launching Valorant.", player: "prettymouthboy" },
+        { label: "\"Mayb.\" (You are already logging in.)", player: "goodchillnight" },
+        { label: "\"Aye.\" Then close your eyes for just a second...", player: "neilatron" }
+      ]
+    },
+    {
+      text: "YOU JUST DIED. WHAT'S YOUR REACTION?",
+      answers: [
+        { label: "Immediately blame the gaming chair. It is losing power.", player: "doodlleus" },
+        { label: "\"This is why I'm the Viper.\" (You were playing Sage.)", player: "tjc" },
+        { label: "Alt-tab. You have a factory that needs optimizing.", player: "prettymouthboy" },
+        { label: "Stare silently. Site adjacent was the correct call. The site was wrong.", player: "goodchillnight" },
+        { label: "\"Aye, that's rough.\" Continue vibing regardless.", player: "neilatron" }
+      ]
+    },
+    {
+      text: "YOUR TEAMMATE IS DOWN IN THE OPEN AND ASKS FOR A REZ. YOU...",
+      answers: [
+        { label: "Rez them while yelling encouragement. THE HEART OF THE SQUAD.", player: "doodlleus" },
+        { label: "Rez them with no smoke, no wall, no plan. Just vibes. 12% survival rate.", player: "tjc" },
+        { label: "You died before them. You are already in Factorio.", player: "prettymouthboy" },
+        { label: "Healing goes against everything you believe in. Place a turret instead.", player: "goodchillnight" },
+        { label: "Switch to whatever agent fixes this. You are the flex. You adapt.", player: "neilatron" }
+      ]
+    },
+    {
+      text: "THE SQUAD WINS A CLOSE GAME. HOW DO YOU CELEBRATE?",
+      answers: [
+        { label: "\"FUCK YOU GOOD CHILL NIGHT\" (said with love, always with love)", player: "doodlleus" },
+        { label: "\"One more.\" (The one-game commitment is void. It was always void.)", player: "tjc" },
+        { label: "\"Purchance we run it back.\" You were going to anyway.", player: "prettymouthboy" },
+        { label: "A single \"nice\" in chat. Emotional range: site adjacent.", player: "goodchillnight" },
+        { label: "\"Im up for losing some RR.\" (You just gained RR but the bit must continue.)", player: "neilatron" }
+      ]
+    },
+    {
+      text: "PICK YOUR IDEAL WEAPON SKIN.",
+      answers: [
+        { label: "Whatever is loudest and most obnoxious. It matches your energy.", player: "doodlleus" },
+        { label: "Wasteland Vandal. The squad has staged interventions. You will not change.", player: "tjc" },
+        { label: "You forgot to buy a skin. You forgot to buy armor. You are alt-tabbed.", player: "prettymouthboy" },
+        { label: "Default skin. Skins are a distraction from turret placement.", player: "goodchillnight" },
+        { label: "Whatever the squad is running. You are here for the vibes, not the drip.", player: "neilatron" }
+      ]
+    },
+    {
+      text: "IT'S 11:15PM. THE SQUAD WANTS ONE MORE GAME. YOUR MOVE?",
+      answers: [
+        { label: "You are already fading. The gaming chair has lost all power. One more though.", player: "doodlleus" },
+        { label: "Boot back into Valorant OS. Dual-booting is a lifestyle, not a choice.", player: "tjc" },
+        { label: "\"I should sleep\" you say, queueing up. You are always a gamer.", player: "prettymouthboy" },
+        { label: "\"Mebe3.\" This translates to yes but you need 10 minutes.", player: "goodchillnight" },
+        { label: "You are asleep. The lobby is loading. Your agent is auto-locked.", player: "neilatron" }
+      ]
+    },
+    {
+      text: "THE ENEMY TEAM IS FLAMING IN ALL CHAT. YOUR RESPONSE?",
+      answers: [
+        { label: "Type something so cryptic they stop fighting to figure out what it means.", player: "doodlleus" },
+        { label: "\"This is why I'm the Viper.\" They have no idea what this means. Good.", player: "tjc" },
+        { label: "You are not reading chat. You are thinking about conveyor belt ratios.", player: "prettymouthboy" },
+        { label: "You do not engage. You place a turret facing their spawn. Statement made.", player: "goodchillnight" },
+        { label: "\"Aye.\" One word. Zero elaboration. Maximum confusion.", player: "neilatron" }
+      ]
+    }
+  ];
+
+  const scores = { doodlleus: 0, tjc: 0, prettymouthboy: 0, goodchillnight: 0, neilatron: 0 };
+  let currentQ = 0;
+
+  const questionArea = document.getElementById('question-area');
+  const resultArea = document.getElementById('result-area');
+  const progressFill = document.getElementById('progress-fill');
+  const progressLabel = document.getElementById('progress-label');
+
+  function shuffleAnswers(answers) {
+    const shuffled = [...answers];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  function renderQuestion(index) {
+    const q = QUESTIONS[index];
+    const shuffled = shuffleAnswers(q.answers);
+    const labels = ['A', 'B', 'C', 'D', 'E'];
+
+    progressFill.style.width = `${((index) / QUESTIONS.length) * 100}%`;
+    progressLabel.textContent = `${String(index + 1).padStart(2, '0')} / ${String(QUESTIONS.length).padStart(2, '0')}`;
+
+    questionArea.innerHTML = `
+      <div class="question-card">
+        <div class="question-number">QUESTION ${String(index + 1).padStart(2, '0')}</div>
+        <h2 class="question-text">${q.text}</h2>
+        <div class="answers-list">
+          ${shuffled.map((a, i) => `
+            <button class="answer-btn" data-player="${a.player}">
+              <span class="answer-index">${labels[i]}</span>
+              <span class="answer-label">${a.label}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    questionArea.querySelectorAll('.answer-btn').forEach(btn => {
+      btn.addEventListener('click', () => handleAnswer(btn.dataset.player));
+    });
+  }
+
+  function handleAnswer(player) {
+    scores[player]++;
+    currentQ++;
+
+    if (currentQ >= QUESTIONS.length) {
+      showResult();
+    } else {
+      renderQuestion(currentQ);
+    }
+  }
+
+  function getResult() {
+    let maxScore = 0;
+    let winner = 'doodlleus';
+    for (const [player, score] of Object.entries(scores)) {
+      if (score > maxScore) {
+        maxScore = score;
+        winner = player;
+      }
+    }
+    return PLAYERS[winner];
+  }
+
+  function showResult() {
+    questionArea.style.display = 'none';
+    document.querySelector('.progress-bar').style.display = 'none';
+
+    progressFill.style.width = '100%';
+
+    const result = getResult();
+    resultArea.classList.remove('hidden');
+
+    resultArea.innerHTML = `
+      <div class="result-card">
+        <div class="result-tag">// ANALYSIS COMPLETE</div>
+        <div class="result-glow" style="background: ${result.accent};"></div>
+        <div class="result-title">YOU ARE</div>
+        <h2 class="result-name" style="color: ${result.accent}; text-shadow: 0 0 40px ${result.accent}44, 0 0 80px ${result.accent}22;">${result.name}</h2>
+        <div class="result-role">${result.role}</div>
+        <div class="result-divider" style="background: ${result.accent};"></div>
+        <p class="result-description">${result.description}</p>
+        <p class="result-quote" style="color: ${result.accent};">${result.quote}</p>
+        <button class="retake-btn" id="retake-btn">&larr; RETAKE ASSESSMENT</button>
+      </div>
+    `;
+
+    document.getElementById('retake-btn').addEventListener('click', resetQuiz);
+  }
+
+  function resetQuiz() {
+    for (const key of Object.keys(scores)) scores[key] = 0;
+    currentQ = 0;
+    questionArea.style.display = 'block';
+    document.querySelector('.progress-bar').style.display = 'block';
+    resultArea.classList.add('hidden');
+    resultArea.innerHTML = '';
+    renderQuestion(0);
+  }
+
+  renderQuestion(0);
+</script>

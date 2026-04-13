@@ -1,0 +1,683 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const players = [
+  { name: 'DOODLLEUS', color: '#c742f5' },
+  { name: 'TJC', color: '#17ecc2' },
+  { name: 'PRETTY MOUTH BOY', color: '#f5a623' },
+  { name: 'GOOD CHILL NIGHT', color: '#f5d623' },
+  { name: 'NEILATRON', color: '#7aff4a' },
+];
+
+const maps = [
+  {
+    rank: 1,
+    name: 'LOTUS',
+    rating: 9,
+    take: 'The Knife Zone. Where legends are made.',
+    verdict: 'LOVE IT',
+    note: 'The 4-knife round happened here',
+    reviews: [
+      'Four knives. One round. I peaked here and I will never recover.',
+      'I called the rotate and everyone actually listened. Once.',
+      'I was tabbed into Factorio and still got a knife kill somehow.',
+      'The callouts here are elite. "Go A." "Which A?" "THE A."',
+      'Aye, I got knifed four times in one round. Wait, that was me getting knifed.',
+    ],
+  },
+  {
+    rank: 2,
+    name: 'BIND',
+    rating: 8,
+    take: 'Two teleporters and zero lineups needed.',
+    verdict: 'LOVE IT',
+    note: '',
+    reviews: [
+      'Teleporter plays make me look smart. The Odin does the rest.',
+      'I once TP\'d into a full team. It was a 1v5. I got one. Worth.',
+      'Bind is the only map where I don\'t alt-tab during buy phase. Respect.',
+      'Mayb this is the best map. Mayb.',
+      'Teleporter goes WHOOOOSH. That\'s the whole review.',
+    ],
+  },
+  {
+    rank: 3,
+    name: 'SPLIT',
+    rating: 7,
+    take: 'Tight corridors = Odin paradise.',
+    verdict: "IT'S FINE",
+    note: '',
+    reviews: [
+      'Mid control with an Odin is not a war crime. It\'s art.',
+      'Ropes are my nemesis. I\'ve died on ropes more than to actual players.',
+      'The corridors are so tight even my spray patterns work.',
+      'Split after midnight hits different. Everything hits different after midnight.',
+      'I like the ropes. The ropes do not like me.',
+    ],
+  },
+  {
+    rank: 4,
+    name: 'HAVEN',
+    rating: 7,
+    take: 'Three sites means three times the confusion.',
+    verdict: "IT'S FINE",
+    note: '',
+    reviews: [
+      'Three sites and we still can\'t decide where to go. Democracy was a mistake.',
+      'C site is MY site. Don\'t come to C site. I live there.',
+      'I rotate to the wrong site every single time. It\'s a talent.',
+      'Three sites means three chances to not heal anyone.',
+      'Aye, garage is haunted. I\'ve seen things in garage.',
+    ],
+  },
+  {
+    rank: 5,
+    name: 'SUNSET',
+    rating: 6,
+    take: "It's fine. It exists.",
+    verdict: "IT'S FINE",
+    note: '',
+    reviews: [
+      'I genuinely forget this map exists between games.',
+      'Mid is a coin flip. I like those odds.',
+      'Wait, which one is Sunset again? The orange one?',
+      'Sunset is like Tuesday. It\'s there. It happens.',
+      'Aye it\'s a map. It has sites. That\'s all I\'ve got.',
+    ],
+  },
+  {
+    rank: 6,
+    name: 'ASCENT',
+    rating: 6,
+    take: "Mid control? We don't know her.",
+    verdict: "IT'S FINE",
+    note: '',
+    reviews: [
+      'We lose mid every round and still somehow win. Science can\'t explain it.',
+      'The double doors are my Roman Empire.',
+      'I can hear the double doors in my nightmares. BANG. BANG. BANG.',
+      'Market is cozy. I go there to heal. Myself. Not teammates.',
+      'Mid is just a suggestion. A suggestion I ignore.',
+    ],
+  },
+  {
+    rank: 7,
+    name: 'PEARL',
+    rating: 5,
+    take: 'Underground map for underground performances.',
+    verdict: "IT'S FINE",
+    note: '',
+    reviews: [
+      'This map is a labyrinth. I get lost. Every. Single. Time.',
+      'No teleporters. No gimmicks. Just suffering.',
+      'Pearl is the map I play when I want to feel nothing.',
+      'The water effects are nice. That\'s the nicest thing I\'ll say.',
+      'Aye, I thought this was a new map. It\'s been out for years.',
+    ],
+  },
+  {
+    rank: 8,
+    name: 'FRACTURE',
+    rating: 4,
+    take: 'Getting attacked from both sides, just like our ranked games.',
+    verdict: 'DELETE THIS',
+    note: '',
+    reviews: [
+      'Who designed a map where they spawn BEHIND you? A villain.',
+      'I zipline. I die. I zipline again. I die again. The definition of insanity.',
+      'I tab out on Fracture and honestly it improves my performance.',
+      'Both sides attacking at once is just my normal life, actually.',
+      'Aye, the zipline is fun though. Wheeeee. *dies*',
+    ],
+  },
+  {
+    rank: 9,
+    name: 'ICEBOX',
+    rating: 3,
+    take: 'Cold map. Cold performances. Cold hearts.',
+    verdict: 'DELETE THIS',
+    note: '',
+    reviews: [
+      'Tube is where aim goes to die. My aim was already dead.',
+      'I don\'t have a take. I\'ve repressed all Icebox memories.',
+      'The vertical angles give me actual vertigo. Not a joke.',
+      'Icebox is what happens when a map hates its own players.',
+      'Aye, I slipped off B site seventeen times last session. The ice is real.',
+    ],
+  },
+  {
+    rank: 10,
+    name: 'ABYSS',
+    rating: 3,
+    take: 'Neilatron has fallen off the map 47 times.',
+    verdict: 'DELETE THIS',
+    note: '',
+    reviews: [
+      'No walls. Just vibes and a 200-foot drop to your death.',
+      'I watch Neilatron fall off the map and it heals my soul.',
+      'I fell off once. I refuse to elaborate or play this map again.',
+      'The abyss stares back. And then you fall into it.',
+      'Aye, it\'s 47 times and counting. The ground is a suggestion.',
+    ],
+  },
+  {
+    rank: 11,
+    name: 'BREEZE',
+    rating: 2,
+    take: 'Delete this map. Delete it from the game. Delete it from our memories.',
+    verdict: 'DELETE THIS',
+    note: '',
+    reviews: [
+      'If you like Breeze, we can\'t be friends. Squad policy.',
+      'Long sightlines + my aim = a humanitarian crisis.',
+      'I\'d rather play Factorio. And I do. During Breeze games.',
+      'I dodged so many Breeze queues I got a cooldown. Worth it.',
+      'Aye... no. Just no. Next map.',
+    ],
+  },
+];
+
+function verdictClass(verdict: string) {
+  if (verdict === 'LOVE IT') return 'verdict-love';
+  if (verdict === "IT'S FINE") return 'verdict-fine';
+  return 'verdict-delete';
+}
+---
+
+<Layout title="MAP RANKINGS // tHeRe's nO WaY">
+  <main class="maps-page">
+    <!-- HERO -->
+    <section class="maps-hero">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <div class="hero-inner">
+        <div class="hero-subtitle">TACTICAL ASSESSMENT</div>
+        <h1 class="hero-title" data-text="MAP RANKINGS">MAP RANKINGS</h1>
+        <p class="hero-desc">Every map in Valorant, ranked by five people who have no business ranking anything.</p>
+        <div class="hero-legend">
+          <span class="legend-item legend-love">LOVE IT</span>
+          <span class="legend-item legend-fine">IT'S FINE</span>
+          <span class="legend-item legend-delete">DELETE THIS</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP LIST -->
+    <section class="maps-list">
+      {maps.map((map) => (
+        <article class={`map-card reveal ${verdictClass(map.verdict)}-border`}>
+          <div class="map-header">
+            <div class="map-rank">
+              <span class="rank-hash">#</span>{map.rank}
+            </div>
+            <div class="map-info">
+              <h2 class="map-name">{map.name}</h2>
+              <p class="map-take">"{map.take}"</p>
+              {map.note && <p class="map-note">{map.note}</p>}
+            </div>
+            <div class="map-rating-wrap">
+              <div class="rating-number">{map.rating}<span class="rating-max">/10</span></div>
+              <div class="rating-bar-track">
+                <div class="rating-bar-fill" style={`width: ${map.rating * 10}%`}></div>
+              </div>
+              <span class={`verdict-badge ${verdictClass(map.verdict)}`}>{map.verdict}</span>
+            </div>
+          </div>
+          <div class="player-reviews">
+            {map.reviews.map((review, i) => (
+              <div class="player-review">
+                <span class="review-name" style={`color: ${players[i].color}; border-color: ${players[i].color}`}>{players[i].name}</span>
+                <span class="review-text">{review}</span>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <!-- BOTTOM STATS -->
+    <section class="maps-footer-stats reveal">
+      <div class="stat-block">
+        <div class="stat-number">11</div>
+        <div class="stat-label">MAPS REVIEWED</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">55</div>
+        <div class="stat-label">INDIVIDUAL TAKES</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">47</div>
+        <div class="stat-label">NEILATRON FALLS (ABYSS)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">4</div>
+        <div class="stat-label">KNIFE KILLS (LOTUS)</div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .maps-page {
+    padding-top: 100px;
+    min-height: 100vh;
+  }
+
+  /* ========== HERO ========== */
+  .maps-hero {
+    position: relative;
+    padding: 4rem 3rem 3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(236,232,225,0.05);
+  }
+
+  .back-link {
+    position: absolute;
+    top: 1.5rem;
+    left: 3rem;
+    color: var(--val-red);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    transform: translateX(-4px);
+  }
+
+  .hero-subtitle {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: var(--val-teal);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: var(--val-cream);
+    line-height: 1;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--val-red);
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    opacity: 0.6;
+    max-width: 500px;
+    margin: 1.5rem auto 2rem;
+    letter-spacing: 1px;
+  }
+
+  .hero-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 0.4rem 1rem;
+    border: 1px solid;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .legend-love {
+    color: var(--val-teal);
+    border-color: var(--val-teal);
+    background: rgba(23,236,194,0.08);
+  }
+
+  .legend-fine {
+    color: var(--val-gold);
+    border-color: var(--val-gold);
+    background: rgba(245,166,35,0.08);
+  }
+
+  .legend-delete {
+    color: var(--val-red);
+    border-color: var(--val-red);
+    background: rgba(255,70,85,0.08);
+  }
+
+  /* ========== MAP LIST ========== */
+  .maps-list {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* ========== MAP CARD ========== */
+  .map-card {
+    background: rgba(15,25,35,0.6);
+    border: 1px solid rgba(236,232,225,0.06);
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .map-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .verdict-love-border {
+    border-left: 3px solid var(--val-teal);
+  }
+
+  .verdict-fine-border {
+    border-left: 3px solid var(--val-gold);
+  }
+
+  .verdict-delete-border {
+    border-left: 3px solid var(--val-red);
+  }
+
+  .map-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(236,232,225,0.04);
+    flex-wrap: wrap;
+  }
+
+  .map-rank {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--val-red);
+    line-height: 1;
+    min-width: 70px;
+    text-align: center;
+    opacity: 0.9;
+  }
+
+  .rank-hash {
+    font-size: 1.8rem;
+    opacity: 0.4;
+    vertical-align: super;
+  }
+
+  .map-info {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .map-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-cream);
+    line-height: 1.1;
+  }
+
+  .map-take {
+    font-size: 0.95rem;
+    opacity: 0.6;
+    font-style: italic;
+    margin-top: 0.25rem;
+    letter-spacing: 0.5px;
+  }
+
+  .map-note {
+    font-size: 0.75rem;
+    color: var(--val-teal);
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-top: 0.3rem;
+    opacity: 0.8;
+  }
+
+  .map-rating-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    min-width: 140px;
+  }
+
+  .rating-number {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--val-cream);
+    line-height: 1;
+  }
+
+  .rating-max {
+    font-size: 1rem;
+    opacity: 0.4;
+    font-weight: 600;
+  }
+
+  .rating-bar-track {
+    width: 140px;
+    height: 4px;
+    background: rgba(236,232,225,0.08);
+    overflow: hidden;
+  }
+
+  .rating-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--val-red), var(--val-teal));
+    transition: width 0.8s ease;
+  }
+
+  .verdict-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid;
+    text-align: center;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  }
+
+  .verdict-love {
+    color: var(--val-teal);
+    border-color: var(--val-teal);
+    background: rgba(23,236,194,0.1);
+  }
+
+  .verdict-fine {
+    color: var(--val-gold);
+    border-color: var(--val-gold);
+    background: rgba(245,166,35,0.1);
+  }
+
+  .verdict-delete {
+    color: var(--val-red);
+    border-color: var(--val-red);
+    background: rgba(255,70,85,0.1);
+    animation: deletePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes deletePulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(255,70,85,0); }
+    50% { box-shadow: 0 0 12px rgba(255,70,85,0.3); }
+  }
+
+  /* ========== PLAYER REVIEWS ========== */
+  .player-reviews {
+    padding: 1rem 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .player-review {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .review-name {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    border-left: 2px solid;
+    padding-left: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .review-text {
+    opacity: 0.7;
+    letter-spacing: 0.3px;
+  }
+
+  /* ========== FOOTER STATS ========== */
+  .maps-footer-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    padding: 3rem 2rem 4rem;
+    border-top: 1px solid rgba(236,232,225,0.05);
+    flex-wrap: wrap;
+  }
+
+  .stat-block {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--val-red);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    margin-top: 0.3rem;
+  }
+
+  /* ========== LIGHT MODE ========== */
+  :global(html.light-mode) .map-card {
+    background: rgba(236,232,225,0.5);
+    border-color: rgba(26,26,46,0.08);
+  }
+
+  :global(html.light-mode) .maps-hero {
+    border-bottom-color: rgba(26,26,46,0.08);
+  }
+
+  :global(html.light-mode) .maps-footer-stats {
+    border-top-color: rgba(26,26,46,0.08);
+  }
+
+  :global(html.light-mode) .map-header {
+    border-bottom-color: rgba(26,26,46,0.06);
+  }
+
+  :global(html.light-mode) .rating-bar-track {
+    background: rgba(26,26,46,0.1);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 768px) {
+    .maps-hero {
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .back-link {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      letter-spacing: 4px;
+    }
+
+    .maps-list {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .map-header {
+      padding: 1rem 1.25rem;
+      gap: 1rem;
+    }
+
+    .map-rank {
+      font-size: 2.5rem;
+      min-width: 50px;
+    }
+
+    .map-name {
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+    }
+
+    .map-rating-wrap {
+      align-items: flex-start;
+      min-width: auto;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .rating-number {
+      font-size: 1.8rem;
+    }
+
+    .rating-bar-track {
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .player-reviews {
+      padding: 0.75rem 1.25rem 1.25rem;
+    }
+
+    .player-review {
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .maps-footer-stats {
+      gap: 2rem;
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+    }
+  }
+</style>

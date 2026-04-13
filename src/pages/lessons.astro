@@ -1,0 +1,826 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="POST-MATCH DEBRIEF // tHeRe's nO WaY">
+  <main class="lessons-page">
+    <!-- HERO -->
+    <section class="lessons-hero">
+      <a href="/" class="back-link">&larr; RETURN TO BASE</a>
+      <div class="hero-inner">
+        <div class="hero-label">INTELLIGENCE DIVISION // AFTER ACTION REPORT</div>
+        <h1 data-text="WHAT DID WE LEARN?">WHAT DID WE LEARN?</h1>
+        <p class="hero-sub">Post-match debrief generator. Because someone has to document this.</p>
+      </div>
+    </section>
+
+    <!-- CONTROLS -->
+    <section class="debrief-controls">
+      <button id="generate-btn" class="generate-btn">
+        <span class="btn-icon">&#9670;</span>
+        GENERATE DEBRIEF
+        <span class="btn-icon">&#9670;</span>
+      </button>
+      <div class="session-counter">
+        DEBRIEFS GENERATED THIS SESSION: <span id="debrief-count">0</span>
+      </div>
+    </section>
+
+    <!-- DEBRIEF REPORT -->
+    <section class="debrief-container" id="debrief-container" style="display:none;">
+      <div class="debrief-report" id="debrief-report">
+        <!-- CLASSIFICATION HEADER -->
+        <div class="classification-bar top">CLASSIFIED // SQUAD EYES ONLY // DO NOT DISTRIBUTE</div>
+
+        <!-- STAMP -->
+        <div class="report-stamp" id="report-stamp">DEFEAT</div>
+
+        <!-- HEADER -->
+        <div class="report-header">
+          <div class="report-id" id="report-id">AAR-0001</div>
+          <div class="report-date" id="report-date"></div>
+        </div>
+
+        <!-- MATCH RESULT -->
+        <div class="result-block" id="result-block">
+          <div class="result-label">MATCH RESULT</div>
+          <div class="result-score" id="result-score">DEFEAT 4-13</div>
+          <div class="result-map" id="result-map">MAP: BIND</div>
+        </div>
+
+        <!-- MVP -->
+        <div class="report-section mvp-section">
+          <div class="section-label">MATCH MVP</div>
+          <div class="mvp-name" id="mvp-name">DOODLLEUS</div>
+          <div class="mvp-reason" id="mvp-reason">"Died the least (still died a lot)"</div>
+        </div>
+
+        <!-- KEY TAKEAWAY -->
+        <div class="report-section takeaway-section">
+          <div class="section-label">KEY TAKEAWAY</div>
+          <div class="takeaway-text" id="takeaway-text"></div>
+        </div>
+
+        <!-- WHAT WE LEARNED -->
+        <div class="report-section learned-section">
+          <div class="section-label">WHAT WE LEARNED</div>
+          <ul class="learned-list" id="learned-list"></ul>
+        </div>
+
+        <!-- ACTION ITEMS -->
+        <div class="report-section action-section">
+          <div class="section-label">ACTION ITEMS FOR NEXT GAME</div>
+          <ul class="action-list" id="action-list"></ul>
+        </div>
+
+        <!-- OVERALL RATING -->
+        <div class="report-section rating-section">
+          <div class="section-label">OVERALL PERFORMANCE RATING</div>
+          <div class="rating-display">
+            <span class="rating-number" id="rating-number">2</span>
+            <span class="rating-out-of">/ 10</span>
+          </div>
+          <div class="rating-comment" id="rating-comment"></div>
+        </div>
+
+        <!-- CLASSIFICATION FOOTER -->
+        <div class="classification-bar bottom">END OF REPORT // FILE UNDER: COPIUM</div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+  (function() {
+    const squadMembers = ['DOODLLEUS', 'TJC', 'PRETTY MOUTH BOY', 'GOOD CHILL NIGHT', 'NEILATRON'];
+
+    const maps = ['BIND', 'HAVEN', 'SPLIT', 'ASCENT', 'ICEBOX', 'BREEZE', 'FRACTURE', 'PEARL', 'LOTUS', 'SUNSET', 'ABYSS'];
+
+    const mvpReasons = [
+      '"Died the least (still died a lot)"',
+      '"Only one who bought armor round 2"',
+      '"Was actually playing Valorant the whole time"',
+      '"Got a kill in the pistol round, which was nice"',
+      '"Didn\'t alt-tab once. Unprecedented."',
+      '"Remembered to use abilities. Revolutionary."',
+      '"Stayed awake the entire match"',
+      '"Only crashed out twice (personal best)"',
+      '"Successfully used a smoke. Once."',
+      '"Typed \'gg\' without crying"',
+      '"Remained in the voice call for the full duration"',
+      '"Volunteered to play Sage. Immediately regretted it."',
+      '"Carried the vibes, if not the scoreboard"',
+      '"Had the best excuse for bottom fragging"',
+    ];
+
+    const keyTakeaways = [
+      'We learned nothing. Again.',
+      'The problem is not our aim. The problem is everything.',
+      'We are fundamentally allergic to site executes.',
+      'Nobody called out anything at any point and we expected to win.',
+      'The Odin Protocol remains the only viable strategy.',
+      'We collectively have the game sense of a broken Roomba.',
+      'Buying armor is apparently "optional" in this household.',
+      'We peaked in 2024 and have been in freefall since.',
+      'Five players, zero lineups, maximum confidence.',
+      'Comms were described as "vibes only" which explains the result.',
+      'The only thing we rotate is excuses.',
+      'We won a round by accident and celebrated like it was Champions.',
+      'Our economy management makes the national debt look responsible.',
+      'Somehow we turned a 5v2 into a loss. Twice.',
+      'The team called for a timeout to argue about crosshair settings.',
+    ];
+
+    const lessons = [
+      "Doodlleus's gaming chair expired at a critical moment. As predicted.",
+      "Pretty Mouth Boy confirmed he was in Factorio for rounds 4 through 9.",
+      "TJC bait rez'd 3 times. All 3 died. 'This is why im the viper.'",
+      "Good Chill Night was site adjacent for the entire game.",
+      "Neilatron fell asleep during the timeout.",
+      "The Odin Protocol was activated. The enemy team did not appreciate it.",
+      "Nobody bought armor round 2. Nobody can explain why.",
+      "We discovered that none of us know a single lineup.",
+      "CRASHOUT was typed in chat 47 times.",
+      "Someone suggested playing Sage. Good Chill Night left the call.",
+      "The enemy Jett was definitely cheating (she wasn't, we're just bad).",
+      "Doodlleus called 'rush B' on a map with no B site.",
+      "TJC bought a Bucky on match point. TJC got a 3k with it. We still lost.",
+      "Pretty Mouth Boy's crosshair was a single green pixel the whole game.",
+      "Good Chill Night said 'mayb' when asked to rotate. That was 40 seconds ago.",
+      "Neilatron's mic was muted for 7 rounds. Nobody noticed.",
+      "We dry peeked the same angle 13 times. It worked zero times.",
+      "The team attempted a 5-Odin buy. It was glorious. It was also round 2.",
+      "Someone asked 'what does my ult do?' in round 9.",
+      "Doodlleus rage-bought a Judge. Doodlleus got an ace. Doodlleus bought a Judge every round after.",
+      "We discovered that 'rotating' and 'running away' are different things.",
+      "Pretty Mouth Boy minimized the game to check a Factorio blueprint mid-clutch.",
+      "TJC smoked off our own team. 'Tactical.'",
+      "Good Chill Night healed the wrong person on purpose. Allegedly.",
+      "Neilatron asked 'are we attacking or defending?' in round 8.",
+      "The entire team pushed through the same smoke and died in a line.",
+      "Someone's dog walked across the keyboard and got a kill.",
+      "We used all our utility in the first 15 seconds, then had to dry peek everything.",
+      "Doodlleus's callouts were 'over there' and 'by the thing' for 13 rounds.",
+      "TJC tried to wallbang a teammate. On purpose. It didn't work. Allegedly.",
+      "Pretty Mouth Boy claimed latency. His ping was 12.",
+      "The team spent the entire timeout discussing what to order for dinner.",
+      "Good Chill Night played the entire half without upgrading from a Classic.",
+      "We won the pistol round and then lost 12 in a row.",
+      "Neilatron bought a skin mid-match. Priorities.",
+    ];
+
+    const actionItems = [
+      "Uninstall and reinstall hope.",
+      "Hold a team meeting about what 'rotating' means.",
+      "Ban Doodlleus from the Odin for one (1) game. Maybe two.",
+      "Confirm that Pretty Mouth Boy has Valorant installed and not just Factorio.",
+      "Establish a mandatory armor-buying policy.",
+      "Learn one (1) lineup. Just one. Any lineup.",
+      "Create a formal rotation schedule so we stop dying in spawn.",
+      "Assign someone to keep Neilatron awake. Possibly with an air horn.",
+      "Draft a written agreement that TJC cannot rez without smoke.",
+      "Implement a swear jar for every time someone says 'CRASHOUT.'",
+      "Review tape and determine at what point we gave up (estimated: round 2).",
+      "Good Chill Night to attend mandatory Sage therapy.",
+      "Purchase better gaming chairs. This is clearly the bottleneck.",
+      "Hire a life coach for the team economy.",
+      "Stop peeking the Op. Just stop.",
+      "Create a callout cheat sheet since 'over there' is not useful.",
+      "Agree that 5 Odins is a sometimes strategy, not an always strategy.",
+      "Establish a 'no alt-tab' rule. This means you, Pretty Mouth Boy.",
+      "Write a formal apology to the enemy team for wasting their time.",
+      "Consider switching to a game we're actually good at. Suggestions welcome.",
+      "Make Neilatron drink coffee before queuing.",
+      "Develop a system where Good Chill Night actually enters the site.",
+      "Accept that we are hard-stuck and find peace in that.",
+      "Petition Riot to add a 'surrender at round 1' option.",
+    ];
+
+    const ratingCommentsLoss = [
+      "Generous, honestly.",
+      "Rounded up from negative.",
+      "The vibes were the only thing above a 2.",
+      "We have rated ourselves higher than we deserve. As usual.",
+      "This number is aspirational at best.",
+      "The Geneva Convention should apply to what we did to our teammates.",
+      "If you squint, this is almost a passing grade. Almost.",
+      "Two points for showing up. Zero for everything else.",
+      "This rating includes bonus points for not rage-quitting.",
+    ];
+
+    const ratingCommentsWin = [
+      "We won and we have no idea how.",
+      "Do NOT let this result give us confidence.",
+      "The enemy team was clearly having a worse day than us.",
+      "We will not be able to replicate this. Do not try.",
+      "Sarcastic applause from the coaching staff.",
+      "A win earned entirely through vibes and the enemy team's mistakes.",
+      "Acceptable. Barely. Do not celebrate.",
+      "Even a broken clock is right twice a day.",
+    ];
+
+    function pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function pickN(arr, n) {
+      var shuffled = arr.slice().sort(function() { return 0.5 - Math.random(); });
+      return shuffled.slice(0, n);
+    }
+
+    var debriefCount = 0;
+
+    function generateDebrief() {
+      debriefCount++;
+      document.getElementById('debrief-count').textContent = debriefCount;
+
+      // Determine win or loss
+      var isWin = Math.random() < 0.35;
+      var ourScore, theirScore;
+
+      if (isWin) {
+        ourScore = 13;
+        theirScore = Math.floor(Math.random() * 12) + 1;
+      } else {
+        theirScore = 13;
+        ourScore = Math.floor(Math.random() * 10);
+      }
+
+      var resultText = (isWin ? 'VICTORY' : 'DEFEAT') + ' ' + ourScore + '-' + theirScore;
+      var map = pick(maps);
+      var mvp = pick(squadMembers);
+      var mvpReason = pick(mvpReasons);
+      var takeaway = pick(keyTakeaways);
+      var lessonPicks = pickN(lessons, 3);
+      var actionPicks = pickN(actionItems, 2);
+
+      var rating, ratingComment;
+      if (isWin) {
+        rating = Math.floor(Math.random() * 3) + 6;
+        ratingComment = pick(ratingCommentsWin);
+      } else {
+        rating = Math.floor(Math.random() * 3) + 1;
+        ratingComment = pick(ratingCommentsLoss);
+      }
+
+      // Stamp
+      var stamp = document.getElementById('report-stamp');
+      stamp.textContent = isWin ? 'VICTORY' : 'DEFEAT';
+      stamp.className = 'report-stamp ' + (isWin ? 'stamp-win' : 'stamp-loss');
+
+      // Report ID
+      var id = 'AAR-' + String(Math.floor(Math.random() * 9000) + 1000);
+      document.getElementById('report-id').textContent = id;
+
+      // Date
+      var now = new Date();
+      var dateStr = now.getFullYear() + '.' +
+        String(now.getMonth() + 1).padStart(2, '0') + '.' +
+        String(now.getDate()).padStart(2, '0') + ' // ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0') + ' LOCAL';
+      document.getElementById('report-date').textContent = dateStr;
+
+      // Result
+      var resultBlock = document.getElementById('result-block');
+      resultBlock.className = 'result-block ' + (isWin ? 'result-win' : 'result-loss');
+      document.getElementById('result-score').textContent = resultText;
+      document.getElementById('result-map').textContent = 'MAP: ' + map;
+
+      // MVP
+      document.getElementById('mvp-name').textContent = mvp;
+      document.getElementById('mvp-reason').textContent = mvpReason;
+
+      // Takeaway
+      document.getElementById('takeaway-text').textContent = takeaway;
+
+      // Lessons
+      var learnedList = document.getElementById('learned-list');
+      learnedList.innerHTML = '';
+      lessonPicks.forEach(function(l) {
+        var li = document.createElement('li');
+        li.textContent = l;
+        learnedList.appendChild(li);
+      });
+
+      // Actions
+      var actionList = document.getElementById('action-list');
+      actionList.innerHTML = '';
+      actionPicks.forEach(function(a) {
+        var li = document.createElement('li');
+        li.textContent = a;
+        actionList.appendChild(li);
+      });
+
+      // Rating
+      document.getElementById('rating-number').textContent = rating;
+      document.getElementById('rating-comment').textContent = ratingComment;
+
+      var ratingNum = document.getElementById('rating-number');
+      if (rating <= 3) ratingNum.style.color = '#ff4655';
+      else if (rating <= 5) ratingNum.style.color = '#f5a623';
+      else ratingNum.style.color = '#17ecc2';
+
+      // Show container with animation
+      var container = document.getElementById('debrief-container');
+      container.style.display = 'block';
+      var report = document.getElementById('debrief-report');
+      report.classList.remove('report-animate');
+      void report.offsetWidth;
+      report.classList.add('report-animate');
+
+      // Update button text
+      document.getElementById('generate-btn').querySelector('.btn-text') ||
+        (function() {
+          var spans = document.getElementById('generate-btn').childNodes;
+          for (var i = 0; i < spans.length; i++) {
+            if (spans[i].nodeType === 3 && spans[i].textContent.trim()) {
+              spans[i].textContent = debriefCount === 1 ? '\n        GENERATE DEBRIEF\n        ' : '\n        GENERATE NEW DEBRIEF\n        ';
+            }
+          }
+        })();
+    }
+
+    document.getElementById('generate-btn').addEventListener('click', generateDebrief);
+  })();
+  </script>
+
+  <style>
+    .lessons-page {
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    /* HERO */
+    .lessons-hero {
+      position: relative;
+      padding: 4rem 3rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(236,232,225,0.05);
+    }
+
+    .back-link {
+      position: absolute;
+      top: 2rem;
+      left: 3rem;
+      color: var(--val-teal);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .back-link:hover {
+      opacity: 1;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      letter-spacing: 5px;
+      color: var(--val-red);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+
+    .hero-inner h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--val-cream);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-inner h1::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--val-red);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      letter-spacing: 2px;
+      opacity: 0.5;
+      margin-top: 1.5rem;
+    }
+
+    /* CONTROLS */
+    .debrief-controls {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .generate-btn {
+      background: transparent;
+      border: 2px solid var(--val-red);
+      color: var(--val-red);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+      padding: 1rem 3rem;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .generate-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--val-red);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    .generate-btn:hover {
+      color: var(--val-darker);
+      border-color: var(--val-red);
+    }
+
+    .generate-btn:hover::before {
+      left: 0;
+    }
+
+    .btn-icon {
+      font-size: 0.7rem;
+      vertical-align: middle;
+      margin: 0 0.5rem;
+    }
+
+    .session-counter {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      color: var(--val-cream);
+      opacity: 0.35;
+      font-weight: 600;
+    }
+
+    .session-counter span {
+      color: var(--val-teal);
+      opacity: 1;
+      font-size: 1rem;
+    }
+
+    /* DEBRIEF CONTAINER */
+    .debrief-container {
+      padding: 0 2rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* REPORT */
+    .debrief-report {
+      background: rgba(15, 25, 35, 0.8);
+      border: 1px solid rgba(236,232,225,0.08);
+      position: relative;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .debrief-report.report-animate {
+      animation: reportSlideIn 0.5s ease forwards;
+    }
+
+    @keyframes reportSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* CLASSIFICATION BAR */
+    .classification-bar {
+      background: var(--val-red);
+      color: var(--val-darker);
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      padding: 0.5rem 1rem;
+    }
+
+    .classification-bar.bottom {
+      background: rgba(236,232,225,0.06);
+      color: var(--val-cream);
+      opacity: 0.4;
+    }
+
+    /* STAMP */
+    .report-stamp {
+      position: absolute;
+      top: 80px;
+      right: 30px;
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 6px;
+      transform: rotate(-12deg);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 1;
+      border: 4px solid currentColor;
+      padding: 0.2rem 1.5rem;
+      border-radius: 4px;
+    }
+
+    .stamp-loss {
+      color: var(--val-red);
+    }
+
+    .stamp-win {
+      color: var(--val-teal);
+    }
+
+    /* HEADER */
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(236,232,225,0.05);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      opacity: 0.5;
+      font-weight: 600;
+    }
+
+    /* RESULT BLOCK */
+    .result-block {
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(236,232,225,0.05);
+    }
+
+    .result-label {
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      opacity: 0.4;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .result-score {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    .result-loss .result-score {
+      color: var(--val-red);
+    }
+
+    .result-win .result-score {
+      color: var(--val-teal);
+    }
+
+    .result-map {
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      opacity: 0.5;
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+
+    /* REPORT SECTIONS */
+    .report-section {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(236,232,225,0.05);
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      color: var(--val-red);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--val-red);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    /* MVP */
+    .mvp-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+      color: var(--val-teal);
+    }
+
+    .mvp-reason {
+      font-size: 0.85rem;
+      opacity: 0.5;
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    /* TAKEAWAY */
+    .takeaway-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      line-height: 1.6;
+      color: var(--val-cream);
+      border-left: 3px solid var(--val-red);
+      padding-left: 1.2rem;
+    }
+
+    /* LISTS */
+    .learned-list, .action-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .learned-list li, .action-list li {
+      padding: 0.6rem 0 0.6rem 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+      opacity: 0.8;
+    }
+
+    .learned-list li::before {
+      content: '//';
+      position: absolute;
+      left: 0;
+      color: var(--val-teal);
+      font-weight: 700;
+      opacity: 0.6;
+    }
+
+    .action-list li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--val-red);
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    /* RATING */
+    .rating-section {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .rating-section .section-label {
+      justify-content: center;
+    }
+
+    .rating-display {
+      margin: 1rem 0 0.5rem;
+    }
+
+    .rating-number {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .rating-out-of {
+      font-size: 1.5rem;
+      opacity: 0.3;
+      font-weight: 600;
+      vertical-align: baseline;
+    }
+
+    .rating-comment {
+      font-size: 0.85rem;
+      opacity: 0.45;
+      font-style: italic;
+      letter-spacing: 1px;
+    }
+
+    /* SCANLINE EFFECT ON REPORT */
+    .debrief-report::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ANGULAR CORNER DECORATIONS */
+    .debrief-report::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid rgba(255,70,85,0.1);
+      clip-path: polygon(
+        0 0, calc(100% - 20px) 0, 100% 20px,
+        100% 100%, 20px 100%, 0 calc(100% - 20px)
+      );
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* LIGHT MODE */
+    :global(html.light-mode) .debrief-report {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(26,26,46,0.1);
+    }
+
+    :global(html.light-mode) .classification-bar.bottom {
+      background: rgba(26,26,46,0.06);
+    }
+
+    :global(html.light-mode) .result-block,
+    :global(html.light-mode) .report-section,
+    :global(html.light-mode) .report-header {
+      border-bottom-color: rgba(26,26,46,0.08);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .lessons-hero {
+        padding: 3rem 1.5rem 2rem;
+      }
+
+      .back-link {
+        position: relative;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+      }
+
+      .debrief-container {
+        padding: 0 1rem 3rem;
+      }
+
+      .report-section {
+        padding: 1.2rem 1.2rem;
+      }
+
+      .report-header {
+        padding: 1rem 1.2rem;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .result-block {
+        padding: 1.5rem 1.2rem;
+      }
+
+      .report-stamp {
+        font-size: 1.8rem;
+        top: 60px;
+        right: 15px;
+      }
+
+      .generate-btn {
+        font-size: 1rem;
+        padding: 0.8rem 2rem;
+        letter-spacing: 3px;
+      }
+
+      .mvp-name {
+        font-size: 1.3rem;
+      }
+
+      .rating-number {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</Layout>

@@ -1,0 +1,844 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const playerColors = {
+  'Doodlleus': '#c742f5',
+  'TJC': '#17ecc2',
+  'Pretty Mouth Boy': '#f5a623',
+  'Good Chill Night': '#f5d623',
+  'Neilatron': '#7aff4a',
+};
+
+const memes = [
+  {
+    id: 1,
+    type: 'chat',
+    title: 'The Original Sploink',
+    players: ['Doodlleus', 'TJC', 'Pretty Mouth Boy', 'Good Chill Night', 'Neilatron'],
+    messages: [
+      { user: 'Doodlleus', time: '9:47 PM', text: 'Sploink?' },
+      { user: null, time: '', text: '...' },
+      { user: null, time: '', text: '4 minutes of silence' },
+      { user: null, time: '', text: '...' },
+      { user: 'TJC', time: '9:51 PM', text: 'sploink.' },
+      { user: 'Neilatron', time: '9:51 PM', text: 'aye' },
+      { user: 'Good Chill Night', time: '9:52 PM', text: 'mayb' },
+      { user: 'Pretty Mouth Boy', time: '9:53 PM', text: 'purchance' },
+    ],
+  },
+  {
+    id: 2,
+    type: 'scoreboard',
+    title: 'The Factorio Incident',
+    players: ['Pretty Mouth Boy', 'TJC'],
+    stats: [
+      { name: 'TJC', agent: 'Viper', kills: 18, deaths: 9, assists: 7, highlight: false },
+      { name: 'Doodlleus', agent: 'Jett', kills: 15, deaths: 12, assists: 3, highlight: false },
+      { name: 'Neilatron', agent: 'Sova', kills: 11, deaths: 11, assists: 9, highlight: false },
+      { name: 'Good Chill Night', agent: 'Killjoy', kills: 8, deaths: 13, assists: 5, highlight: false },
+      { name: 'Pretty Mouth Boy', agent: 'Brimstone', kills: 2, deaths: 14, assists: 1, highlight: true },
+    ],
+    comment: 'was alt-tabbed to Factorio for 9 rounds',
+  },
+  {
+    id: 3,
+    type: 'chat',
+    title: 'The Crashout Flood',
+    players: ['TJC'],
+    messages: [
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:23 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'TJC', time: '11:24 PM', text: 'CRASHOUT' },
+      { user: 'Pretty Mouth Boy', time: '11:25 PM', text: 'you good bro?' },
+    ],
+  },
+  {
+    id: 4,
+    type: 'quote',
+    title: 'Look Me In The Eyes',
+    players: ['Good Chill Night'],
+    quote: 'Look me in the eyes and tell me you believe that.',
+    attribution: 'Good Chill Night',
+    context: 'When told tonight could be the night she gets her first ace',
+  },
+  {
+    id: 5,
+    type: 'scoreboard',
+    title: 'The Odin Protocol',
+    players: ['Doodlleus', 'TJC', 'Pretty Mouth Boy', 'Good Chill Night', 'Neilatron'],
+    stats: [
+      { name: 'Doodlleus', agent: 'Jett', kills: 22, deaths: 15, assists: 2, highlight: false, weapon: 'ODIN' },
+      { name: 'TJC', agent: 'Viper', kills: 19, deaths: 14, assists: 6, highlight: false, weapon: 'ODIN' },
+      { name: 'Neilatron', agent: 'Sova', kills: 16, deaths: 13, assists: 8, highlight: false, weapon: 'ODIN' },
+      { name: 'Good Chill Night', agent: 'Killjoy', kills: 12, deaths: 16, assists: 4, highlight: false, weapon: 'ODIN' },
+      { name: 'Pretty Mouth Boy', agent: 'Brimstone', kills: 10, deaths: 17, assists: 3, highlight: false, weapon: 'ODIN' },
+    ],
+    comment: 'Enemy team rage quit at round 9. All chat: "this is cancer"',
+  },
+  {
+    id: 6,
+    type: 'chat',
+    title: 'The Exact One',
+    players: ['TJC'],
+    messages: [
+      { user: 'TJC', time: '8:14 PM', text: 'I could do exactly one' },
+      { user: null, time: '', text: '...' },
+      { user: null, time: '', text: '3 hours later' },
+      { user: null, time: '', text: '...' },
+      { user: 'TJC', time: '11:22 PM', text: 'ok one more' },
+      { user: 'Doodlleus', time: '11:22 PM', text: 'you said that 4 games ago' },
+      { user: 'TJC', time: '11:23 PM', text: 'this is the real one more' },
+    ],
+  },
+  {
+    id: 7,
+    type: 'quote',
+    title: 'The Bait Rez Statistics',
+    players: ['TJC'],
+    quote: 'Rez survival rate: 12%\nRezzes attempted: countless\nSmokes used as cover: 0\nWalls placed before rez: 0\nVibes: immaculate',
+    attribution: 'TJC on Sage',
+    context: 'Official squad statistics, peer reviewed',
+  },
+  {
+    id: 8,
+    type: 'chat',
+    title: 'Not A Gamer Anymore (Again)',
+    players: ['Pretty Mouth Boy'],
+    messages: [
+      { user: 'Pretty Mouth Boy', time: '7:30 PM', text: 'im not really a gamer anymore tbh' },
+      { user: 'Pretty Mouth Boy', time: '7:30 PM', text: 'think im done with val for a while' },
+      { user: 'Pretty Mouth Boy', time: '7:31 PM', text: 'might just watch a movie or something' },
+      { user: null, time: '', text: '...' },
+      { user: null, time: '', text: '5 minutes later' },
+      { user: null, time: '', text: '...' },
+      { user: 'Pretty Mouth Boy', time: '7:36 PM', text: 'ok whos on' },
+      { user: 'TJC', time: '7:36 PM', text: 'speedrun retirement any%' },
+    ],
+  },
+  {
+    id: 9,
+    type: 'moment',
+    title: 'The Lotus 4-Knife Round',
+    players: ['Doodlleus', 'TJC', 'Pretty Mouth Boy', 'Good Chill Night', 'Neilatron'],
+    badge: 'LEGENDARY',
+    description: '4 knife kills in a single round on Lotus during Team Gun Game. The greatest moment in squad history. Nothing before or since has come close. If you weren\'t there, you wouldn\'t understand. If you were there, you still don\'t understand how it happened.',
+    detail: 'Lotus // Team Gun Game // Round 17',
+  },
+  {
+    id: 10,
+    type: 'chat',
+    title: 'The Gaming Chair Theory',
+    players: ['Doodlleus', 'TJC', 'Good Chill Night', 'Neilatron'],
+    messages: [
+      { user: 'TJC', time: '11:04 PM', text: 'dood what happened to your aim' },
+      { user: 'Doodlleus', time: '11:04 PM', text: 'im still cracked' },
+      { user: 'Good Chill Night', time: '11:05 PM', text: 'you have literally not hit a shot in 3 rounds' },
+      { user: 'Neilatron', time: '11:05 PM', text: 'its past 11 his chair lost power' },
+      { user: 'TJC', time: '11:06 PM', text: 'the gaming chair theory is REAL' },
+      { user: 'Doodlleus', time: '11:06 PM', text: 'fuck you good chill night' },
+      { user: 'Good Chill Night', time: '11:06 PM', text: 'i didnt even say anything that time' },
+    ],
+  },
+  {
+    id: 11,
+    type: 'quote',
+    title: 'Healing Goes Against Everything She Believes In',
+    players: ['Good Chill Night'],
+    quote: 'She does not heal. She does not rez. She does not nurture. She places a turret and waits.',
+    attribution: 'The Squad',
+    context: 'Official assessment of Good Chill Night on Sage',
+  },
+  {
+    id: 12,
+    type: 'moment',
+    title: 'Valorant OS',
+    players: ['TJC'],
+    badge: 'HALL OF FAME',
+    description: 'TJC dual-boots into a dedicated Valorant partition. A separate operating system. Exclusively for Valorant. No other programs. No distractions. Just Valorant.',
+    detail: '"That\'s either extremely dedicated or extremely unhinged" -- The Squad',
+  },
+];
+
+const types = ['all', 'chat', 'scoreboard', 'quote', 'moment'];
+const typeLabels: Record<string, string> = { all: 'ALL', chat: 'CHAT LOGS', scoreboard: 'SCOREBOARDS', quote: 'QUOTES', moment: 'MOMENTS' };
+const allPlayers = ['Doodlleus', 'TJC', 'Pretty Mouth Boy', 'Good Chill Night', 'Neilatron'];
+---
+
+<Layout title="MEME WALL // tHeRe's nO WaY We lOsE ThIs&trade;">
+  <section class="meme-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// HALL OF FAME</span>
+      <h1>THE MEME WALL</h1>
+      <p class="hero-sub">IMMORTALIZED MOMENTS OF GREATNESS AND DISGRACE</p>
+    </div>
+  </section>
+
+  <section class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-label">TYPE</span>
+      <div class="filter-buttons" id="type-filters">
+        {types.map(t => (
+          <button class={`filter-btn ${t === 'all' ? 'active' : ''}`} data-type={t}>{typeLabels[t]}</button>
+        ))}
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">PLAYER</span>
+      <div class="filter-buttons" id="player-filters">
+        <button class="filter-btn active" data-player="all">ALL</button>
+        {allPlayers.map(p => (
+          <button class="filter-btn" data-player={p} style={`--player-color: ${playerColors[p as keyof typeof playerColors]}`}>{p.toUpperCase()}</button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="meme-grid" id="meme-grid">
+    {memes.map((meme) => {
+      if (meme.type === 'chat') {
+        return (
+          <div class="meme-card card-chat" data-type={meme.type} data-players={meme.players.join(',')}>
+            <div class="card-header">
+              <span class="card-type-tag tag-chat">CHAT LOG</span>
+              <span class="card-number">#{String(meme.id).padStart(2, '0')}</span>
+            </div>
+            <h3 class="card-title">{meme.title}</h3>
+            <div class="chat-window">
+              {meme.messages.map(msg => (
+                msg.user ? (
+                  <div class="chat-msg">
+                    <span class="chat-time">{msg.time}</span>
+                    <span class="chat-user" style={`color: ${playerColors[msg.user as keyof typeof playerColors] || '#ece8e1'}`}>{msg.user}</span>
+                    <span class="chat-text">{msg.text}</span>
+                  </div>
+                ) : (
+                  <div class="chat-gap">
+                    <span>{msg.text}</span>
+                  </div>
+                )
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (meme.type === 'scoreboard') {
+        return (
+          <div class="meme-card card-scoreboard" data-type={meme.type} data-players={meme.players.join(',')}>
+            <div class="card-header">
+              <span class="card-type-tag tag-scoreboard">SCOREBOARD</span>
+              <span class="card-number">#{String(meme.id).padStart(2, '0')}</span>
+            </div>
+            <h3 class="card-title">{meme.title}</h3>
+            <div class="scoreboard">
+              <div class="scoreboard-header">
+                <span class="sb-col sb-player">PLAYER</span>
+                <span class="sb-col sb-agent">AGENT</span>
+                {meme.stats[0].weapon && <span class="sb-col sb-weapon">WEAPON</span>}
+                <span class="sb-col sb-k">K</span>
+                <span class="sb-col sb-d">D</span>
+                <span class="sb-col sb-a">A</span>
+              </div>
+              {meme.stats.map(s => (
+                <div class={`scoreboard-row ${s.highlight ? 'row-highlight' : ''}`}>
+                  <span class="sb-col sb-player" style={`color: ${playerColors[s.name as keyof typeof playerColors] || '#ece8e1'}`}>{s.name}</span>
+                  <span class="sb-col sb-agent">{s.agent}</span>
+                  {s.weapon && <span class="sb-col sb-weapon">{s.weapon}</span>}
+                  <span class="sb-col sb-k">{s.kills}</span>
+                  <span class="sb-col sb-d">{s.deaths}</span>
+                  <span class="sb-col sb-a">{s.assists}</span>
+                </div>
+              ))}
+            </div>
+            <div class="scoreboard-comment">{meme.comment}</div>
+          </div>
+        );
+      }
+
+      if (meme.type === 'quote') {
+        return (
+          <div class="meme-card card-quote" data-type={meme.type} data-players={meme.players.join(',')}>
+            <div class="card-header">
+              <span class="card-type-tag tag-quote">QUOTE</span>
+              <span class="card-number">#{String(meme.id).padStart(2, '0')}</span>
+            </div>
+            <h3 class="card-title">{meme.title}</h3>
+            <div class="quote-block">
+              <div class="quote-mark">&ldquo;</div>
+              <p class="quote-text">{meme.quote}</p>
+              <div class="quote-attribution">
+                <span class="quote-author" style={`color: ${playerColors[meme.attribution as keyof typeof playerColors] || 'var(--val-cream)'}`}>{meme.attribution}</span>
+                <span class="quote-context">{meme.context}</span>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      if (meme.type === 'moment') {
+        return (
+          <div class="meme-card card-moment" data-type={meme.type} data-players={meme.players.join(',')}>
+            <div class="card-header">
+              <span class="card-type-tag tag-moment">{meme.badge}</span>
+              <span class="card-number">#{String(meme.id).padStart(2, '0')}</span>
+            </div>
+            <div class="moment-badge-wrap">
+              <span class={`moment-badge ${meme.badge === 'LEGENDARY' ? 'badge-legendary' : 'badge-hof'}`}>{meme.badge}</span>
+            </div>
+            <h3 class="card-title moment-title">{meme.title}</h3>
+            <p class="moment-detail">{meme.detail}</p>
+            <p class="moment-desc">{meme.description}</p>
+          </div>
+        );
+      }
+
+      return null;
+    })}
+  </section>
+</Layout>
+
+<script is:inline>
+(function() {
+  const typeButtons = document.querySelectorAll('#type-filters .filter-btn');
+  const playerButtons = document.querySelectorAll('#player-filters .filter-btn');
+  const cards = document.querySelectorAll('.meme-card');
+
+  let activeType = 'all';
+  let activePlayer = 'all';
+
+  function filterCards() {
+    cards.forEach(function(card) {
+      const cardType = card.getAttribute('data-type');
+      const cardPlayers = card.getAttribute('data-players') || '';
+      const typeMatch = activeType === 'all' || cardType === activeType;
+      const playerMatch = activePlayer === 'all' || cardPlayers.split(',').indexOf(activePlayer) !== -1;
+      if (typeMatch && playerMatch) {
+        card.style.display = '';
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          });
+        });
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  typeButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      typeButtons.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeType = btn.getAttribute('data-type');
+      filterCards();
+    });
+  });
+
+  playerButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      playerButtons.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activePlayer = btn.getAttribute('data-player');
+      filterCards();
+    });
+  });
+})();
+</script>
+
+<style>
+  /* ==================== HERO ==================== */
+  .meme-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(255,70,85,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(23,236,194,0.05) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--val-red);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 8px;
+    line-height: 1;
+    color: var(--val-cream);
+  }
+
+  .hero-sub {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+
+  /* ==================== FILTER BAR ==================== */
+  .filter-bar {
+    padding: 2rem 4rem;
+    border-bottom: 1px solid rgba(236,232,225,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    position: sticky;
+    top: 60px;
+    z-index: 50;
+    background: rgba(10,16,24,0.95);
+    backdrop-filter: blur(10px);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: var(--val-red);
+    min-width: 60px;
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 0.4rem 1rem;
+    background: rgba(236,232,225,0.04);
+    border: 1px solid rgba(236,232,225,0.08);
+    color: var(--val-cream);
+    opacity: 0.5;
+    transition: all 0.3s;
+    cursor: none;
+  }
+
+  .filter-btn:hover {
+    opacity: 0.8;
+    border-color: rgba(236,232,225,0.2);
+  }
+
+  .filter-btn.active {
+    opacity: 1;
+    background: rgba(255,70,85,0.15);
+    border-color: var(--val-red);
+    color: var(--val-red);
+  }
+
+  #player-filters .filter-btn.active {
+    background: rgba(236,232,225,0.08);
+    border-color: var(--player-color, var(--val-red));
+    color: var(--player-color, var(--val-red));
+  }
+
+  /* ==================== GRID ==================== */
+  .meme-grid {
+    padding: 3rem 4rem 6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ==================== CARD BASE ==================== */
+  .meme-card {
+    background: rgba(15,25,35,0.8);
+    border: 1px solid rgba(236,232,225,0.06);
+    padding: 1.8rem;
+    position: relative;
+    transition: all 0.4s ease, opacity 0.3s, transform 0.3s;
+    overflow: hidden;
+  }
+
+  .meme-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    transition: height 0.3s;
+  }
+
+  .meme-card:hover {
+    border-color: rgba(236,232,225,0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .card-type-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .tag-chat {
+    color: #17ecc2;
+    background: rgba(23,236,194,0.1);
+    border: 1px solid rgba(23,236,194,0.2);
+  }
+
+  .tag-scoreboard {
+    color: #ff4655;
+    background: rgba(255,70,85,0.1);
+    border: 1px solid rgba(255,70,85,0.2);
+  }
+
+  .tag-quote {
+    color: #f5d623;
+    background: rgba(245,214,35,0.1);
+    border: 1px solid rgba(245,214,35,0.2);
+  }
+
+  .tag-moment {
+    color: #f5a623;
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.2);
+  }
+
+  .card-number {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    opacity: 0.25;
+    font-weight: 700;
+  }
+
+  .card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--val-cream);
+    margin-bottom: 1.2rem;
+  }
+
+  /* ==================== CHAT CARD ==================== */
+  .card-chat::before { background: #17ecc2; }
+
+  .chat-window {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(236,232,225,0.04);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .chat-msg {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    padding: 0.3rem 0;
+  }
+
+  .chat-time {
+    font-size: 0.6rem;
+    opacity: 0.25;
+    white-space: nowrap;
+    min-width: 55px;
+    letter-spacing: 1px;
+  }
+
+  .chat-user {
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  .chat-text {
+    font-size: 0.85rem;
+    color: var(--val-cream);
+    opacity: 0.9;
+  }
+
+  .chat-gap {
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    opacity: 0.2;
+    font-weight: 600;
+  }
+
+  /* ==================== SCOREBOARD CARD ==================== */
+  .card-scoreboard::before { background: #ff4655; }
+
+  .scoreboard {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(236,232,225,0.04);
+    overflow: hidden;
+  }
+
+  .scoreboard-header {
+    display: flex;
+    padding: 0.5rem 0.8rem;
+    background: rgba(255,70,85,0.08);
+    border-bottom: 1px solid rgba(255,70,85,0.15);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--val-red);
+  }
+
+  .scoreboard-row {
+    display: flex;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(236,232,225,0.03);
+    transition: background 0.2s;
+  }
+
+  .scoreboard-row:last-child {
+    border-bottom: none;
+  }
+
+  .row-highlight {
+    background: rgba(255,70,85,0.08);
+    border-left: 2px solid var(--val-red);
+  }
+
+  .sb-col { display: flex; align-items: center; }
+  .sb-player { flex: 2; font-weight: 600; letter-spacing: 1px; }
+  .sb-agent { flex: 1.2; opacity: 0.5; font-size: 0.7rem; letter-spacing: 1px; }
+  .sb-weapon { flex: 1; color: var(--val-red); font-weight: 700; font-size: 0.7rem; letter-spacing: 2px; }
+  .sb-k, .sb-d, .sb-a { width: 32px; justify-content: center; font-weight: 700; }
+  .sb-d { color: var(--val-red); opacity: 0.8; }
+  .sb-k { color: var(--val-teal); }
+  .sb-a { opacity: 0.4; }
+
+  .scoreboard-comment {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    font-style: italic;
+    opacity: 0.5;
+    letter-spacing: 1px;
+    padding-left: 0.5rem;
+    border-left: 2px solid rgba(255,70,85,0.3);
+  }
+
+  /* ==================== QUOTE CARD ==================== */
+  .card-quote::before { background: #f5d623; }
+
+  .quote-block {
+    position: relative;
+    padding: 1rem 0;
+  }
+
+  .quote-mark {
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--val-red);
+    opacity: 0.15;
+    position: absolute;
+    top: -0.5rem;
+    left: -0.3rem;
+    font-family: Georgia, serif;
+  }
+
+  .quote-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--val-cream);
+    padding-left: 1rem;
+    white-space: pre-line;
+  }
+
+  .quote-attribution {
+    margin-top: 1.2rem;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .quote-author {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  .quote-context {
+    font-size: 0.7rem;
+    opacity: 0.35;
+    letter-spacing: 1px;
+  }
+
+  /* ==================== MOMENT CARD ==================== */
+  .card-moment::before { background: #f5a623; }
+
+  .card-moment {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(15,25,35,0.9) 0%, rgba(245,166,35,0.05) 100%);
+  }
+
+  .moment-badge-wrap {
+    margin: 1rem 0 0.5rem;
+  }
+
+  .moment-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    padding: 0.5rem 1.5rem;
+    position: relative;
+  }
+
+  .badge-legendary {
+    color: #f5a623;
+    border: 1px solid rgba(245,166,35,0.4);
+    background: rgba(245,166,35,0.08);
+    box-shadow: 0 0 20px rgba(245,166,35,0.1), inset 0 0 20px rgba(245,166,35,0.05);
+    animation: legendaryPulse 2s ease-in-out infinite;
+  }
+
+  .badge-hof {
+    color: var(--val-teal);
+    border: 1px solid rgba(23,236,194,0.4);
+    background: rgba(23,236,194,0.08);
+    box-shadow: 0 0 20px rgba(23,236,194,0.1), inset 0 0 20px rgba(23,236,194,0.05);
+    animation: hofPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes legendaryPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(245,166,35,0.1), inset 0 0 20px rgba(245,166,35,0.05); }
+    50% { box-shadow: 0 0 30px rgba(245,166,35,0.2), inset 0 0 30px rgba(245,166,35,0.1); }
+  }
+
+  @keyframes hofPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(23,236,194,0.1), inset 0 0 20px rgba(23,236,194,0.05); }
+    50% { box-shadow: 0 0 30px rgba(23,236,194,0.2), inset 0 0 30px rgba(23,236,194,0.1); }
+  }
+
+  .moment-title {
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+  }
+
+  .moment-detail {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    opacity: 0.3;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+  }
+
+  .moment-desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    opacity: 0.6;
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 768px) {
+    .meme-hero {
+      padding: 8rem 2rem 3rem;
+    }
+
+    .filter-bar {
+      padding: 1.5rem 1.5rem;
+      top: 50px;
+    }
+
+    .meme-grid {
+      padding: 2rem 1.5rem 4rem;
+      grid-template-columns: 1fr;
+    }
+
+    .meme-card {
+      padding: 1.4rem;
+    }
+
+    .chat-msg {
+      flex-wrap: wrap;
+    }
+
+    .chat-time {
+      min-width: auto;
+    }
+
+    .scoreboard-header,
+    .scoreboard-row {
+      font-size: 0.65rem;
+    }
+
+    .sb-agent { display: none; }
+    .sb-weapon { display: none; }
+  }
+</style>

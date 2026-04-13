@@ -1,0 +1,363 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const conversations = [
+  {
+    title: "THE ORIGINAL SPLOINK",
+    date: "Tuesday",
+    messages: [
+      { from: "DOODLLEUS", color: "#c742f5", time: "9:47 PM", text: "Sploink?" },
+      { divider: "4 minutes later" },
+      { from: "TJC", color: "#17ecc2", time: "9:51 PM", text: "I need a minute to think" },
+      { from: "NEILATRON", color: "#7aff4a", time: "9:51 PM", text: "Aye" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "9:52 PM", text: "Mayb" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "9:52 PM", text: "Not a gamer anymore" },
+      { divider: "2 minutes later" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "9:54 PM", text: "purchance" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "9:54 PM", text: "Let's goooo" },
+    ]
+  },
+  {
+    title: "THE CRASHOUT FLOOD",
+    date: "Wednesday",
+    messages: [
+      { from: "TJC", color: "#17ecc2", time: "10:15 PM", text: "CRASHOUT" },
+      { from: "TJC", color: "#17ecc2", time: "10:15 PM", text: "CRASHOUT" },
+      { from: "TJC", color: "#17ecc2", time: "10:15 PM", text: "CRASHOUT" },
+      { from: "TJC", color: "#17ecc2", time: "10:15 PM", text: "CRASHOUT" },
+      { from: "TJC", color: "#17ecc2", time: "10:15 PM", text: "CRASHOUT" },
+      { from: "TJC", color: "#17ecc2", time: "10:15 PM", text: "CRASHOUT" },
+      { from: "TJC", color: "#17ecc2", time: "10:16 PM", text: "CRASHOUT" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "10:16 PM", text: "are you ok" },
+      { from: "TJC", color: "#17ecc2", time: "10:16 PM", text: "CRASHOUT" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "10:16 PM", text: "he's fine" },
+      { from: "TJC", color: "#17ecc2", time: "10:16 PM", text: "CRASHOUT" },
+    ]
+  },
+  {
+    title: "THE FACTORIO EXPOSÉ",
+    date: "Thursday",
+    messages: [
+      { from: "TJC", color: "#17ecc2", time: "11:02 PM", text: "Jack why is your damage 12" },
+      { from: "TJC", color: "#17ecc2", time: "11:02 PM", text: "in 9 rounds" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "11:03 PM", text: "I'm tired and want to play Factorio on my main screen" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "11:03 PM", text: "WHAT" },
+      { from: "NEILATRON", color: "#7aff4a", time: "11:03 PM", text: "wait you've been alt tabbed?" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "11:03 PM", text: "only for like 6 rounds" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "11:04 PM", text: "Jack dies first so he can play Factorio" },
+      { from: "TJC", color: "#17ecc2", time: "11:04 PM", text: "confirmed" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "11:04 PM", text: "I'm not a gamer anymore" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "11:05 PM", text: "Fuck you Good Chill Night" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "11:05 PM", text: "???" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "11:05 PM", text: "what did I do" },
+    ]
+  },
+  {
+    title: "THE ACE CONVERSATION",
+    date: "Friday",
+    messages: [
+      { from: "DOODLLEUS", color: "#c742f5", time: "10:30 PM", text: "tonight could be the night" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "10:30 PM", text: "@GOOD CHILL NIGHT ace watch is ON" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "10:31 PM", text: "Look me in the eyes and tell me you believe that" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "10:31 PM", text: "..." },
+      { from: "TJC", color: "#17ecc2", time: "10:31 PM", text: "..." },
+      { from: "NEILATRON", color: "#7aff4a", time: "10:32 PM", text: "..." },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "10:32 PM", text: "..." },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "10:32 PM", text: "that's what I thought" },
+    ]
+  },
+  {
+    title: "THE GAMING CHAIR SCIENCE",
+    date: "Saturday",
+    messages: [
+      { from: "TJC", color: "#17ecc2", time: "11:14 PM", text: "dood you went from 24 kills to 2 kills" },
+      { from: "TJC", color: "#17ecc2", time: "11:14 PM", text: "what happened" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "11:14 PM", text: "gaming chair lost power" },
+      { from: "NEILATRON", color: "#7aff4a", time: "11:15 PM", text: "it's 11:14pm" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "11:15 PM", text: "yes that's when it happens" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "11:15 PM", text: "every single time" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "11:15 PM", text: "it's scientifically proven" },
+      { from: "TJC", color: "#17ecc2", time: "11:16 PM", text: "by who" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "11:16 PM", text: "by me" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "11:16 PM", text: "I'm the scientist" },
+    ]
+  },
+  {
+    title: "THE RETIREMENT CYCLE",
+    date: "Sunday",
+    messages: [
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "9:30 PM", text: "I think I'm done with Valorant" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "9:30 PM", text: "not a gamer anymore" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "9:31 PM", text: "focusing on other things" },
+      { divider: "3 minutes later" },
+      { from: "DOODLLEUS", color: "#c742f5", time: "9:34 PM", text: "Chimchimcheroo?" },
+      { divider: "1 minute later" },
+      { from: "PRETTY MOUTH BOY", color: "#f5a623", time: "9:35 PM", text: "purchance" },
+      { from: "TJC", color: "#17ecc2", time: "9:35 PM", text: "there it is" },
+      { from: "NEILATRON", color: "#7aff4a", time: "9:35 PM", text: "every time" },
+      { from: "GOOD CHILL NIGHT", color: "#f5d623", time: "9:36 PM", text: "lmaooo" },
+    ]
+  },
+];
+---
+
+<Layout title="INTERCEPTED COMMS // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="chat-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// INTERCEPTED COMMS</span>
+      <h1>GROUP CHAT</h1>
+      <p class="hero-sub">CLASSIFIED WHATSAPP TRANSCRIPTS</p>
+    </div>
+  </section>
+
+  <section class="chat-feed">
+    {conversations.map((convo) => (
+      <div class="convo-block">
+        <div class="convo-header">
+          <span class="convo-title">{convo.title}</span>
+          <span class="convo-date">{convo.date}</span>
+        </div>
+        <div class="chat-window">
+          <div class="chat-topbar">
+            <span class="chat-group-name">tHeRe's nO WaY We lOsE ThIs</span>
+            <span class="chat-members">5 members</span>
+          </div>
+          <div class="chat-messages">
+            {convo.messages.map((msg) =>
+              'divider' in msg ? (
+                <div class="time-divider">
+                  <span>{msg.divider}</span>
+                </div>
+              ) : (
+                <div class="msg-bubble">
+                  <span class="msg-sender" style={`color: ${msg.color}`}>{msg.from}</span>
+                  <span class="msg-text">{msg.text}</span>
+                  <span class="msg-meta">
+                    <span class="msg-time">{msg.time}</span>
+                    <span class="msg-ticks">✓✓</span>
+                  </span>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .chat-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    line-height: 0.9;
+  }
+
+  .hero-sub {
+    margin-top: 1rem;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    font-weight: 600;
+  }
+
+  .chat-feed {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .convo-block {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .convo-block:nth-child(1) { animation-delay: 0s; }
+  .convo-block:nth-child(2) { animation-delay: 0.1s; }
+  .convo-block:nth-child(3) { animation-delay: 0.2s; }
+  .convo-block:nth-child(4) { animation-delay: 0.3s; }
+  .convo-block:nth-child(5) { animation-delay: 0.4s; }
+  .convo-block:nth-child(6) { animation-delay: 0.5s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .convo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(236,232,225,0.1);
+  }
+
+  .convo-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--val-red);
+  }
+
+  .convo-date {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    opacity: 0.3;
+    font-weight: 600;
+  }
+
+  .chat-window {
+    background: #111b21;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(236,232,225,0.06);
+  }
+
+  .chat-topbar {
+    background: #1f2c33;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .chat-group-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #e9edef;
+  }
+
+  .chat-members {
+    font-size: 0.65rem;
+    color: #8696a0;
+    letter-spacing: 1px;
+  }
+
+  .chat-messages {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(255,70,85,0.02) 0%, transparent 50%),
+      #0b141a;
+  }
+
+  .msg-bubble {
+    background: #1f2c33;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 8px 8px 8px;
+    max-width: 85%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .msg-sender {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.15rem;
+  }
+
+  .msg-text {
+    font-size: 0.9rem;
+    color: #e9edef;
+    line-height: 1.4;
+  }
+
+  .msg-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    justify-content: flex-end;
+    margin-top: 0.2rem;
+  }
+
+  .msg-time {
+    font-size: 0.6rem;
+    color: #8696a0;
+  }
+
+  .msg-ticks {
+    font-size: 0.55rem;
+    color: #53bdeb;
+    letter-spacing: -2px;
+  }
+
+  .time-divider {
+    text-align: center;
+    padding: 0.75rem 0;
+  }
+
+  .time-divider span {
+    background: #1a2930;
+    padding: 0.3rem 1rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    color: #8696a0;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .chat-hero {
+      padding: 8rem 2rem 3rem;
+    }
+    .chat-feed {
+      padding: 3rem 1rem 4rem;
+    }
+  }
+</style>

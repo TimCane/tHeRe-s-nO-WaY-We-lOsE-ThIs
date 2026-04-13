@@ -1,0 +1,604 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const events = [
+  {
+    date: 'JUL 2020',
+    title: 'THE BEGINNING',
+    desc: 'Squad formed. Doodlleus drops the first-ever "Sploink?" in the group chat. Nobody knows what it means. Everyone shows up anyway.',
+    accent: 'var(--val-red)',
+  },
+  {
+    date: 'SEP 2020',
+    title: 'THE FIRST ODIN',
+    desc: 'Someone buys an Odin ironically. The enemy team complains. A tradition is born.',
+    accent: 'var(--val-red)',
+  },
+  {
+    date: 'DEC 2020',
+    title: 'THE FACTORIO DISCOVERY',
+    desc: "TJC notices Pretty Mouth Boy's damage output is suspiciously low. Investigation reveals active Factorio session on second monitor.",
+    accent: '#f5a623',
+  },
+  {
+    date: 'MAR 2021',
+    title: 'THE BAIT REZ ERA BEGINS',
+    desc: "TJC discovers Sage's rez ability. Begins using it in the open with no cover. Survival rate: 12%. Will never stop.",
+    accent: '#17ecc2',
+  },
+  {
+    date: 'AUG 2021',
+    title: 'VALORANT OS',
+    desc: 'TJC creates a dedicated operating system partition exclusively for Valorant. The squad is divided on whether this is genius or unhinged.',
+    accent: '#17ecc2',
+  },
+  {
+    date: 'JAN 2022',
+    title: 'THE CRASHOUT EPOCH',
+    desc: 'TJC sends CRASHOUT in the group chat so many times it becomes a greeting, farewell, and existential statement.',
+    accent: '#17ecc2',
+  },
+  {
+    date: 'MAY 2022',
+    title: 'THE ACE WATCH BEGINS',
+    desc: 'The squad realizes Good Chill Night has never gotten an ace. The vigil begins. It has not ended.',
+    accent: '#f5d623',
+  },
+  {
+    date: 'NOV 2022',
+    title: 'SITE ADJACENT: A PHILOSOPHY',
+    desc: "Good Chill Night's positioning is formally classified. Near the site. Not ON the site. Close enough to hear. Too far to help.",
+    accent: '#f5d623',
+  },
+  {
+    date: 'FEB 2023',
+    title: 'THE CHAMBER EXPERIMENT',
+    desc: 'Doodlleus tries Chamber. It goes poorly. The squad agrees to never speak of it again.',
+    accent: '#c742f5',
+  },
+  {
+    date: 'JUL 2023',
+    title: 'THE GAMING CHAIR THEORY',
+    desc: "Scientific breakthrough: Doodlleus's performance degrades exactly at 11pm. The Gaming Chair Theory is published. Peer reviewed by the squad.",
+    accent: '#c742f5',
+  },
+  {
+    date: 'OCT 2023',
+    title: 'THE LOTUS INCIDENT',
+    desc: '4 knife kills in a single round on Lotus during Team Gun Game. The greatest moment in squad history. Peak achieved.',
+    accent: 'var(--val-red)',
+  },
+  {
+    date: 'MAR 2024',
+    title: 'NOT A GAMER ANYMORE (ROUND 1)',
+    desc: 'Pretty Mouth Boy announces retirement from gaming. Plays 4 games that same night.',
+    accent: '#f5a623',
+  },
+  {
+    date: 'AUG 2024',
+    title: 'THE WASTELAND VANDAL INTERVENTION',
+    desc: "The squad stages an intervention about TJC's Wasteland Vandal skin. TJC refuses to change. The intervention fails.",
+    accent: '#17ecc2',
+  },
+  {
+    date: 'JAN 2025',
+    title: 'THE HEALING ASSESSMENT',
+    desc: 'Someone suggests Good Chill Night play Sage. The squad concludes: "Healing goes against everything she believes in."',
+    accent: '#f5d623',
+  },
+  {
+    date: 'APR 2025',
+    title: 'STILL HERE',
+    desc: "5 years in. Still Gold. Still no lineups. Still buying Odins. Still losing. Still vibing. tHeRe's nO WaY We lOsE ThIs.",
+    accent: 'var(--val-red)',
+  },
+];
+---
+
+<Layout title="SQUAD TIMELINE // tHeRe's nO WaY">
+  <main class="timeline-page">
+    <!-- HERO -->
+    <section class="timeline-hero">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <div class="hero-content">
+        <div class="hero-label">INTELLIGENCE REPORT</div>
+        <h1>SQUAD <span class="accent">TIMELINE</span></h1>
+        <p class="hero-sub">Every terrible decision. Every legendary moment. Chronologically documented for posterity.</p>
+        <div class="hero-years">2020 &mdash; PRESENT</div>
+      </div>
+      <div class="hero-scanline"></div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="timeline-section">
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        {events.map((event, i) => (
+          <div class={`timeline-item ${i % 2 === 0 ? 'left' : 'right'}`} data-index={i}>
+            <div class="timeline-dot" style={`--dot-color: ${event.accent};`}>
+              <div class="dot-ring"></div>
+              <div class="dot-core"></div>
+            </div>
+            <div class="timeline-card" style={`--card-accent: ${event.accent};`}>
+              <div class="card-date">{event.date}</div>
+              <div class="card-title-bar">
+                <div class="card-accent-line"></div>
+                <h3 class="card-title">{event.title}</h3>
+              </div>
+              <p class="card-desc">{event.desc}</p>
+              <div class="card-corner tl"></div>
+              <div class="card-corner br"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* ==================== HERO ==================== */
+  .timeline-page {
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-hero {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .timeline-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 80%, rgba(255, 70, 85, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 20%, rgba(23, 236, 194, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .back-link {
+    position: absolute;
+    top: 6rem;
+    left: 3rem;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    transition: all 0.3s;
+    z-index: 2;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-teal);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+
+  .timeline-hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 8px;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .timeline-hero h1 .accent {
+    color: var(--val-red);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .hero-years {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 10px;
+    color: var(--val-red);
+    opacity: 0.6;
+  }
+
+  .hero-scanline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--val-red), transparent);
+    opacity: 0.3;
+  }
+
+  /* ==================== TIMELINE ==================== */
+  .timeline-section {
+    padding: 4rem 2rem 8rem;
+  }
+
+  .timeline-container {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--val-red) 5%,
+      var(--val-red) 50%,
+      rgba(255, 70, 85, 0.4) 90%,
+      transparent 100%
+    );
+    z-index: 1;
+  }
+
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 70, 85, 0.1) 10%,
+      rgba(255, 70, 85, 0.05) 90%,
+      transparent 100%
+    );
+    filter: blur(8px);
+  }
+
+  /* ==================== TIMELINE ITEMS ==================== */
+  .timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 0 3rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .timeline-item.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .timeline-item.left {
+    left: 0;
+    padding-right: 4rem;
+    text-align: right;
+  }
+
+  .timeline-item.left .timeline-card {
+    margin-left: auto;
+  }
+
+  .timeline-item.right {
+    left: 50%;
+    padding-left: 4rem;
+    text-align: left;
+  }
+
+  /* Stagger animation */
+  .timeline-item.left.revealed {
+    animation: slideInLeft 0.6s ease forwards;
+  }
+
+  .timeline-item.right.revealed {
+    animation: slideInRight 0.6s ease forwards;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* ==================== DOT ==================== */
+  .timeline-dot {
+    position: absolute;
+    top: 1.5rem;
+    width: 18px;
+    height: 18px;
+    z-index: 3;
+  }
+
+  .timeline-item.left .timeline-dot {
+    right: -9px;
+  }
+
+  .timeline-item.right .timeline-dot {
+    left: -9px;
+  }
+
+  .dot-core {
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--dot-color);
+    box-shadow: 0 0 10px var(--dot-color), 0 0 20px var(--dot-color);
+    z-index: 2;
+  }
+
+  .dot-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--dot-color);
+    opacity: 0.5;
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+
+  /* ==================== CARD ==================== */
+  .timeline-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(15, 25, 35, 0.9) 0%, rgba(10, 16, 24, 0.95) 100%);
+    border: 1px solid rgba(236, 232, 225, 0.08);
+    padding: 1.8rem 2rem;
+    max-width: 440px;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    transition: all 0.4s ease;
+  }
+
+  .timeline-card:hover {
+    border-color: var(--card-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px color-mix(in srgb, var(--card-accent) 15%, transparent);
+  }
+
+  .card-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: var(--card-accent);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .card-corner.tl {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+    border-color: inherit;
+  }
+
+  .card-corner.br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-color: inherit;
+  }
+
+  .card-corner.tl,
+  .card-corner.br {
+    border-color: var(--card-accent);
+  }
+
+  .timeline-card:hover .card-corner {
+    opacity: 1;
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--card-accent);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .card-title-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .timeline-item.left .card-title-bar {
+    flex-direction: row-reverse;
+  }
+
+  .card-accent-line {
+    flex-shrink: 0;
+    width: 24px;
+    height: 2px;
+    background: var(--card-accent);
+  }
+
+  .card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--val-cream);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.65;
+    opacity: 0.65;
+    letter-spacing: 0.3px;
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 768px) {
+    .timeline-line {
+      left: 24px;
+    }
+
+    .timeline-item,
+    .timeline-item.left,
+    .timeline-item.right {
+      width: 100%;
+      left: 0;
+      padding-left: 56px;
+      padding-right: 1rem;
+      text-align: left;
+    }
+
+    .timeline-item.left .timeline-dot,
+    .timeline-item.right .timeline-dot {
+      left: 15px;
+      right: auto;
+    }
+
+    .timeline-item.left .card-title-bar {
+      flex-direction: row;
+    }
+
+    .timeline-item.left .timeline-card {
+      margin-left: 0;
+    }
+
+    .timeline-card {
+      max-width: 100%;
+    }
+
+    .timeline-item.left.revealed,
+    .timeline-item.right.revealed {
+      animation: slideInRight 0.6s ease forwards;
+    }
+
+    .back-link {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+
+    .timeline-hero {
+      padding: 7rem 1.5rem 3rem;
+    }
+  }
+
+  /* ==================== LIGHT MODE OVERRIDES ==================== */
+  :global(html.light-mode) .timeline-card {
+    background: linear-gradient(135deg, rgba(236, 232, 225, 0.95) 0%, rgba(245, 241, 234, 0.98) 100%);
+    border-color: rgba(26, 26, 46, 0.1);
+  }
+
+  :global(html.light-mode) .card-title {
+    color: #1a1a2e;
+  }
+
+  :global(html.light-mode) .card-desc {
+    color: #1a1a2e;
+  }
+</style>
+
+<script is:inline>
+  // Scroll-reveal for timeline items
+  (function() {
+    const items = document.querySelectorAll('.timeline-item');
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          // Add stagger delay based on how quickly items appear
+          const idx = parseInt(entry.target.getAttribute('data-index') || '0');
+          entry.target.style.animationDelay = '0.1s';
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    items.forEach(function(item) {
+      observer.observe(item);
+    });
+
+    // Parallax glow on timeline line while scrolling
+    const line = document.querySelector('.timeline-line');
+    if (line) {
+      window.addEventListener('scroll', function() {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = Math.min(scrollY / docHeight, 1);
+        line.style.background = `linear-gradient(
+          180deg,
+          transparent 0%,
+          #ff4655 ${Math.max(5, progress * 100 - 10)}%,
+          #ff4655 ${Math.min(progress * 100 + 20, 95)}%,
+          rgba(255, 70, 85, 0.2) ${Math.min(progress * 100 + 40, 98)}%,
+          transparent 100%
+        )`;
+      });
+    }
+  })();
+</script>

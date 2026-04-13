@@ -1,0 +1,478 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="GUESTBOOK // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="guestbook-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// COMMS LOG</span>
+      <h1>GUESTBOOK</h1>
+      <p class="hero-sub">DROP A MESSAGE FOR THE SQUAD</p>
+    </div>
+  </section>
+
+  <section class="guestbook-main">
+    <!-- MESSAGE FORM -->
+    <div class="form-container">
+      <div class="form-header">
+        <span class="form-tag">// NEW TRANSMISSION</span>
+      </div>
+      <form id="guestbook-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="callsign">CALLSIGN</label>
+            <input type="text" id="callsign" name="callsign" placeholder="Enter your callsign..." required maxlength="24" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="rank">RANK</label>
+            <select id="rank" name="rank" required>
+              <option value="" disabled selected>Select rank...</option>
+              <option value="Iron">Iron</option>
+              <option value="Bronze">Bronze</option>
+              <option value="Silver">Silver</option>
+              <option value="Gold">Gold</option>
+              <option value="Platinum">Platinum</option>
+              <option value="Diamond">Diamond</option>
+              <option value="Ascendant">Ascendant</option>
+              <option value="Immortal">Immortal</option>
+              <option value="Radiant">Radiant</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">MESSAGE</label>
+          <textarea id="message" name="message" placeholder="Say something to the squad..." required maxlength="300" rows="3"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">
+          <span class="btn-text">SEND TRANSMISSION</span>
+          <span class="btn-flash"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- MESSAGE FEED -->
+    <div class="feed-header">
+      <span class="feed-tag">// TRANSMISSION LOG</span>
+      <div class="feed-controls">
+        <span class="msg-count" id="msg-count">0 MESSAGES</span>
+        <button class="clear-btn" id="clear-btn">CLEAR ALL</button>
+      </div>
+    </div>
+    <div class="feed" id="feed"></div>
+  </section>
+</Layout>
+
+<style>
+  .guestbook-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover { opacity: 1; color: var(--val-red); }
+
+  .section-tag, .form-tag, .feed-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+  }
+
+  .guestbook-hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    margin-top: 0.5rem;
+  }
+
+  /* MAIN */
+  .guestbook-main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem 8rem;
+  }
+
+  /* FORM */
+  .form-container {
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.08);
+    padding: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--val-red);
+  }
+
+  .form-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--val-cream);
+    opacity: 0.5;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(15,25,35,0.8);
+    border: 1px solid rgba(236,232,225,0.1);
+    color: var(--val-cream);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.7rem 1rem;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: rgba(236,232,225,0.2);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--val-red);
+  }
+
+  .form-group select option {
+    background: var(--val-dark);
+    color: var(--val-cream);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .submit-btn {
+    position: relative;
+    width: 100%;
+    background: var(--val-red);
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    padding: 0.9rem 2rem;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover {
+    background: #ff6470;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(255,70,85,0.3);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-flash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+
+  .submit-btn:hover .btn-flash {
+    animation: flash-sweep 0.6s ease;
+  }
+
+  @keyframes flash-sweep {
+    to { transform: translateX(100%); }
+  }
+
+  /* FEED HEADER */
+  .feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(236,232,225,0.06);
+  }
+
+  .feed-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .msg-count {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--val-teal);
+    font-weight: 600;
+  }
+
+  .clear-btn {
+    background: none;
+    border: 1px solid rgba(255,70,85,0.3);
+    color: var(--val-red);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .clear-btn:hover {
+    background: var(--val-red);
+    color: white;
+    border-color: var(--val-red);
+  }
+
+  /* MESSAGE CARDS */
+  .feed {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  @keyframes msg-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .guestbook-hero { padding: 8rem 1.5rem 3rem; }
+    .guestbook-main { padding: 2rem 1.5rem 6rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .feed-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  }
+</style>
+
+<script>
+  const RANK_COLORS: Record<string, string> = {
+    Iron: '#7c7c7c',
+    Bronze: '#a5713e',
+    Silver: '#c0c0c0',
+    Gold: '#f5a623',
+    Platinum: '#17ecc2',
+    Diamond: '#b489ff',
+    Ascendant: '#1db954',
+    Immortal: '#ff4655',
+    Radiant: '#ffd700',
+  };
+
+  interface GuestMessage {
+    callsign: string;
+    rank: string;
+    message: string;
+    timestamp: number;
+  }
+
+  const STORAGE_KEY = 'valorant-guestbook';
+
+  const DEFAULT_MESSAGES: GuestMessage[] = [
+    { callsign: 'DOODLLEUS', rank: 'Diamond', message: 'Sploink?', timestamp: Date.now() - 86400000 * 5 },
+    { callsign: 'TJC', rank: 'Platinum', message: 'I could do exactly one. (Wrote 47 messages)', timestamp: Date.now() - 86400000 * 4 },
+    { callsign: 'PRETTY MOUTH BOY', rank: 'Gold', message: 'Not a gamer anymore. (Sent from Factorio)', timestamp: Date.now() - 86400000 * 3 },
+    { callsign: 'GOOD CHILL NIGHT', rank: 'Silver', message: 'Mayb', timestamp: Date.now() - 86400000 * 2 },
+    { callsign: 'NEILATRON', rank: 'Platinum', message: 'Im up for losing some rr', timestamp: Date.now() - 86400000 },
+  ];
+
+  function getMessages(): GuestMessage[] {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_MESSAGES));
+      return [...DEFAULT_MESSAGES];
+    }
+    return JSON.parse(raw);
+  }
+
+  function saveMessages(msgs: GuestMessage[]) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+  }
+
+  function formatTime(ts: number): string {
+    const d = new Date(ts);
+    const now = new Date();
+    const diffMs = now.getTime() - d.getTime();
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'JUST NOW';
+    if (diffMin < 60) return `${diffMin}m AGO`;
+    const diffHr = Math.floor(diffMin / 60);
+    if (diffHr < 24) return `${diffHr}h AGO`;
+    const diffDay = Math.floor(diffHr / 24);
+    if (diffDay < 30) return `${diffDay}d AGO`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+  }
+
+  function createCard(msg: GuestMessage, animate: boolean): HTMLElement {
+    const card = document.createElement('div');
+    const rankColor = RANK_COLORS[msg.rank] || '#7c7c7c';
+    card.style.cssText = `
+      display: flex;
+      gap: 1rem;
+      padding: 1.2rem 1rem;
+      background: rgba(236,232,225,0.02);
+      border-left: 2px solid ${rankColor};
+      transition: background 0.3s;
+      ${animate ? 'animation: msg-in 0.4s ease forwards;' : ''}
+    `;
+    card.addEventListener('mouseenter', () => { card.style.background = 'rgba(236,232,225,0.05)'; });
+    card.addEventListener('mouseleave', () => { card.style.background = 'rgba(236,232,225,0.02)'; });
+
+    card.innerHTML = `
+      <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:0.3rem; min-width:3.5rem;">
+        <span style="
+          font-size: 0.55rem;
+          letter-spacing: 2px;
+          font-weight: 700;
+          color: ${rankColor};
+          background: ${rankColor}18;
+          padding: 0.2rem 0.5rem;
+          border: 1px solid ${rankColor}40;
+          white-space: nowrap;
+        ">${msg.rank.toUpperCase()}</span>
+      </div>
+      <div style="flex:1; min-width:0;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.3rem; gap:1rem;">
+          <span style="
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: ${rankColor};
+          ">${escapeHTML(msg.callsign)}</span>
+          <span style="
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            opacity: 0.3;
+            flex-shrink: 0;
+          ">${formatTime(msg.timestamp)}</span>
+        </div>
+        <p style="
+          font-size: 0.9rem;
+          line-height: 1.6;
+          opacity: 0.7;
+          margin: 0;
+          word-break: break-word;
+        ">${escapeHTML(msg.message)}</p>
+      </div>
+    `;
+    return card;
+  }
+
+  function escapeHTML(str: string): string {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderFeed(animate = false) {
+    const feed = document.getElementById('feed')!;
+    const counter = document.getElementById('msg-count')!;
+    const msgs = getMessages().sort((a, b) => b.timestamp - a.timestamp);
+    feed.innerHTML = '';
+    msgs.forEach((msg, i) => {
+      feed.appendChild(createCard(msg, animate && i === 0));
+    });
+    const count = msgs.length;
+    counter.textContent = `${count} MESSAGE${count !== 1 ? 'S' : ''}`;
+  }
+
+  // INIT
+  renderFeed();
+
+  // FORM SUBMIT
+  document.getElementById('guestbook-form')!.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const callsign = (form.elements.namedItem('callsign') as HTMLInputElement).value.trim().toUpperCase();
+    const rank = (form.elements.namedItem('rank') as HTMLSelectElement).value;
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim();
+    if (!callsign || !rank || !message) return;
+
+    const msgs = getMessages();
+    msgs.push({ callsign, rank, message, timestamp: Date.now() });
+    saveMessages(msgs);
+    form.reset();
+    renderFeed(true);
+  });
+
+  // CLEAR ALL
+  document.getElementById('clear-btn')!.addEventListener('click', () => {
+    if (confirm('CLEAR ALL TRANSMISSIONS?\n\nThis will wipe the comms log. Default squad messages will be restored.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      renderFeed();
+    }
+  });
+</script>

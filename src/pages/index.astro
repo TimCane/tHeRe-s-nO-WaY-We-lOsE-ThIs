@@ -1,0 +1,2341 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const players = [
+  {
+    name: "DOODLLEUS",
+    tag: "DOODLLEUS",
+    role: "Duelist",
+    agents: "Reyna / Neon",
+    quote: "Sploink?",
+    image: "/assets/E8a1_Cineposter_4x5_IG.jpg",
+    accent: "#c742f5",
+    slug: "doodlleus",
+    stats: { kd: "0.96", hs: "19.3%", wr: "49.3%" }
+  },
+  {
+    name: "TJC",
+    tag: "TJC",
+    role: "Support / Controller",
+    agents: "Sage / Viper",
+    quote: "Ah yep -- classic.",
+    image: "/assets/FirstLook_SageHealConcept.jpg",
+    accent: "#17ecc2",
+    slug: "tjc",
+    stats: { kd: "1.01", hs: "17.8%", wr: "51.2%" }
+  },
+  {
+    name: "PRETTY MOUTH BOY",
+    tag: "PRETTYMOUTHBOY",
+    role: "Controller",
+    agents: "Brimstone",
+    quote: "Not a gamer anymore.",
+    image: "/assets/FirstLook_ClassicRevolverConcept_VALORANT.jpg",
+    accent: "#f5a623",
+    slug: "prettymouthboy",
+    stats: { kd: "0.90", hs: "13.5%", wr: "48.2%" }
+  },
+  {
+    name: "GOOD CHILL NIGHT",
+    tag: "GOODCHILLNIGHT",
+    role: "Sentinel",
+    agents: "Killjoy",
+    quote: "Only 1.",
+    image: "/assets/VALORANT_Deadlock_Wallpapers_4k_Dark2.jpg",
+    accent: "#f5d623",
+    slug: "goodchillnight",
+    stats: { kd: "???", hs: "???", wr: "???" }
+  },
+  {
+    name: "NEILATRON",
+    tag: "NEILATRON",
+    role: "Flex / Initiator",
+    agents: "Gekko / Clove / Raze",
+    quote: "Im up for losing some rr.",
+    image: "/assets/Gekko_Dark_1.png",
+    accent: "#7aff4a",
+    slug: "neilatron",
+    stats: { kd: "0.96", hs: "12.9%", wr: "49.1%" }
+  },
+];
+---
+
+<Layout title="tHeRe's nO WaY We lOsE ThIs™">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="/assets/Ep_7_Keyart_4k.jpg" alt="Valorant Key Art" />
+      <div class="hero-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="hero-noise"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        TEAM ROSTER // EST. 2020
+        <span class="tag-dot"></span>
+      </div>
+      <h1 class="glitch" data-text="tHeRe's nO WaY We lOsE ThIs™">tHeRe's nO WaY We lOsE ThIs&#8482;</h1>
+      <p class="hero-sub">tHeRe's nO WaY We lOsE ThIs&#8482;</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="stat-num count-up" data-target="5">0</span>
+          <span class="stat-label">PLAYERS</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">GOLD</span>
+          <span class="stat-label">AVG RANK</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num count-up" data-target="49" data-suffix="%">0%</span>
+          <span class="stat-label">WIN RATE</span>
+        </div>
+      </div>
+      <a href="#roster" class="hero-cta">MEET THE SQUAD</a>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-header">
+      <span class="section-tag">// 001</span>
+      <h2>THE VIBE</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-lead">We're not good. But we're here. And we're not leaving. Purchance.</p>
+        <p>It always starts the same way: Doodlleus drops a 'Sploink?' or a 'Chimchimcheroo?' in the group chat. Neilatron says 'Aye.' TJC says 'I could do exactly one.' Pretty Mouth Boy says he's not a gamer anymore, then queues up anyway. Good Chill Night says 'Mayb.' Five players. One of us is in Factorio. One of us is asleep. One of us is dying in enemy spawn. One of us is an AI pretending to be human. One of us has never gotten an ace. The gaming chair loses power at 11pm. Nobody has learned a lineup. Everyone buys Odins just to watch the enemy team moan in chat. But somehow? tHeRe's nO WaY We lOsE ThIs&#8482;.</p>
+        <div class="about-values">
+          <div class="value">
+            <span class="value-icon">&#9670;</span>
+            <span>GAMING CHAIR POWER EXPIRES AT 11PM</span>
+          </div>
+          <div class="value">
+            <span class="value-icon">&#9670;</span>
+            <span>WHEN WE LOSE, WE BLAME GOOD CHILL NIGHT</span>
+          </div>
+          <div class="value">
+            <span class="value-icon">&#9670;</span>
+            <span>PRETTY MOUTH BOY DIES FIRST (FACTORIO)</span>
+          </div>
+          <div class="value">
+            <span class="value-icon">&#9670;</span>
+            <span>ODIN EVERY ROUND (CRY ABOUT IT)</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-image">
+        <img src="/assets/Ep8A1_Riot Games.com Product Card 1920x1080_.jpg" alt="Team vibes" />
+        <div class="about-image-accent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROSTER -->
+  <section class="roster" id="roster">
+    <div class="section-header">
+      <span class="section-tag">// 002</span>
+      <h2>THE ROSTER</h2>
+    </div>
+    <div class="player-grid">
+      {players.map((player, i) => (
+        <a href={`/players/${player.slug}`} class={`player-card ability-${player.slug}`} style={`--accent: ${player.accent}; --delay: ${i * 0.1}s`}>
+          <div class="card-image">
+            <img src={player.image} alt={player.name} />
+            <div class="card-overlay"></div>
+            <div class="ability-fx"></div>
+          </div>
+          <div class="card-rank">{player.rank}</div>
+          <div class="card-content">
+            <div class="card-role">{player.agents}</div>
+            <h3 class="card-name">{player.name}</h3>
+            <div class="card-tag">{player.role}</div>
+            <div class="card-stats">
+              <span>{player.stats.kd} K/D</span>
+              <span>{player.stats.hs} HS</span>
+              <span>{player.stats.wr} WR</span>
+            </div>
+          </div>
+          <div class="card-arrow">&rarr;</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- QUOTE TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>"Sploink?"</span>
+      <span>&#9670;</span>
+      <span>"Aye"</span>
+      <span>&#9670;</span>
+      <span>"purchance"</span>
+      <span>&#9670;</span>
+      <span>"CRASHOUT"</span>
+      <span>&#9670;</span>
+      <span>"That's a brimjob"</span>
+      <span>&#9670;</span>
+      <span>"Only 1"</span>
+      <span>&#9670;</span>
+      <span>"This is why im the viper"</span>
+      <span>&#9670;</span>
+      <span>"Im up for losing some rr"</span>
+      <span>&#9670;</span>
+      <span>"Not a gamer anymore"</span>
+      <span>&#9670;</span>
+      <span>"Mayb"</span>
+      <span>&#9670;</span>
+      <span>"I could do exactly one"</span>
+      <span>&#9670;</span>
+      <span>"Chimchimcheroo?"</span>
+      <span>&#9670;</span>
+      <span>"Oingoboingo?"</span>
+      <span>&#9670;</span>
+      <span>"Boom boom pow?"</span>
+      <span>&#9670;</span>
+      <span>"Sploink?"</span>
+      <span>&#9670;</span>
+      <span>"Aye"</span>
+      <span>&#9670;</span>
+      <span>"purchance"</span>
+      <span>&#9670;</span>
+      <span>"CRASHOUT"</span>
+      <span>&#9670;</span>
+      <span>"That's a brimjob"</span>
+      <span>&#9670;</span>
+      <span>"Only 1"</span>
+      <span>&#9670;</span>
+      <span>"This is why im the viper"</span>
+      <span>&#9670;</span>
+      <span>"Im up for losing some rr"</span>
+      <span>&#9670;</span>
+      <span>"Not a gamer anymore"</span>
+      <span>&#9670;</span>
+      <span>"Mayb"</span>
+      <span>&#9670;</span>
+      <span>"I could do exactly one"</span>
+      <span>&#9670;</span>
+      <span>"Chimchimcheroo?"</span>
+      <span>&#9670;</span>
+      <span>"Oingoboingo?"</span>
+      <span>&#9670;</span>
+      <span>"Boom boom pow?"</span>
+      <span>&#9670;</span>
+    </div>
+  </div>
+
+  <!-- WILL THEY PLAY TONIGHT -->
+  <section class="flowchart" id="flowchart">
+    <div class="section-header">
+      <span class="section-tag">// 003</span>
+      <h2>WILL THEY PLAY TONIGHT?</h2>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-card" style="--accent: #c742f5">
+        <h3>DOODLLEUS</h3>
+        <div class="flow-steps">
+          <div class="flow-step">Drops "Sploink?" in chat</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">Sorts Calpol for kiddo</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">Makes coffee</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step result yes">ALWAYS YES</div>
+          <div class="flow-note">* gaming chair expires at 11pm</div>
+        </div>
+      </div>
+      <div class="flow-card" style="--accent: #17ecc2">
+        <h3>TJC</h3>
+        <div class="flow-steps">
+          <div class="flow-step">"I need a minute to think"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">Gets off sofa</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">"I could do exactly one"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step result maybe">PLAYS 4</div>
+          <div class="flow-note">* may fall asleep mid-queue</div>
+        </div>
+      </div>
+      <div class="flow-card" style="--accent: #f5a623">
+        <h3>PRETTY MOUTH BOY</h3>
+        <div class="flow-steps">
+          <div class="flow-step">"Not a gamer anymore"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">Good Chill Night answers for him</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">"purchance"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step result yes">QUEUES UP ANYWAY</div>
+          <div class="flow-note">* Factorio running on 2nd monitor</div>
+        </div>
+      </div>
+      <div class="flow-card" style="--accent: #f5d623">
+        <h3>GOOD CHILL NIGHT</h3>
+        <div class="flow-steps">
+          <div class="flow-step">"Mayb"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">"Mayhaps"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">"Only 1"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step result maybe">YES (EVENTUALLY)</div>
+          <div class="flow-note">* ace still pending</div>
+        </div>
+      </div>
+      <div class="flow-card" style="--accent: #7aff4a">
+        <h3>NEILATRON</h3>
+        <div class="flow-steps">
+          <div class="flow-step">"Aye"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">"I could be persuaded"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">"Im up for losing some rr"</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step result yes">AYE</div>
+          <div class="flow-note">* may fall asleep before lobby</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM STATS COMPARISON -->
+  <section class="comparison" id="stats">
+    <div class="section-header">
+      <span class="section-tag">// 004</span>
+      <h2>THE NUMBERS DON'T LIE</h2>
+    </div>
+    <p class="comparison-sub">(but they do hurt)</p>
+    <div class="compare-table">
+      <div class="compare-header">
+        <div class="compare-cell label"></div>
+        <div class="compare-cell">K/D</div>
+        <div class="compare-cell">HS%</div>
+        <div class="compare-cell">WIN%</div>
+        <div class="compare-cell">RANK</div>
+      </div>
+      <div class="compare-row" style="--accent: #17ecc2">
+        <div class="compare-cell label">TJC</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 84%"></span></span>1.01</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 69%"></span></span>17.8%</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 100%"></span></span>51.2%</div>
+        <div class="compare-cell rank-cell">Gold 2</div>
+      </div>
+      <div class="compare-row" style="--accent: #c742f5">
+        <div class="compare-cell label">DOODLLEUS</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 80%"></span></span>0.96</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 75%"></span></span>19.3%</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 95%"></span></span>49.3%</div>
+        <div class="compare-cell rank-cell">Gold 3</div>
+      </div>
+      <div class="compare-row" style="--accent: #7aff4a">
+        <div class="compare-cell label">NEILATRON</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 80%"></span></span>0.96</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 50%"></span></span>12.9%</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 94%"></span></span>49.1%</div>
+        <div class="compare-cell rank-cell">Gold 3</div>
+      </div>
+      <div class="compare-row" style="--accent: #f5a623">
+        <div class="compare-cell label">PRETTY MOUTH BOY</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 75%"></span></span>0.90</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 52%"></span></span>13.5%</div>
+        <div class="compare-cell"><span class="bar-wrap"><span class="bar" style="width: 92%"></span></span>48.2%</div>
+        <div class="compare-cell rank-cell">Gold 3</div>
+      </div>
+      <div class="compare-row" style="--accent: #f5d623">
+        <div class="compare-cell label">GOOD CHILL NIGHT</div>
+        <div class="compare-cell">???</div>
+        <div class="compare-cell">???</div>
+        <div class="compare-cell">???</div>
+        <div class="compare-cell rank-cell">HIDDEN</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ODIN WALL OF SHAME -->
+  <section class="odin-wall">
+    <div class="section-header">
+      <span class="section-tag">// 005</span>
+      <h2>THE ODIN PROTOCOL</h2>
+    </div>
+    <p class="odin-sub">We buy Odins. They cry in chat. This is the way.</p>
+    <div class="odin-grid">
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] enemy_jett:</span> odin really?
+      </div>
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] xX_Reyna_Xx:</span> 5 odins is crazy
+      </div>
+      <div class="odin-msg team">
+        <span class="msg-tag">[TEAM] DOODLLEUS:</span> Sploink?
+      </div>
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] sage_main_99:</span> this is so disrespectful
+      </div>
+      <div class="odin-msg team">
+        <span class="msg-tag">[TEAM] TJC:</span> This is why im the viper
+      </div>
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] ttv_phoenix:</span> reported all 5
+      </div>
+      <div class="odin-msg team">
+        <span class="msg-tag">[TEAM] NEILATRON:</span> Aye
+      </div>
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] killjoy420:</span> wallbang odin is NOT skill
+      </div>
+      <div class="odin-msg team">
+        <span class="msg-tag">[TEAM] PRETTY MOUTH BOY:</span> purchance
+      </div>
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] enemy_omen:</span> how is this fun for you
+      </div>
+      <div class="odin-msg team">
+        <span class="msg-tag">[TEAM] GOOD CHILL NIGHT:</span> Mayb
+      </div>
+      <div class="odin-msg enemy">
+        <span class="msg-tag">[ALL] raze_diff:</span> im not playing this game anymore
+      </div>
+    </div>
+  </section>
+
+  <!-- ACE WATCH -->
+  <section class="ace-watch" id="acewatch">
+    <div class="ace-content">
+      <span class="section-tag">// 006</span>
+      <h2>THE ACE WATCH</h2>
+      <p class="ace-subtitle">GOOD CHILL NIGHT'S FIRST ACE</p>
+      <div class="ace-counter">
+        <div class="ace-stat">
+          <span class="ace-num count-up" id="days-count" data-target="0">0</span>
+          <span class="ace-label">DAYS SINCE<br/>SQUAD FORMED</span>
+        </div>
+        <div class="ace-divider"></div>
+        <div class="ace-stat">
+          <span class="ace-num count-up" data-target="0">0</span>
+          <span class="ace-label">ACES<br/>ACHIEVED</span>
+        </div>
+        <div class="ace-divider"></div>
+        <div class="ace-stat">
+          <span class="ace-num">&infin;</span>
+          <span class="ace-label">HOPE<br/>REMAINING</span>
+        </div>
+      </div>
+      <p class="ace-quote">"Look me in the eyes and tell me you believe that."</p>
+      <p class="ace-attribution">— GOOD CHILL NIGHT, when told tonight could be the night</p>
+    </div>
+  </section>
+
+  <script>
+    const start = new Date('2020-07-01');
+    const now = new Date();
+    const days = Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('days-count');
+    if (el) {
+      el.dataset.target = days.toString();
+    }
+  </script>
+
+  <!-- WHY WE LOST EXCUSE GENERATOR -->
+  <section class="excuse-gen" id="excuses">
+    <div class="section-header">
+      <span class="section-tag">// WHY WE LOST</span>
+      <h2>EXCUSE GENERATOR</h2>
+    </div>
+    <div class="excuse-display">
+      <p class="excuse-text glitch-text" id="excuse-text">Press the button. You know you need one.</p>
+    </div>
+    <button class="excuse-btn" id="excuse-btn">GENERATE EXCUSE</button>
+  </section>
+
+  <!-- MATCH HISTORY -->
+  <section class="match-history" id="matchhistory">
+    <div class="section-header">
+      <span class="section-tag">// MATCH HISTORY</span>
+      <h2>RECENT MATCHES</h2>
+    </div>
+    <div class="match-list">
+      <div class="match-entry win">
+        <span class="match-map">LOTUS</span>
+        <span class="match-score">13-7</span>
+        <span class="match-result">W</span>
+        <span class="match-comment">"The 4-knife round. We peaked."</span>
+      </div>
+      <div class="match-entry loss">
+        <span class="match-map">ASCENT</span>
+        <span class="match-score">5-13</span>
+        <span class="match-result">L</span>
+        <span class="match-comment">"Pretty Mouth Boy was in Factorio for 9 rounds."</span>
+      </div>
+      <div class="match-entry win">
+        <span class="match-map">BIND</span>
+        <span class="match-score">13-11</span>
+        <span class="match-result">W</span>
+        <span class="match-comment">"Odin protocol activated. Enemy team in shambles."</span>
+      </div>
+      <div class="match-entry loss">
+        <span class="match-map">HAVEN</span>
+        <span class="match-score">2-13</span>
+        <span class="match-result">L</span>
+        <span class="match-comment">"Nobody wanted to play but Doodlleus said 'Sploink?'"</span>
+      </div>
+      <div class="match-entry loss">
+        <span class="match-map">ICEBOX</span>
+        <span class="match-score">8-13</span>
+        <span class="match-result">L</span>
+        <span class="match-comment">"TJC bait rez'd 4 times. All died."</span>
+      </div>
+      <div class="match-entry win">
+        <span class="match-map">SPLIT</span>
+        <span class="match-score">13-10</span>
+        <span class="match-result">W</span>
+        <span class="match-comment">"Good Chill Night MVP'd. Announced it immediately."</span>
+      </div>
+      <div class="match-entry loss">
+        <span class="match-map">BREEZE</span>
+        <span class="match-score">6-13</span>
+        <span class="match-result">L</span>
+        <span class="match-comment">"Neilatron never left spawn. Literally."</span>
+      </div>
+      <div class="match-entry loss">
+        <span class="match-map">SUNSET</span>
+        <span class="match-score">4-13</span>
+        <span class="match-result">L</span>
+        <span class="match-comment">"Gaming chair expired at round 8. It was 10:47pm."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIER LIST -->
+  <section class="tier-list" id="tierlist">
+    <div class="section-header">
+      <span class="section-tag">// TIER LIST</span>
+      <h2>THE HONEST TIER LIST</h2>
+    </div>
+    <div class="tier-categories">
+      <div class="tier-category">
+        <h3 class="tier-cat-name">AIM</h3>
+        <div class="tier-bars">
+          <div class="tier-bar-row"><span class="tier-player">DOODLLEUS</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #c742f5; --bar-width: 70%"></div></div><span class="tier-val">7</span></div>
+          <div class="tier-bar-row"><span class="tier-player">TJC</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #17ecc2; --bar-width: 50%"></div></div><span class="tier-val">5</span></div>
+          <div class="tier-bar-row"><span class="tier-player">PRETTY MOUTH BOY</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5a623; --bar-width: 30%"></div></div><span class="tier-val">3</span></div>
+          <div class="tier-bar-row"><span class="tier-player">GOOD CHILL NIGHT</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5d623; --bar-width: 40%"></div></div><span class="tier-val">4</span></div>
+          <div class="tier-bar-row"><span class="tier-player">NEILATRON</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #7aff4a; --bar-width: 50%"></div></div><span class="tier-val">5</span></div>
+        </div>
+      </div>
+      <div class="tier-category">
+        <h3 class="tier-cat-name">VIBES</h3>
+        <div class="tier-bars">
+          <div class="tier-bar-row"><span class="tier-player">DOODLLEUS</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #c742f5; --bar-width: 100%"></div></div><span class="tier-val">10</span></div>
+          <div class="tier-bar-row"><span class="tier-player">TJC</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #17ecc2; --bar-width: 80%"></div></div><span class="tier-val">8</span></div>
+          <div class="tier-bar-row"><span class="tier-player">PRETTY MOUTH BOY</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5a623; --bar-width: 70%"></div></div><span class="tier-val">7</span></div>
+          <div class="tier-bar-row"><span class="tier-player">GOOD CHILL NIGHT</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5d623; --bar-width: 90%"></div></div><span class="tier-val">9</span></div>
+          <div class="tier-bar-row"><span class="tier-player">NEILATRON</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #7aff4a; --bar-width: 80%"></div></div><span class="tier-val">8</span></div>
+        </div>
+      </div>
+      <div class="tier-category">
+        <h3 class="tier-cat-name">PUNCTUALITY</h3>
+        <div class="tier-bars">
+          <div class="tier-bar-row"><span class="tier-player">DOODLLEUS</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #c742f5; --bar-width: 90%"></div></div><span class="tier-val">9</span></div>
+          <div class="tier-bar-row"><span class="tier-player">TJC</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #17ecc2; --bar-width: 40%"></div></div><span class="tier-val">4</span></div>
+          <div class="tier-bar-row"><span class="tier-player">PRETTY MOUTH BOY</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5a623; --bar-width: 60%"></div></div><span class="tier-val">6</span></div>
+          <div class="tier-bar-row"><span class="tier-player">GOOD CHILL NIGHT</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5d623; --bar-width: 30%"></div></div><span class="tier-val">3</span></div>
+          <div class="tier-bar-row"><span class="tier-player">NEILATRON</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #7aff4a; --bar-width: 70%"></div></div><span class="tier-val">7</span></div>
+        </div>
+      </div>
+      <div class="tier-category">
+        <h3 class="tier-cat-name">LINEUP KNOWLEDGE</h3>
+        <div class="tier-bars">
+          <div class="tier-bar-row"><span class="tier-player">DOODLLEUS</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #c742f5; --bar-width: 0%"></div></div><span class="tier-val">0</span></div>
+          <div class="tier-bar-row"><span class="tier-player">TJC</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #17ecc2; --bar-width: 0%"></div></div><span class="tier-val">0</span></div>
+          <div class="tier-bar-row"><span class="tier-player">PRETTY MOUTH BOY</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5a623; --bar-width: 0%"></div></div><span class="tier-val">0</span></div>
+          <div class="tier-bar-row"><span class="tier-player">GOOD CHILL NIGHT</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5d623; --bar-width: 0%"></div></div><span class="tier-val">0</span></div>
+          <div class="tier-bar-row"><span class="tier-player">NEILATRON</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #7aff4a; --bar-width: 0%"></div></div><span class="tier-val">0</span></div>
+        </div>
+      </div>
+      <div class="tier-category">
+        <h3 class="tier-cat-name">TILT RESISTANCE</h3>
+        <div class="tier-bars">
+          <div class="tier-bar-row"><span class="tier-player">DOODLLEUS</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #c742f5; --bar-width: 60%"></div></div><span class="tier-val">6</span></div>
+          <div class="tier-bar-row"><span class="tier-player">TJC</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #17ecc2; --bar-width: 70%"></div></div><span class="tier-val">7</span></div>
+          <div class="tier-bar-row"><span class="tier-player">PRETTY MOUTH BOY</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5a623; --bar-width: 90%"></div></div><span class="tier-val tier-note">9 <small>(can't tilt if you're in Factorio)</small></span></div>
+          <div class="tier-bar-row"><span class="tier-player">GOOD CHILL NIGHT</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5d623; --bar-width: 80%"></div></div><span class="tier-val">8</span></div>
+          <div class="tier-bar-row"><span class="tier-player">NEILATRON</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #7aff4a; --bar-width: 100%"></div></div><span class="tier-val tier-note">10 <small>(can't tilt if you're asleep)</small></span></div>
+        </div>
+      </div>
+      <div class="tier-category">
+        <h3 class="tier-cat-name">ODIN ENTHUSIASM</h3>
+        <div class="tier-bars">
+          <div class="tier-bar-row"><span class="tier-player">DOODLLEUS</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #c742f5; --bar-width: 100%"></div></div><span class="tier-val">10</span></div>
+          <div class="tier-bar-row"><span class="tier-player">TJC</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #17ecc2; --bar-width: 100%"></div></div><span class="tier-val">10</span></div>
+          <div class="tier-bar-row"><span class="tier-player">PRETTY MOUTH BOY</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5a623; --bar-width: 100%"></div></div><span class="tier-val">10</span></div>
+          <div class="tier-bar-row"><span class="tier-player">GOOD CHILL NIGHT</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #f5d623; --bar-width: 100%"></div></div><span class="tier-val">10</span></div>
+          <div class="tier-bar-row"><span class="tier-player">NEILATRON</span><div class="tier-bar-track"><div class="tier-bar-fill" style="--bar-color: #7aff4a; --bar-width: 100%"></div></div><span class="tier-val">10</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM GUN GAME -->
+  <section class="gun-game" id="gungame">
+    <div class="section-header">
+      <span class="section-tag">// 007</span>
+      <h2>TEAM GUN GAME</h2>
+    </div>
+    <p class="gun-game-sub">Our custom game mode. Everyone must get a kill before the team moves to the next gun. Knife kill = skip a gun. This is law.</p>
+
+    <div class="gun-ladder">
+      <div class="gun-step" style="--step: 1"><span class="gun-num">01</span><span class="gun-name">ANY PISTOL</span><span class="gun-note">Classic / Ghost / Sheriff — dealer's choice</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 2"><span class="gun-num">02</span><span class="gun-name">STINGER</span><span class="gun-note">The second round rush weapon of choice</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 3"><span class="gun-num">03</span><span class="gun-name">BULLDOG</span><span class="gun-note">Three-round burst and a prayer</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 4"><span class="gun-num">04</span><span class="gun-name">MARSHAL</span><span class="gun-note">Baby's first sniper</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 5"><span class="gun-num">05</span><span class="gun-name">SPECTRE</span><span class="gun-note">Run and gun's finest</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 6"><span class="gun-num">06</span><span class="gun-name">GUARDIAN</span><span class="gun-note">For people who think they have aim</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 7"><span class="gun-num">07</span><span class="gun-name">OUTLAW</span><span class="gun-note">Pretty Mouth Boy's round 2 weapon of mass destruction</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 8"><span class="gun-num">08</span><span class="gun-name">OPERATOR</span><span class="gun-note">4700 credits of commitment issues</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 9"><span class="gun-num">09</span><span class="gun-name">BUCKY</span><span class="gun-note">Right-click and hope</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 10"><span class="gun-num">10</span><span class="gun-name">PHANTOM</span><span class="gun-note">The sensible choice</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 11"><span class="gun-num">11</span><span class="gun-name">ARES</span><span class="gun-note">Odin's little brother</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 12"><span class="gun-num">12</span><span class="gun-name">JUDGE</span><span class="gun-note">Hide in a corner. No shame.</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 13"><span class="gun-num">13</span><span class="gun-name">VANDAL</span><span class="gun-note">TJC uses Wasteland Vandal. Unironically.</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step" style="--step: 14"><span class="gun-num">14</span><span class="gun-name">ODIN</span><span class="gun-note">The squad's weapon of choice. Always.</span></div>
+      <div class="gun-connector"></div>
+      <div class="gun-step final" style="--step: 15"><span class="gun-num">15</span><span class="gun-name">KNIFE</span><span class="gun-note">The final boss. The ultimate disrespect.</span></div>
+    </div>
+
+    <div class="gun-rules">
+      <div class="gun-rule">
+        <span class="rule-icon">&#9670;</span>
+        <span>ALL 5 players must get a kill before the team moves up</span>
+      </div>
+      <div class="gun-rule">
+        <span class="rule-icon">&#9670;</span>
+        <span>Knife kill at any point = SKIP the current gun</span>
+      </div>
+      <div class="gun-rule">
+        <span class="rule-icon">&#9670;</span>
+        <span>No exceptions. No mercy. No lineups (obviously).</span>
+      </div>
+    </div>
+
+    <div class="gun-legend">
+      <div class="legend-card">
+        <div class="legend-title">THE LOTUS INCIDENT</div>
+        <div class="legend-body">
+          <span class="legend-num count-up" data-target="4">0</span>
+          <span class="legend-text">KNIFE KILLS IN A SINGLE ROUND</span>
+        </div>
+        <p class="legend-desc">The squad got 4 knife kills in one round on Lotus. It was the greatest moment in team history. Nothing before or since has come close. We peaked. It's all downhill from here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="section-header">
+      <span class="section-tag">// 008</span>
+      <h2>THE AESTHETIC</h2>
+    </div>
+    <div class="gallery-scroll">
+      <div class="gallery-track">
+        <img src="/assets/Gekko_Dark_1.png" alt="" />
+        <img src="/assets/VALORANT_Deadlock_Wallpapers_4k_Dark1.jpg" alt="" />
+        <img src="/assets/Ep7_Act3_KV_EndCard_16x9_4k.jpg" alt="" />
+        <img src="/assets/Gekko_Purple_.png" alt="" />
+        <img src="/assets/VALORANT_phx_jett.jpg" alt="" />
+        <img src="/assets/Valorant_EP-8-Teaser_The-arrival.jpg" alt="" />
+        <img src="/assets/L10_Sillos_Final.jpg" alt="" />
+        <img src="/assets/Ep8a1_Defiance_Riot Client Login Page 1440p.png" alt="" />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-bg">
+      <img src="/assets/VALORANT_phx_jett_brand.jpg" alt="" />
+      <div class="cta-overlay"></div>
+    </div>
+    <div class="cta-content">
+      <h2>READY TO RUN IT?</h2>
+      <p>The squad is always looking for the next vibe. If you think you fit, you already know.</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ===== GLITCH EFFECT ===== */
+  .glitch {
+    position: relative;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: 6px;
+    color: var(--val-cream);
+    text-shadow: 0 0 80px rgba(255,70,85,0.4), 0 0 150px rgba(255,70,85,0.1);
+    animation: glitchText 8s infinite;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: inset(0);
+  }
+
+  .glitch::before {
+    color: #ff4655;
+    animation: glitch1 3s infinite linear alternate-reverse;
+    text-shadow: 2px 0 #17ecc2;
+  }
+
+  .glitch::after {
+    color: #17ecc2;
+    animation: glitch2 2s infinite linear alternate-reverse;
+    text-shadow: -2px 0 #ff4655;
+  }
+
+  @keyframes glitch1 {
+    0%, 90%, 100% { clip-path: inset(0 0 100% 0); }
+    92% { clip-path: inset(20% 0 40% 0); transform: translate(-4px, -2px); }
+    94% { clip-path: inset(60% 0 10% 0); transform: translate(4px, 2px); }
+    96% { clip-path: inset(40% 0 30% 0); transform: translate(-2px, 1px); }
+    98% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -1px); }
+  }
+
+  @keyframes glitch2 {
+    0%, 88%, 100% { clip-path: inset(100% 0 0 0); }
+    90% { clip-path: inset(30% 0 50% 0); transform: translate(3px, 1px); }
+    93% { clip-path: inset(10% 0 70% 0); transform: translate(-3px, -1px); }
+    95% { clip-path: inset(70% 0 15% 0); transform: translate(2px, 2px); }
+    97% { clip-path: inset(5% 0 85% 0); transform: translate(-1px, -2px); }
+  }
+
+  @keyframes glitchText {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.8; letter-spacing: 18px; }
+    97% { opacity: 1; letter-spacing: 15px; }
+  }
+
+  /* ===== SCANLINES & NOISE ===== */
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    z-index: 1;
+    pointer-events: none;
+    animation: scanMove 10s linear infinite;
+  }
+
+  @keyframes scanMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(4px); }
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+  }
+
+  /* ===== HERO TAG DOTS ===== */
+  .tag-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--val-red);
+    border-radius: 50%;
+    margin: 0 0.75rem;
+    vertical-align: middle;
+    animation: dotPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--val-red), 0 0 20px var(--val-red);
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--val-red), 0 0 20px var(--val-red); }
+    50% { opacity: 0.4; box-shadow: 0 0 5px var(--val-red); }
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    animation: heroZoom 20s ease-in-out infinite alternate;
+    filter: saturate(1.2) contrast(1.1);
+  }
+
+  @keyframes heroZoom {
+    from { transform: scale(1.05); }
+    to { transform: scale(1.15); }
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 50%, rgba(255,70,85,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 50%, rgba(23,236,194,0.08) 0%, transparent 50%),
+      linear-gradient(180deg, rgba(10,16,24,0.3) 0%, rgba(10,16,24,0.7) 50%, rgba(10,16,24,1) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .hero-tag {
+    font-size: 0.8rem;
+    letter-spacing: 6px;
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    letter-spacing: 6px;
+    opacity: 0.7;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--val-red);
+    text-shadow: 0 0 30px rgba(255,70,85,0.3);
+    animation: subtitleFlicker 4s ease-in-out infinite;
+  }
+
+  @keyframes subtitleFlicker {
+    0%, 92%, 100% { opacity: 0.7; }
+    93% { opacity: 0.3; }
+    94% { opacity: 0.8; }
+    95% { opacity: 0.2; }
+    96% { opacity: 0.7; }
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding: 1.5rem 3rem;
+    background: rgba(255,70,85,0.05);
+    border: 1px solid rgba(255,70,85,0.15);
+    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+  }
+
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--val-red);
+    text-shadow: 0 0 20px rgba(255,70,85,0.4);
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    margin-top: 0.25rem;
+    font-weight: 600;
+  }
+
+  .hero-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, transparent, rgba(255,70,85,0.4), transparent);
+  }
+
+  .hero-cta {
+    display: inline-block;
+    margin-top: 3rem;
+    padding: 1.2rem 3.5rem;
+    background: var(--val-red);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255,70,85,0.3), inset 0 0 30px rgba(255,70,85,0.1);
+  }
+
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: ctaSweep 3s ease-in-out infinite;
+  }
+
+  @keyframes ctaSweep {
+    0%, 60%, 100% { left: -100%; }
+    30% { left: 100%; }
+  }
+
+  .hero-cta:hover {
+    background: white;
+    color: var(--val-dark);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 50px rgba(255,70,85,0.4), 0 0 80px rgba(255,70,85,0.2);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(180deg, transparent, var(--val-red));
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; height: 30px; }
+    50% { opacity: 1; height: 50px; }
+  }
+
+  .scroll-indicator span {
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+  }
+
+  /* ===== ABOUT ===== */
+  .about {
+    padding: 8rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255,70,85,0.3);
+  }
+
+  .section-header h2 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--val-cream) 0%, rgba(236,232,225,0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-lead {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+    color: var(--val-cream);
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    opacity: 0.7;
+  }
+
+  .about-values {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .value {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    padding: 0.75rem 1rem;
+    background: rgba(255,70,85,0.03);
+    border-left: 2px solid var(--val-red);
+    transition: all 0.3s;
+  }
+
+  .value:hover {
+    background: rgba(255,70,85,0.08);
+    transform: translateX(4px);
+    box-shadow: 0 0 20px rgba(255,70,85,0.1);
+  }
+
+  .value-icon {
+    color: var(--val-red);
+    font-size: 0.6rem;
+    text-shadow: 0 0 8px var(--val-red);
+  }
+
+  .about-image {
+    position: relative;
+  }
+
+  .about-image img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    transition: all 0.5s;
+    filter: saturate(1.1);
+  }
+
+  .about-image:hover img {
+    filter: saturate(1.3) brightness(1.1);
+    box-shadow: 0 0 60px rgba(255,70,85,0.2);
+  }
+
+  .about-image-accent {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: 10px;
+    left: 10px;
+    border: 1px solid var(--val-red);
+    opacity: 0.3;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    z-index: -1;
+    animation: accentPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes accentPulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+  }
+
+  /* ===== ROSTER ===== */
+  .roster {
+    padding: 4rem 3rem 8rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .player-card {
+    position: relative;
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.06);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--val-cream);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .player-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, var(--accent));
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  .player-card:hover::before {
+    opacity: 0.3;
+  }
+
+  .player-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--accent);
+    box-shadow:
+      0 25px 70px rgba(0,0,0,0.5),
+      0 0 50px color-mix(in srgb, var(--accent) 20%, transparent),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .card-image {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s;
+    filter: saturate(0.9);
+  }
+
+  .player-card:hover .card-image img {
+    transform: scale(1.15);
+    filter: saturate(1.2) brightness(1.05);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 20%, var(--val-darker) 100%);
+  }
+
+  .card-rank {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(10,16,24,0.85);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    border: 1px solid rgba(236,232,225,0.15);
+    z-index: 2;
+    backdrop-filter: blur(8px);
+  }
+
+  .card-content {
+    padding: 1.2rem 1.5rem 1.5rem;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-role {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    text-shadow: 0 0 15px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  .card-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    line-height: 1;
+  }
+
+  .card-tag {
+    font-size: 0.7rem;
+    opacity: 0.4;
+    letter-spacing: 2px;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+  }
+
+  .card-stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    opacity: 0.5;
+    font-weight: 600;
+  }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 1.2rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s;
+    color: var(--accent);
+    text-shadow: 0 0 15px var(--accent);
+    z-index: 2;
+  }
+
+  .player-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ===== AGENT ABILITY ANIMATIONS ===== */
+  .ability-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .player-card:hover .ability-fx {
+    opacity: 1;
+  }
+
+  /* Doodlleus - Reyna: purple soul orbs floating up */
+  .ability-doodlleus:hover .ability-fx {
+    background:
+      radial-gradient(circle at 20% 80%, rgba(199,66,245,0.4) 0%, transparent 30%),
+      radial-gradient(circle at 80% 60%, rgba(199,66,245,0.3) 0%, transparent 25%),
+      radial-gradient(circle at 50% 90%, rgba(199,66,245,0.2) 0%, transparent 35%);
+    animation: reynaSouls 2s ease-in-out infinite;
+  }
+
+  @keyframes reynaSouls {
+    0%, 100% { background-position: 0% 100%, 100% 80%, 50% 100%; }
+    50% { background-position: 0% 60%, 100% 40%, 50% 50%; }
+  }
+
+  /* TJC - Sage: teal healing wave rising from bottom */
+  .ability-tjc:hover .ability-fx {
+    background: linear-gradient(0deg, rgba(23,236,194,0.3) 0%, rgba(23,236,194,0.1) 30%, transparent 60%);
+    animation: sageHeal 1.5s ease-in-out infinite;
+  }
+
+  @keyframes sageHeal {
+    0%, 100% { opacity: 0.6; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-10px); }
+  }
+
+  /* Pretty Mouth Boy - Brimstone: orange smoke clouds */
+  .ability-prettymouthboy:hover .ability-fx {
+    background:
+      radial-gradient(ellipse at 30% 70%, rgba(245,166,35,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 50%, rgba(245,166,35,0.25) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 85%, rgba(245,166,35,0.3) 0%, transparent 40%);
+    animation: brimSmoke 3s ease-in-out infinite;
+  }
+
+  @keyframes brimSmoke {
+    0%, 100% { filter: blur(8px); opacity: 0.7; }
+    50% { filter: blur(15px); opacity: 1; }
+  }
+
+  /* Good Chill Night - Killjoy: yellow electric sparks */
+  .ability-goodchillnight:hover .ability-fx {
+    background:
+      radial-gradient(circle at 25% 75%, rgba(245,214,35,0.4) 0%, transparent 15%),
+      radial-gradient(circle at 75% 25%, rgba(245,214,35,0.3) 0%, transparent 15%),
+      radial-gradient(circle at 50% 50%, rgba(245,214,35,0.2) 0%, transparent 20%);
+    animation: kjSpark 0.8s steps(3) infinite;
+  }
+
+  @keyframes kjSpark {
+    0% { background-position: 0 0, 100% 0, 50% 50%; }
+    33% { background-position: 10% 10%, 90% 20%, 40% 60%; }
+    66% { background-position: 5% 15%, 85% 10%, 55% 45%; }
+    100% { background-position: 0 0, 100% 0, 50% 50%; }
+  }
+
+  /* Neilatron - Gekko: green slime drip */
+  .ability-neilatron:hover .ability-fx {
+    background: linear-gradient(180deg, rgba(122,255,74,0.3) 0%, rgba(122,255,74,0.15) 40%, transparent 70%);
+    animation: gekkoSlime 2s ease-in-out infinite;
+  }
+
+  @keyframes gekkoSlime {
+    0%, 100% { clip-path: polygon(0 0, 100% 0, 100% 30%, 80% 35%, 60% 28%, 40% 38%, 20% 32%, 0 36%); }
+    50% { clip-path: polygon(0 0, 100% 0, 100% 45%, 80% 50%, 60% 42%, 40% 52%, 20% 46%, 0 50%); }
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery {
+    padding: 4rem 3rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .gallery::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--val-red), transparent);
+    opacity: 0.3;
+  }
+
+  .gallery .section-header {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+  }
+
+  .gallery-scroll {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+  }
+
+  .gallery-track {
+    display: flex;
+    gap: 1.5rem;
+    animation: gallerySlide 25s linear infinite;
+    width: max-content;
+  }
+
+  .gallery-track img {
+    height: 320px;
+    width: auto;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: all 0.4s;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    filter: saturate(0.8);
+  }
+
+  .gallery-track img:hover {
+    opacity: 1;
+    filter: saturate(1.3) brightness(1.1);
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(255,70,85,0.2);
+  }
+
+  @keyframes gallerySlide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ===== CTA ===== */
+  .cta {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 4rem;
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cta-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    filter: saturate(1.3);
+    animation: heroZoom 25s ease-in-out infinite alternate;
+  }
+
+  .cta-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(255,70,85,0.08) 0%, transparent 60%),
+      linear-gradient(180deg, var(--val-darker) 0%, rgba(10,16,24,0.5) 50%, var(--val-darker) 100%);
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: 8px;
+    text-shadow: 0 0 60px rgba(255,70,85,0.3);
+  }
+
+  .cta-content p {
+    margin-top: 1.5rem;
+    opacity: 0.5;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ===== QUOTE TICKER ===== */
+  .ticker {
+    overflow: hidden;
+    padding: 1.2rem 0;
+    border-top: 1px solid rgba(255,70,85,0.15);
+    border-bottom: 1px solid rgba(255,70,85,0.15);
+    background: rgba(255,70,85,0.03);
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 2rem;
+    animation: tickerScroll 40s linear infinite;
+    width: max-content;
+    white-space: nowrap;
+  }
+
+  .ticker-track span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--val-cream);
+    opacity: 0.6;
+  }
+
+  .ticker-track span:nth-child(even) {
+    color: var(--val-red);
+    font-size: 0.5rem;
+    opacity: 0.3;
+    vertical-align: middle;
+  }
+
+  @keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ===== FLOWCHART ===== */
+  .flowchart {
+    padding: 6rem 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .flow-card {
+    background: rgba(236,232,225,0.02);
+    border: 1px solid rgba(236,232,225,0.06);
+    padding: 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.3s;
+  }
+
+  .flow-card:hover {
+    border-color: var(--accent);
+    background: rgba(236,232,225,0.04);
+    box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .flow-card h3 {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .flow-step {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.06);
+    width: 100%;
+    opacity: 0.7;
+  }
+
+  .flow-arrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+    opacity: 0.4;
+  }
+
+  .flow-step.result {
+    font-weight: 700;
+    letter-spacing: 3px;
+    border-color: var(--accent);
+    color: var(--accent);
+    opacity: 1;
+    font-size: 0.8rem;
+  }
+
+  .flow-note {
+    font-size: 0.6rem;
+    opacity: 0.3;
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* ===== STATS COMPARISON ===== */
+  .comparison {
+    padding: 6rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .comparison-sub {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    opacity: 0.3;
+    margin-top: -3rem;
+    margin-bottom: 3rem;
+  }
+
+  .compare-table {
+    width: 100%;
+  }
+
+  .compare-header {
+    display: grid;
+    grid-template-columns: 180px repeat(4, 1fr);
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,70,85,0.2);
+    margin-bottom: 0.5rem;
+  }
+
+  .compare-header .compare-cell {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    color: var(--val-red);
+    opacity: 0.7;
+  }
+
+  .compare-row {
+    display: grid;
+    grid-template-columns: 180px repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(236,232,225,0.04);
+    transition: all 0.3s;
+    align-items: center;
+  }
+
+  .compare-row:hover {
+    background: rgba(236,232,225,0.03);
+    border-color: var(--accent);
+  }
+
+  .compare-cell {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .compare-cell.label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .bar-wrap {
+    width: 60px;
+    height: 4px;
+    background: rgba(236,232,225,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .bar {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .rank-cell {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    opacity: 0.5;
+  }
+
+  /* ===== ODIN WALL ===== */
+  .odin-wall {
+    padding: 6rem 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .odin-sub {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    margin-top: -3rem;
+    margin-bottom: 3rem;
+    letter-spacing: 2px;
+  }
+
+  .odin-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-family: 'Courier New', monospace;
+    background: rgba(10,16,24,0.6);
+    border: 1px solid rgba(236,232,225,0.08);
+    padding: 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .odin-msg {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+
+  .odin-msg.enemy {
+    color: #ff6b6b;
+    opacity: 0.7;
+  }
+
+  .odin-msg.team {
+    color: #6bffb8;
+    opacity: 0.9;
+  }
+
+  .msg-tag {
+    font-weight: 700;
+  }
+
+  /* ===== ACE WATCH ===== */
+  .ace-watch {
+    padding: 6rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(245,214,35,0.1);
+    border-bottom: 1px solid rgba(245,214,35,0.1);
+    background: radial-gradient(ellipse at center, rgba(245,214,35,0.03) 0%, transparent 60%);
+  }
+
+  .ace-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .ace-watch h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+  }
+
+  .ace-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    opacity: 0.4;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+
+  .ace-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: rgba(245,214,35,0.03);
+    border: 1px solid rgba(245,214,35,0.1);
+    display: inline-flex;
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
+  }
+
+  .ace-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ace-num {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #f5d623;
+    text-shadow: 0 0 30px rgba(245,214,35,0.3);
+    line-height: 1;
+  }
+
+  .ace-label {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    margin-top: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .ace-divider {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(180deg, transparent, rgba(245,214,35,0.3), transparent);
+  }
+
+  .ace-quote {
+    font-size: 1.3rem;
+    font-style: italic;
+    opacity: 0.5;
+    margin-top: 2rem;
+  }
+
+  .ace-attribution {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    opacity: 0.25;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+
+  /* ===== GUN GAME ===== */
+  .gun-game {
+    padding: 6rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .gun-game-sub {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    margin-top: -3rem;
+    margin-bottom: 3rem;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  .gun-ladder {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gun-step {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.9rem 1.2rem;
+    background: rgba(236,232,225,0.02);
+    border: 1px solid rgba(236,232,225,0.05);
+    border-left: 3px solid rgba(255,70,85,0.3);
+    transition: all 0.3s;
+  }
+
+  .gun-step:hover {
+    background: rgba(255,70,85,0.05);
+    border-left-color: var(--val-red);
+    transform: translateX(4px);
+  }
+
+  .gun-step.final {
+    border-left-color: var(--val-red);
+    background: rgba(255,70,85,0.06);
+  }
+
+  .gun-step.final .gun-name {
+    color: var(--val-red);
+    text-shadow: 0 0 20px rgba(255,70,85,0.3);
+  }
+
+  .gun-num {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    opacity: 0.3;
+    font-weight: 700;
+    min-width: 1.5rem;
+  }
+
+  .gun-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    min-width: 140px;
+  }
+
+  .gun-note {
+    font-size: 0.7rem;
+    opacity: 0.35;
+    letter-spacing: 1px;
+    font-style: italic;
+  }
+
+  .gun-connector {
+    width: 3px;
+    height: 8px;
+    background: rgba(255,70,85,0.15);
+    margin-left: 1.2rem;
+  }
+
+  .gun-rules {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .gun-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    background: rgba(255,70,85,0.03);
+    border-left: 2px solid var(--val-red);
+    opacity: 0.7;
+  }
+
+  .rule-icon {
+    color: var(--val-red);
+    font-size: 0.5rem;
+  }
+
+  .gun-legend {
+    margin-top: 3rem;
+  }
+
+  .legend-card {
+    background: rgba(255,70,85,0.04);
+    border: 1px solid rgba(255,70,85,0.15);
+    padding: 2rem;
+    text-align: center;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .legend-title {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--val-red);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .legend-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .legend-num {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--val-red);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(255,70,85,0.4);
+  }
+
+  .legend-text {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-align: left;
+    line-height: 1.5;
+    max-width: 200px;
+  }
+
+  .legend-desc {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    opacity: 0.5;
+    line-height: 1.7;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ===== EXCUSE GENERATOR ===== */
+  .excuse-gen {
+    padding: 6rem 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .excuse-display {
+    margin: 3rem auto;
+    padding: 3rem 2rem;
+    background: rgba(255,70,85,0.03);
+    border: 1px solid rgba(255,70,85,0.15);
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .excuse-text {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--val-cream);
+    text-shadow: 0 0 30px rgba(255,70,85,0.4), 0 0 60px rgba(255,70,85,0.1);
+    line-height: 1.4;
+  }
+
+  .glitch-text {
+    animation: excuseGlitch 4s ease-in-out infinite;
+  }
+
+  @keyframes excuseGlitch {
+    0%, 90%, 100% { opacity: 1; transform: none; }
+    91% { opacity: 0.7; transform: skewX(-2deg); text-shadow: -3px 0 #17ecc2, 3px 0 #ff4655; }
+    93% { opacity: 1; transform: skewX(1deg); text-shadow: 2px 0 #ff4655, -2px 0 #17ecc2; }
+    95% { opacity: 0.8; transform: skewX(-1deg); }
+    97% { opacity: 1; transform: none; }
+  }
+
+  .excuse-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1.2rem 3.5rem;
+    background: var(--val-red);
+    color: white;
+    border: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255,70,85,0.3), inset 0 0 30px rgba(255,70,85,0.1);
+  }
+
+  .excuse-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: ctaSweep 3s ease-in-out infinite;
+  }
+
+  .excuse-btn:hover {
+    background: white;
+    color: var(--val-dark);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 50px rgba(255,70,85,0.4), 0 0 80px rgba(255,70,85,0.2);
+  }
+
+  /* ===== MATCH HISTORY ===== */
+  .match-history {
+    padding: 6rem 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .match-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .match-entry {
+    display: grid;
+    grid-template-columns: 100px 80px 40px 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(236,232,225,0.02);
+    border: 1px solid rgba(236,232,225,0.05);
+    clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+    transition: all 0.3s;
+  }
+
+  .match-entry:hover {
+    background: rgba(236,232,225,0.05);
+    transform: translateX(4px);
+  }
+
+  .match-entry.win {
+    border-left: 3px solid #17ecc2;
+  }
+
+  .match-entry.loss {
+    border-left: 3px solid #ff4655;
+  }
+
+  .match-map {
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    color: var(--val-cream);
+  }
+
+  .match-score {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .match-result {
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+  }
+
+  .win .match-result {
+    background: rgba(23,236,194,0.2);
+    color: #17ecc2;
+  }
+
+  .loss .match-result {
+    background: rgba(255,70,85,0.2);
+    color: #ff4655;
+  }
+
+  .win .match-score {
+    color: #17ecc2;
+  }
+
+  .loss .match-score {
+    color: #ff4655;
+  }
+
+  .match-comment {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    font-style: italic;
+  }
+
+  /* ===== TIER LIST ===== */
+  .tier-list {
+    padding: 6rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .tier-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .tier-category {
+    background: rgba(236,232,225,0.02);
+    border: 1px solid rgba(236,232,225,0.05);
+    padding: 2rem;
+    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+  }
+
+  .tier-cat-name {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255,70,85,0.3);
+  }
+
+  .tier-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tier-bar-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 60px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .tier-player {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    text-align: right;
+  }
+
+  .tier-bar-track {
+    height: 20px;
+    background: rgba(236,232,225,0.05);
+    position: relative;
+    clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+  }
+
+  .tier-bar-fill {
+    height: 100%;
+    width: var(--bar-width);
+    background: var(--bar-color);
+    box-shadow: 0 0 15px var(--bar-color);
+    transition: width 1s ease-out;
+    clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+  }
+
+  .tier-val {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--val-cream);
+  }
+
+  .tier-note small {
+    font-size: 0.55rem;
+    opacity: 0.5;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  /* ===== 3D TILT ON PLAYER CARDS ===== */
+  .player-card {
+    transform-style: preserve-3d;
+    perspective: 800px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+    .about, .roster, .gallery {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    .player-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .hero-stats {
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+    }
+    .glitch {
+      letter-spacing: 8px;
+    }
+    .match-entry {
+      grid-template-columns: 70px 60px 30px 1fr;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+    }
+    .match-map { font-size: 0.75rem; letter-spacing: 1px; }
+    .match-comment { font-size: 0.7rem; }
+    .tier-bar-row {
+      grid-template-columns: 100px 1fr 40px;
+      gap: 0.5rem;
+    }
+    .tier-player { font-size: 0.6rem; letter-spacing: 1px; }
+    .excuse-gen, .match-history, .tier-list {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .player-grid {
+      grid-template-columns: 1fr;
+    }
+    .match-entry {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+      text-align: center;
+    }
+    .tier-bar-row {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .tier-player { text-align: left; }
+  }
+</style>
+
+<script>
+  // === EXCUSE GENERATOR ===
+  const excuses = [
+    "Pretty Mouth Boy was in Factorio",
+    "Doodlleus's gaming chair expired at 11pm",
+    "Neilatron was still in spawn",
+    "TJC bait rez'd everyone",
+    "Good Chill Night was site adjacent",
+    "Nobody bought util",
+    "We all bought Odins and they had an Op",
+    "TJC fell asleep",
+    "The Wasteland Vandal energy was off",
+    "Good Chill Night said 'Mayb' and we took that as a yes",
+    "We tried lineups for the first time",
+    "Pretty Mouth Boy's pipe burst again",
+    "Neilatron said 'Aye' but meant 'nay'",
+    "Someone called a stinger rush mid on round 12",
+    "The vibes were off",
+    "TJC said 'This is why im the viper' and then whiffed",
+    "Good Chill Night's turret got more kills than the team combined",
+    "We were winning until we started losing",
+    "Doodlleus blue screened",
+    "Pretty Mouth Boy said 'purchance' and we didn't know if that meant he was playing",
+    "Doodlleus said 'Fuck you Good Chill Night' and she took it personally",
+    "Good Chill Night existed and Doodlleus couldn't cope"
+  ];
+
+  const excuseText = document.getElementById('excuse-text');
+  const excuseBtn = document.getElementById('excuse-btn');
+
+  if (excuseBtn && excuseText) {
+    excuseBtn.addEventListener('click', () => {
+      const excuse = excuses[Math.floor(Math.random() * excuses.length)];
+      excuseText.style.opacity = '0';
+      excuseText.style.transform = 'skewX(-5deg)';
+      setTimeout(() => {
+        excuseText.textContent = excuse;
+        excuseText.style.opacity = '1';
+        excuseText.style.transform = 'skewX(0deg)';
+      }, 200);
+    });
+  }
+
+  // === COUNT-UP ANIMATION ===
+  const countUpEls = document.querySelectorAll('.count-up');
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const target = parseInt(el.dataset.target || '0', 10);
+        const suffix = el.dataset.suffix || '';
+        if (target === 0) {
+          el.textContent = '0' + suffix;
+          countObserver.unobserve(el);
+          return;
+        }
+        const duration = 1500;
+        const startTime = performance.now();
+        const animate = (now: number) => {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            el.textContent = target + suffix;
+          }
+        };
+        requestAnimationFrame(animate);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  countUpEls.forEach(el => countObserver.observe(el));
+
+  // === 3D TILT EFFECT ON PLAYER CARDS ===
+  document.querySelectorAll('.player-card').forEach(card => {
+    const el = card as HTMLElement;
+    el.addEventListener('mousemove', (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateY = ((x - centerX) / centerX) * 12;
+      const rotateX = ((centerY - y) / centerY) * 12;
+      el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform 0.5s ease-out';
+      el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
+      setTimeout(() => {
+        el.style.transition = '';
+      }, 500);
+    });
+  });
+</script>

@@ -1,0 +1,600 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="SQUAD BINGO // tHeRe's nO WaY">
+  <main class="bingo-page">
+    <!-- HERO -->
+    <section class="bingo-hero">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <div class="hero-content">
+        <div class="hero-accent"></div>
+        <h1 data-text="SQUAD BINGO">SQUAD BINGO</h1>
+        <p class="hero-sub">MARK YOUR CARD // GAME NIGHT EDITION</p>
+        <div class="hero-players">
+          <span style="color:#c742f5">DOODLLEUS</span>
+          <span class="sep">//</span>
+          <span style="color:#17ecc2">TJC</span>
+          <span class="sep">//</span>
+          <span style="color:#f5a623">PRETTY MOUTH BOY</span>
+          <span class="sep">//</span>
+          <span style="color:#f5d623">GOOD CHILL NIGHT</span>
+          <span class="sep">//</span>
+          <span style="color:#7aff4a">NEILATRON</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BINGO CARD -->
+    <section class="bingo-section">
+      <div class="bingo-controls">
+        <button id="new-card-btn" class="btn-new-card">NEW CARD</button>
+        <div id="bingo-status" class="bingo-status"></div>
+      </div>
+      <div class="bingo-grid" id="bingo-grid"></div>
+    </section>
+
+    <!-- CELEBRATION OVERLAY -->
+    <div id="bingo-celebration" class="bingo-celebration">
+      <div class="celebration-content">
+        <h2>BINGO!</h2>
+        <p>THERE'S NO WAY WE LOSE THIS</p>
+        <button id="celebration-close" class="btn-new-card">GG GO NEXT</button>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .bingo-page {
+      padding-top: 100px;
+      min-height: 100vh;
+    }
+
+    /* HERO */
+    .bingo-hero {
+      padding: 2rem 3rem 3rem;
+      position: relative;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--val-red);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .back-link:hover {
+      opacity: 1;
+    }
+
+    .hero-content {
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-accent {
+      width: 60px;
+      height: 4px;
+      background: var(--val-red);
+      margin: 0 auto 1.5rem;
+    }
+
+    .bingo-hero h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: 12px;
+      color: var(--val-cream);
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      letter-spacing: 6px;
+      opacity: 0.5;
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+
+    .hero-players {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+
+    .hero-players .sep {
+      opacity: 0.3;
+      margin: 0 0.5rem;
+      color: var(--val-cream);
+    }
+
+    /* BINGO SECTION */
+    .bingo-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .bingo-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-new-card {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      padding: 0.75rem 2rem;
+      background: transparent;
+      border: 2px solid var(--val-red);
+      color: var(--val-red);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: all 0.3s;
+    }
+
+    .btn-new-card:hover {
+      background: var(--val-red);
+      color: var(--val-darker);
+    }
+
+    .bingo-status {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--val-teal);
+      min-height: 1.2em;
+    }
+
+    /* GRID */
+    .bingo-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      background: rgba(236, 232, 225, 0.05);
+      border: 2px solid rgba(236, 232, 225, 0.1);
+      padding: 4px;
+    }
+
+    .bingo-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px 6px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(0.55rem, 1.4vw, 0.78rem);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      background: var(--val-dark);
+      color: var(--val-cream);
+      position: relative;
+      transition: all 0.2s;
+      user-select: none;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+
+    .bingo-cell::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    .bingo-cell[data-player="doodlleus"]::before { background: #c742f5; }
+    .bingo-cell[data-player="tjc"]::before { background: #17ecc2; }
+    .bingo-cell[data-player="pmb"]::before { background: #f5a623; }
+    .bingo-cell[data-player="gcn"]::before { background: #f5d623; }
+    .bingo-cell[data-player="neilatron"]::before { background: #7aff4a; }
+    .bingo-cell[data-player="squad"]::before { background: var(--val-red); }
+    .bingo-cell[data-player="free"]::before { background: var(--val-red); }
+
+    .bingo-cell:hover {
+      border-color: rgba(236, 232, 225, 0.2);
+      background: rgba(15, 25, 35, 0.9);
+    }
+
+    .bingo-cell.marked {
+      background: rgba(255, 70, 85, 0.12);
+      border-color: rgba(255, 70, 85, 0.4);
+    }
+
+    .bingo-cell.marked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 70%;
+      height: 70%;
+      transform: translate(-50%, -50%) rotate(-8deg);
+      border: 3px solid var(--val-red);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: stampIn 0.25s ease-out;
+    }
+
+    .bingo-cell.marked .cell-text {
+      opacity: 0.5;
+    }
+
+    .bingo-cell.free-space {
+      background: rgba(255, 70, 85, 0.08);
+      border-color: rgba(255, 70, 85, 0.25);
+    }
+
+    .bingo-cell.free-space.marked {
+      background: rgba(255, 70, 85, 0.18);
+    }
+
+    .bingo-cell.bingo-winner {
+      animation: bingoFlash 0.6s ease infinite alternate;
+    }
+
+    .cell-text {
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.2s;
+    }
+
+    @keyframes stampIn {
+      0% {
+        transform: translate(-50%, -50%) rotate(-8deg) scale(1.8);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(-8deg) scale(1);
+        opacity: 0.6;
+      }
+    }
+
+    @keyframes bingoFlash {
+      0% {
+        background: rgba(255, 70, 85, 0.15);
+        border-color: rgba(255, 70, 85, 0.6);
+      }
+      100% {
+        background: rgba(23, 236, 194, 0.15);
+        border-color: rgba(23, 236, 194, 0.6);
+      }
+    }
+
+    /* CELEBRATION OVERLAY */
+    .bingo-celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 16, 24, 0.92);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+
+    .bingo-celebration.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .celebration-content {
+      text-align: center;
+    }
+
+    .celebration-content h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 700;
+      letter-spacing: 20px;
+      color: var(--val-red);
+      animation: celebGlitch 0.5s steps(3) infinite;
+    }
+
+    .celebration-content p {
+      font-size: 1.2rem;
+      letter-spacing: 6px;
+      opacity: 0.6;
+      margin: 1rem 0 2.5rem;
+      font-weight: 600;
+    }
+
+    @keyframes celebGlitch {
+      0% { text-shadow: 3px 0 var(--val-teal), -3px 0 var(--val-red); }
+      33% { text-shadow: -2px 1px var(--val-teal), 2px -1px var(--val-red); }
+      66% { text-shadow: 1px -2px var(--val-teal), -1px 2px var(--val-red); }
+      100% { text-shadow: -3px 0 var(--val-teal), 3px 0 var(--val-red); }
+    }
+
+    /* LIGHT MODE */
+    :global(html.light-mode) .bingo-cell {
+      background: #e2ded7;
+      color: #1a1a2e;
+    }
+
+    :global(html.light-mode) .bingo-cell:hover {
+      background: #d8d4cc;
+    }
+
+    :global(html.light-mode) .bingo-cell.marked {
+      background: rgba(255, 70, 85, 0.15);
+    }
+
+    :global(html.light-mode) .bingo-grid {
+      background: rgba(26, 26, 46, 0.08);
+      border-color: rgba(26, 26, 46, 0.15);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .bingo-hero {
+        padding: 1.5rem 1rem 2rem;
+      }
+
+      .bingo-hero h1 {
+        letter-spacing: 6px;
+      }
+
+      .hero-players {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem;
+        font-size: 0.65rem;
+      }
+
+      .bingo-section {
+        padding: 0 0.5rem 3rem;
+      }
+
+      .bingo-grid {
+        gap: 2px;
+        padding: 2px;
+      }
+
+      .bingo-cell {
+        padding: 4px 3px;
+        font-size: clamp(0.45rem, 2.5vw, 0.65rem);
+      }
+
+      .bingo-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+  <script is:inline>
+  (function() {
+    const ITEMS = [
+      // DOODLLEUS
+      { text: 'Doodlleus says "Sploink?"', player: 'doodlleus' },
+      { text: 'Doodlleus says "Fuck you Good Chill Night"', player: 'doodlleus' },
+      { text: 'Gaming chair expires at 11pm', player: 'doodlleus' },
+      { text: 'Doodlleus drops a cryptic one-word invite', player: 'doodlleus' },
+      { text: 'Doodlleus blue-screens mid-game', player: 'doodlleus' },
+      { text: 'Doodlleus goes full lurk and dies alone', player: 'doodlleus' },
+      { text: 'Doodlleus picks Omen again', player: 'doodlleus' },
+      { text: '"Just one more" at 10:58pm', player: 'doodlleus' },
+
+      // TJC
+      { text: 'TJC says "I could do exactly one"', player: 'tjc' },
+      { text: 'TJC bait rezzes someone', player: 'tjc' },
+      { text: 'TJC plays 4+ games', player: 'tjc' },
+      { text: '"This is why im the viper"', player: 'tjc' },
+      { text: 'TJC mentions Wasteland Vandal', player: 'tjc' },
+      { text: 'TJC boots Valorant OS', player: 'tjc' },
+      { text: 'TJC wall blocks the team instead', player: 'tjc' },
+      { text: 'TJC says "I have ult" (never uses it)', player: 'tjc' },
+      { text: 'TJC lands a nasty one-tap', player: 'tjc' },
+
+      // PRETTY MOUTH BOY
+      { text: 'Pretty Mouth Boy says "purchance"', player: 'pmb' },
+      { text: 'Pretty Mouth Boy is in Factorio', player: 'pmb' },
+      { text: '"Not a gamer anymore"', player: 'pmb' },
+      { text: 'Pretty Mouth Boy dies first', player: 'pmb' },
+      { text: 'Brimjob in chat', player: 'pmb' },
+      { text: 'PMB joins 20 minutes late', player: 'pmb' },
+      { text: 'PMB accidentally smokes the team', player: 'pmb' },
+      { text: '"I used to be good at this"', player: 'pmb' },
+
+      // GOOD CHILL NIGHT
+      { text: 'Good Chill Night says "Mayb"', player: 'gcn' },
+      { text: 'Good Chill Night is site adjacent', player: 'gcn' },
+      { text: 'Ace Watch continues (0 aces)', player: 'gcn' },
+      { text: 'Good Chill Night refuses to heal', player: 'gcn' },
+      { text: '"Only 1"', player: 'gcn' },
+      { text: 'GCN flanks and somehow lives', player: 'gcn' },
+      { text: 'GCN plays a different agent for once', player: 'gcn' },
+      { text: '"Im site adjacent" (nowhere near site)', player: 'gcn' },
+
+      // NEILATRON
+      { text: 'Neilatron says "Aye"', player: 'neilatron' },
+      { text: 'Neilatron falls asleep', player: 'neilatron' },
+      { text: '"Im up for losing some rr"', player: 'neilatron' },
+      { text: "Neilatron's Gekko ult goes nowhere", player: 'neilatron' },
+      { text: 'Neilatron goes silent for 3 rounds', player: 'neilatron' },
+      { text: 'Neilatron topfrags somehow', player: 'neilatron' },
+      { text: '"Yeah nah yeah"', player: 'neilatron' },
+      { text: 'Neilatron forgets to pick up Dizzy', player: 'neilatron' },
+
+      // SQUAD
+      { text: 'Squad buys 5 Odins', player: 'squad' },
+      { text: 'Enemy team complains in all chat', player: 'squad' },
+      { text: 'Someone mentions lineups (nobody knows any)', player: 'squad' },
+      { text: 'We go 0-5 first half', player: 'squad' },
+      { text: 'Someone clutches a 1v3', player: 'squad' },
+      { text: 'CRASHOUT in chat', player: 'squad' },
+      { text: 'Someone accidentally TKs with Raze ult', player: 'squad' },
+      { text: 'Full eco round buy anyway', player: 'squad' },
+      { text: '13-0 or 0-13 no in between', player: 'squad' },
+      { text: '"GG go next" before round 6', player: 'squad' },
+      { text: 'Someone rage-buys a Judge', player: 'squad' },
+      { text: 'Team flash (it was friendly fire)', player: 'squad' },
+      { text: 'All 5 alive, still lose the round', player: 'squad' },
+      { text: 'Blame the server lag', player: 'squad' },
+      { text: '"We need a fifth" (there are five)', player: 'squad' },
+    ];
+
+    const FREE_SPACE = { text: 'FREE SPACE: We lose. Obviously.', player: 'free' };
+
+    let grid = [];
+    let marked = new Array(25).fill(false);
+    let bingoAchieved = false;
+
+    const gridEl = document.getElementById('bingo-grid');
+    const statusEl = document.getElementById('bingo-status');
+    const newCardBtn = document.getElementById('new-card-btn');
+    const celebrationEl = document.getElementById('bingo-celebration');
+    const celebCloseBtn = document.getElementById('celebration-close');
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function generateCard() {
+      const shuffled = shuffle(ITEMS).slice(0, 24);
+      grid = [];
+      for (let i = 0; i < 25; i++) {
+        if (i === 12) {
+          grid.push(FREE_SPACE);
+        } else {
+          const idx = i < 12 ? i : i - 1;
+          grid.push(shuffled[idx]);
+        }
+      }
+      marked = new Array(25).fill(false);
+      marked[12] = true; // free space always marked
+      bingoAchieved = false;
+      render();
+      statusEl.textContent = '';
+    }
+
+    function render() {
+      gridEl.innerHTML = '';
+      for (let i = 0; i < 25; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'bingo-cell';
+        if (i === 12) cell.classList.add('free-space');
+        if (marked[i]) cell.classList.add('marked');
+        cell.setAttribute('data-player', grid[i].player);
+        cell.setAttribute('data-index', i);
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'cell-text';
+        textSpan.textContent = grid[i].text;
+        cell.appendChild(textSpan);
+
+        cell.addEventListener('click', function() {
+          toggleCell(i);
+        });
+
+        gridEl.appendChild(cell);
+      }
+    }
+
+    function toggleCell(index) {
+      if (index === 12) return; // can't unmark free space
+      marked[index] = !marked[index];
+
+      const cell = gridEl.children[index];
+      if (marked[index]) {
+        cell.classList.add('marked');
+      } else {
+        cell.classList.remove('marked');
+        // Remove winner highlight if un-marking
+        cell.classList.remove('bingo-winner');
+      }
+
+      checkBingo();
+    }
+
+    function checkBingo() {
+      const lines = [];
+
+      // Rows
+      for (let r = 0; r < 5; r++) {
+        lines.push([r*5, r*5+1, r*5+2, r*5+3, r*5+4]);
+      }
+      // Columns
+      for (let c = 0; c < 5; c++) {
+        lines.push([c, c+5, c+10, c+15, c+20]);
+      }
+      // Diagonals
+      lines.push([0, 6, 12, 18, 24]);
+      lines.push([4, 8, 12, 16, 20]);
+
+      // Clear all winner highlights
+      gridEl.querySelectorAll('.bingo-winner').forEach(function(el) {
+        el.classList.remove('bingo-winner');
+      });
+
+      let hasBingo = false;
+      let winCount = 0;
+
+      lines.forEach(function(line) {
+        const isWin = line.every(function(idx) { return marked[idx]; });
+        if (isWin) {
+          hasBingo = true;
+          winCount++;
+          line.forEach(function(idx) {
+            gridEl.children[idx].classList.add('bingo-winner');
+          });
+        }
+      });
+
+      const markedCount = marked.filter(Boolean).length;
+      if (hasBingo && !bingoAchieved) {
+        bingoAchieved = true;
+        statusEl.textContent = 'BINGO! ' + (winCount > 1 ? winCount + 'x LINES!' : '');
+        celebrationEl.classList.add('active');
+      } else if (hasBingo) {
+        statusEl.textContent = 'BINGO! ' + (winCount > 1 ? winCount + 'x LINES!' : '');
+      } else {
+        statusEl.textContent = markedCount > 1 ? (markedCount - 1) + '/24 MARKED' : '';
+      }
+    }
+
+    newCardBtn.addEventListener('click', generateCard);
+
+    celebCloseBtn.addEventListener('click', function() {
+      celebrationEl.classList.remove('active');
+    });
+
+    // Close celebration on click outside
+    celebrationEl.addEventListener('click', function(e) {
+      if (e.target === celebrationEl) {
+        celebrationEl.classList.remove('active');
+      }
+    });
+
+    // Initialize
+    generateCard();
+  })();
+  </script>
+</Layout>

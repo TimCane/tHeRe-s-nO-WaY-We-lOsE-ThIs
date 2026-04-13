@@ -1,0 +1,443 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const tiers = [
+  {
+    label: 'S',
+    color: '#f5a623',
+    borderColor: '#f5a623',
+    agents: [
+      { name: 'Reyna', take: 'Doodlleus carries with this before 11pm', attribution: 'Doodlleus' },
+      { name: 'Sage', take: "TJC's bait rez machine", attribution: 'TJC' },
+      { name: 'Killjoy', take: "Good Chill Night's only acceptable agent", attribution: 'Good Chill Night' },
+    ],
+  },
+  {
+    label: 'A',
+    color: '#c742f5',
+    borderColor: '#c742f5',
+    agents: [
+      { name: 'Gekko', take: "Neilatron's creature army", attribution: 'Neilatron' },
+      { name: 'Viper', take: 'This is why im the viper', attribution: 'TJC' },
+      { name: 'Neon', take: "Doodlleus's backup when gaming chair is charged", attribution: 'Doodlleus' },
+    ],
+  },
+  {
+    label: 'B',
+    color: '#17ecc2',
+    borderColor: '#17ecc2',
+    agents: [
+      { name: 'Brimstone', take: 'BRIMJOB', attribution: 'Pretty Mouth Boy' },
+      { name: 'Clove', take: "Neilatron's backup", attribution: 'Neilatron' },
+      { name: 'Raze', take: "Neilatron's other backup. So many agents, so little consciousness", attribution: 'Neilatron' },
+    ],
+  },
+  {
+    label: 'C',
+    color: '#ece8e1',
+    borderColor: '#ece8e1',
+    agents: [
+      { name: 'Omen', take: 'We tried him once. We teleported into a wall', attribution: null },
+      { name: 'Sova', take: "Requires lineups. We don't do those here", attribution: null },
+      { name: 'Jett', take: 'Would require reflexes. After 11pm we have none', attribution: null },
+      { name: 'Cypher', take: 'Like Killjoy but requires reading', attribution: null },
+    ],
+  },
+  {
+    label: 'D',
+    color: '#f5a623',
+    borderColor: '#e87d2a',
+    agents: [
+      { name: 'Chamber', take: 'The Doodlleus experiment of 2023. Never again.', attribution: 'Doodlleus' },
+      { name: 'Breach', take: 'Too much coordination required for this squad', attribution: null },
+      { name: 'Skye', take: 'Healing AND flashing? Pick a lane', attribution: null },
+      { name: 'Fade', take: 'Too scary. Neilatron had nightmares', attribution: 'Neilatron' },
+    ],
+  },
+  {
+    label: 'F',
+    color: '#ff4655',
+    borderColor: '#ff4655',
+    agents: [
+      { name: 'Harbor', take: 'Nobody has ever played Harbor. Nobody will.', attribution: null },
+      { name: 'Deadlock', take: 'We forgot she exists', attribution: null },
+      { name: 'Astra', take: 'Requires a PhD in astrophysics', attribution: null },
+      { name: 'Iso', take: "We don't know what he does", attribution: null },
+    ],
+  },
+];
+---
+
+<Layout title="AGENT TIER LIST // tHeRe's nO WaY">
+  <main class="agents-page">
+    <section class="hero-section">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <div class="hero-content">
+        <div class="hero-eyebrow">SQUAD CONSENSUS // AGENT INTEL</div>
+        <h1 class="hero-title" data-text="AGENT TIER LIST">AGENT TIER LIST</h1>
+        <p class="hero-subtitle">The definitive ranking of every Valorant agent, filtered through the collective wisdom of five players who peak at 10:47pm and decline rapidly thereafter.</p>
+      </div>
+      <div class="hero-accent"></div>
+    </section>
+
+    <section class="tier-list-section">
+      {tiers.map((tier, tierIndex) => (
+        <div class="tier-row reveal" style={`--tier-color: ${tier.color}; --tier-border: ${tier.borderColor}; animation-delay: ${tierIndex * 0.1}s;`}>
+          <div class="tier-label">
+            <span class="tier-letter">{tier.label}</span>
+            <span class="tier-word">TIER</span>
+          </div>
+          <div class="tier-agents">
+            {tier.agents.map((agent) => (
+              <div class="agent-card">
+                <div class="agent-name">{agent.name}</div>
+                <div class="agent-take">"{agent.take}"</div>
+                {agent.attribution && (
+                  <div class="agent-attribution">-- {agent.attribution}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section class="disclaimer-section reveal">
+      <div class="disclaimer-box">
+        <div class="disclaimer-icon">//</div>
+        <p class="disclaimer-text">These rankings are based on approximately 0 hours of research and 100% vibes. If you disagree, we don't care. Purchance.</p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .agents-page {
+    min-height: 100vh;
+    padding-top: 100px;
+  }
+
+  /* ==================== HERO SECTION ==================== */
+  .hero-section {
+    position: relative;
+    padding: 4rem 3rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-red);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+    opacity: 0.8;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+    transform: translateX(-4px);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-teal);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-cream);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .hero-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: var(--val-red);
+    margin-top: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--val-cream);
+    opacity: 0.5;
+    max-width: 600px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+  }
+
+  .hero-accent {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(255, 70, 85, 0.08);
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+
+  .hero-accent::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 1px solid rgba(23, 236, 194, 0.06);
+  }
+
+  /* ==================== TIER LIST ==================== */
+  .tier-list-section {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding: 0 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tier-row {
+    display: flex;
+    align-items: stretch;
+    background: rgba(15, 25, 35, 0.6);
+    border: 1px solid rgba(236, 232, 225, 0.06);
+    border-left: 4px solid var(--tier-border);
+    min-height: 100px;
+    transition: all 0.3s;
+  }
+
+  .tier-row:hover {
+    background: rgba(15, 25, 35, 0.85);
+    border-color: rgba(236, 232, 225, 0.1);
+    border-left-color: var(--tier-border);
+    transform: translateX(4px);
+  }
+
+  .tier-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    padding: 1.5rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(236, 232, 225, 0.06);
+    user-select: none;
+  }
+
+  .tier-letter {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--tier-color);
+    line-height: 1;
+    text-shadow: 0 0 20px color-mix(in srgb, var(--tier-color) 30%, transparent);
+  }
+
+  .tier-word {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--tier-color);
+    opacity: 0.5;
+    margin-top: 0.25rem;
+  }
+
+  .tier-agents {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0;
+    flex: 1;
+  }
+
+  .agent-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.25rem 1.5rem;
+    border-right: 1px solid rgba(236, 232, 225, 0.04);
+    min-width: 200px;
+    flex: 1;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--tier-color) 5%, transparent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .agent-card:hover::before {
+    opacity: 1;
+  }
+
+  .agent-card:hover {
+    background: rgba(236, 232, 225, 0.02);
+  }
+
+  .agent-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--tier-color);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .agent-take {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--val-cream);
+    opacity: 0.6;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .agent-attribution {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--val-teal);
+    letter-spacing: 2px;
+    margin-top: 0.4rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  /* ==================== DISCLAIMER ==================== */
+  .disclaimer-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem 5rem;
+  }
+
+  .disclaimer-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2rem 2.5rem;
+    background: rgba(255, 70, 85, 0.04);
+    border: 1px solid rgba(255, 70, 85, 0.15);
+    border-left: 4px solid var(--val-red);
+    position: relative;
+  }
+
+  .disclaimer-box::before {
+    content: 'DISCLAIMER';
+    position: absolute;
+    top: -0.6rem;
+    left: 1.5rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    background: var(--val-darker);
+    padding: 0 0.75rem;
+  }
+
+  .disclaimer-icon {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--val-red);
+    opacity: 0.4;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .disclaimer-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--val-cream);
+    opacity: 0.55;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 900px) {
+    .tier-row {
+      flex-direction: column;
+    }
+
+    .tier-label {
+      flex-direction: row;
+      min-width: unset;
+      padding: 1rem 1.5rem;
+      gap: 0.75rem;
+      border-right: none;
+      border-bottom: 1px solid rgba(236, 232, 225, 0.06);
+    }
+
+    .tier-letter {
+      font-size: 2rem;
+    }
+
+    .tier-agents {
+      flex-direction: column;
+    }
+
+    .agent-card {
+      min-width: unset;
+      border-right: none;
+      border-bottom: 1px solid rgba(236, 232, 225, 0.03);
+    }
+
+    .agent-card:last-child {
+      border-bottom: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero-section {
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .tier-list-section {
+      padding: 0 1.5rem 3rem;
+    }
+
+    .disclaimer-section {
+      padding: 0 1.5rem 4rem;
+    }
+
+    .hero-accent {
+      display: none;
+    }
+
+    .disclaimer-box {
+      padding: 1.75rem 1.5rem;
+    }
+  }
+</style>

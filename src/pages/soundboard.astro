@@ -1,0 +1,631 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const sounds = [
+  { phrase: "SPLOINK?", player: "Doodlleus", color: "#c742f5", sound: "boop" },
+  { phrase: "CRASHOUT", player: "TJC", color: "#17ecc2", sound: "crashout" },
+  { phrase: "PURCHANCE", player: "Pretty Mouth Boy", color: "#f5a623", sound: "dignified" },
+  { phrase: "AYE", player: "Neilatron", color: "#7aff4a", sound: "aye" },
+  { phrase: "MAYB", player: "Good Chill Night", color: "#f5d623", sound: "wavering" },
+  { phrase: "FUCK YOU GOOD CHILL NIGHT", player: "Doodlleus", color: "#c742f5", sound: "explosion" },
+  { phrase: "THIS IS WHY IM THE VIPER", player: "TJC", color: "#17ecc2", sound: "hiss" },
+  { phrase: "NOT A GAMER ANYMORE", player: "Pretty Mouth Boy", color: "#f5a623", sound: "sad" },
+  { phrase: "IM UP FOR LOSING SOME RR", player: "Neilatron", color: "#7aff4a", sound: "defeat" },
+  { phrase: "ONLY 1", player: "Good Chill Night", color: "#f5d623", sound: "ping" },
+  { phrase: "BRIMJOB", player: "squad", color: "#ff4655", sound: "fanfare" },
+  { phrase: "ODIN PROTOCOL", player: "squad", color: "#ff4655", sound: "machinegun" },
+];
+---
+
+<Layout title="SOUND BOARD // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="sb-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// AUDIO INTEL</span>
+      <h1>SOUND BOARD</h1>
+      <p class="hero-sub">TACTICAL COMMS FOR SQUAD NIGHT</p>
+    </div>
+  </section>
+
+  <section class="sb-controls">
+    <div class="volume-control">
+      <span class="volume-label">VOL</span>
+      <input type="range" id="volume-slider" min="0" max="100" value="70" class="volume-slider" />
+      <span class="volume-value" id="volume-value">70</span>
+    </div>
+  </section>
+
+  <section class="sb-grid-wrap">
+    <div class="sb-grid">
+      {sounds.map((s, i) => (
+        <button
+          class="sb-btn"
+          data-sound={s.sound}
+          style={`--accent: ${s.color}; --i: ${i}`}
+        >
+          <span class="btn-ripple"></span>
+          <span class="btn-phrase">{s.phrase}</span>
+          <span class="btn-player">{s.player}</span>
+        </button>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .sb-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover { opacity: 1; color: var(--val-red); }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+  }
+
+  .sb-hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    margin-top: 0.5rem;
+  }
+
+  /* Volume controls */
+  .sb-controls {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+  }
+
+  .volume-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 280px;
+  }
+
+  .volume-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--val-red);
+    opacity: 0.8;
+  }
+
+  .volume-value {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--val-cream);
+    opacity: 0.5;
+    min-width: 2ch;
+    text-align: right;
+  }
+
+  .volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 3px;
+    background: rgba(236,232,225,0.15);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--val-red);
+    cursor: none;
+    box-shadow: 0 0 10px rgba(255,70,85,0.5);
+    transition: transform 0.15s;
+  }
+
+  .volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+  }
+
+  .volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--val-red);
+    cursor: none;
+    border: none;
+    box-shadow: 0 0 10px rgba(255,70,85,0.5);
+  }
+
+  /* Button grid */
+  .sb-grid-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 2rem 8rem;
+  }
+
+  .sb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .sb-btn {
+    position: relative;
+    overflow: hidden;
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.08);
+    border-left: 3px solid var(--accent);
+    padding: 1.8rem 1.5rem;
+    text-align: left;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--val-cream);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .sb-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, var(--accent), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .sb-btn:hover {
+    background: rgba(236,232,225,0.06);
+    border-color: rgba(236,232,225,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 30px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+
+  .sb-btn:hover::before {
+    opacity: 0.06;
+  }
+
+  .sb-btn:active {
+    transform: scale(0.96);
+    transition: transform 0.08s;
+  }
+
+  .sb-btn.playing {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 30px color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .sb-btn.playing::before {
+    opacity: 0.12;
+    animation: btnPulse 0.4s ease-out;
+  }
+
+  @keyframes btnPulse {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    100% { opacity: 0.12; transform: scale(1.2); }
+  }
+
+  /* Ripple */
+  .btn-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+  }
+
+  .btn-ripple.active {
+    animation: rippleOut 0.6s ease-out forwards;
+  }
+
+  @keyframes rippleOut {
+    0% { opacity: 0.4; transform: scale(0); }
+    100% { opacity: 0; transform: scale(4); }
+  }
+
+  .btn-phrase {
+    position: relative;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    line-height: 1.2;
+    color: var(--accent);
+    text-shadow: 0 0 20px color-mix(in srgb, var(--accent) 25%, transparent);
+    z-index: 1;
+  }
+
+  .btn-player {
+    position: relative;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.35;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .sb-hero { padding: 8rem 1.5rem 3rem; }
+    .sb-grid-wrap { padding: 2rem 1.5rem 6rem; }
+    .sb-controls { padding: 2rem 1.5rem 0; }
+    .sb-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.8rem;
+    }
+    .sb-btn { padding: 1.4rem 1.2rem; }
+    .btn-phrase { font-size: 1.1rem; }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  // Audio context (lazy init for browser autoplay policy)
+  let audioCtx = null;
+  let gainNode = null;
+
+  function ensureAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      gainNode = audioCtx.createGain();
+      gainNode.connect(audioCtx.destination);
+      updateVolume();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
+
+  // Volume
+  const slider = document.getElementById('volume-slider');
+  const volVal = document.getElementById('volume-value');
+
+  function updateVolume() {
+    const v = parseInt(slider.value) / 100;
+    if (gainNode) gainNode.gain.setValueAtTime(v, audioCtx.currentTime);
+    volVal.textContent = slider.value;
+  }
+
+  slider.addEventListener('input', updateVolume);
+
+  // Sound generators
+  function osc(freq, type, duration, detune) {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type || 'sine';
+    o.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    if (detune) o.detune.setValueAtTime(detune, audioCtx.currentTime);
+    g.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    o.connect(g);
+    g.connect(gainNode);
+    o.start();
+    o.stop(audioCtx.currentTime + duration);
+    return o;
+  }
+
+  function noise(duration, filterFreq) {
+    const bufferSize = audioCtx.sampleRate * duration;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    const src = audioCtx.createBufferSource();
+    src.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(filterFreq || 2000, audioCtx.currentTime);
+    const g = audioCtx.createGain();
+    g.gain.setValueAtTime(0.4, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    src.connect(filter);
+    filter.connect(g);
+    g.connect(gainNode);
+    src.start();
+    src.stop(audioCtx.currentTime + duration);
+  }
+
+  const soundMap = {
+    // SPLOINK? - quirky boop
+    boop: function() {
+      const t = audioCtx.currentTime;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(300, t);
+      o.frequency.exponentialRampToValueAtTime(800, t + 0.08);
+      o.frequency.exponentialRampToValueAtTime(400, t + 0.2);
+      g.gain.setValueAtTime(0.5, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+      o.connect(g); g.connect(gainNode);
+      o.start(t); o.stop(t + 0.3);
+    },
+
+    // CRASHOUT - intense rapid beeps
+    crashout: function() {
+      const t = audioCtx.currentTime;
+      for (let i = 0; i < 8; i++) {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'square';
+        o.frequency.setValueAtTime(400 + i * 80, t + i * 0.06);
+        g.gain.setValueAtTime(0, t);
+        g.gain.setValueAtTime(0.35, t + i * 0.06);
+        g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.06 + 0.05);
+        o.connect(g); g.connect(gainNode);
+        o.start(t + i * 0.06); o.stop(t + i * 0.06 + 0.05);
+      }
+    },
+
+    // PURCHANCE - slow dignified tone
+    dignified: function() {
+      const t = audioCtx.currentTime;
+      [523.25, 659.25, 783.99].forEach(function(f, i) {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, t + i * 0.25);
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.4, t + i * 0.25 + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.25 + 0.5);
+        o.connect(g); g.connect(gainNode);
+        o.start(t + i * 0.25); o.stop(t + i * 0.25 + 0.5);
+      });
+    },
+
+    // AYE - short simple beep
+    aye: function() {
+      osc(880, 'square', 0.12);
+    },
+
+    // MAYB - uncertain wavering tone
+    wavering: function() {
+      const t = audioCtx.currentTime;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(440, t);
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(6, t);
+      lfoGain.gain.setValueAtTime(30, t);
+      lfo.connect(lfoGain);
+      lfoGain.connect(o.frequency);
+      g.gain.setValueAtTime(0.4, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+      o.connect(g); g.connect(gainNode);
+      o.start(t); lfo.start(t);
+      o.stop(t + 0.7); lfo.stop(t + 0.7);
+    },
+
+    // FUCK YOU GOOD CHILL NIGHT - explosion
+    explosion: function() {
+      const t = audioCtx.currentTime;
+      // Low boom
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(150, t);
+      o.frequency.exponentialRampToValueAtTime(30, t + 0.5);
+      g.gain.setValueAtTime(0.6, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+      o.connect(g); g.connect(gainNode);
+      o.start(t); o.stop(t + 0.6);
+      // Noise burst
+      noise(0.5, 800);
+      // Distorted crunch
+      const o2 = audioCtx.createOscillator();
+      const g2 = audioCtx.createGain();
+      const dist = audioCtx.createWaveShaper();
+      const curve = new Float32Array(256);
+      for (let i = 0; i < 256; i++) {
+        const x = (i / 128) - 1;
+        curve[i] = (Math.PI + 200) * x / (Math.PI + 200 * Math.abs(x));
+      }
+      dist.curve = curve;
+      o2.type = 'sawtooth';
+      o2.frequency.setValueAtTime(80, t);
+      o2.frequency.exponentialRampToValueAtTime(20, t + 0.4);
+      g2.gain.setValueAtTime(0.3, t);
+      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+      o2.connect(dist); dist.connect(g2); g2.connect(gainNode);
+      o2.start(t); o2.stop(t + 0.4);
+    },
+
+    // THIS IS WHY IM THE VIPER - snake hiss synth
+    hiss: function() {
+      const t = audioCtx.currentTime;
+      // Filtered noise hiss
+      noise(0.8, 6000);
+      // Rising sinister tone
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(100, t);
+      o.frequency.exponentialRampToValueAtTime(500, t + 0.6);
+      o.frequency.exponentialRampToValueAtTime(80, t + 0.8);
+      g.gain.setValueAtTime(0.15, t);
+      g.gain.setValueAtTime(0.15, t + 0.5);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
+      o.connect(g); g.connect(gainNode);
+      o.start(t); o.stop(t + 0.8);
+    },
+
+    // NOT A GAMER ANYMORE - sad descending tone
+    sad: function() {
+      const t = audioCtx.currentTime;
+      [659.25, 587.33, 523.25, 392.00].forEach(function(f, i) {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, t + i * 0.22);
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.35, t + i * 0.22 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.22 + 0.35);
+        o.connect(g); g.connect(gainNode);
+        o.start(t + i * 0.22); o.stop(t + i * 0.22 + 0.35);
+      });
+    },
+
+    // IM UP FOR LOSING SOME RR - descending defeat sound
+    defeat: function() {
+      const t = audioCtx.currentTime;
+      var notes = [784, 698, 587, 440, 330, 220];
+      notes.forEach(function(f, i) {
+        var o = audioCtx.createOscillator();
+        var g = audioCtx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(f, t + i * 0.12);
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.3 - i * 0.04, t + i * 0.12 + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.12 + 0.2);
+        o.connect(g); g.connect(gainNode);
+        o.start(t + i * 0.12); o.stop(t + i * 0.12 + 0.2);
+      });
+    },
+
+    // ONLY 1 - single short ping
+    ping: function() {
+      var t = audioCtx.currentTime;
+      var o = audioCtx.createOscillator();
+      var g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(1200, t);
+      g.gain.setValueAtTime(0.4, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      o.connect(g); g.connect(gainNode);
+      o.start(t); o.stop(t + 0.25);
+    },
+
+    // BRIMJOB - victory fanfare
+    fanfare: function() {
+      var t = audioCtx.currentTime;
+      var melody = [523.25, 659.25, 783.99, 1046.5];
+      melody.forEach(function(f, i) {
+        var o = audioCtx.createOscillator();
+        var g = audioCtx.createGain();
+        o.type = 'square';
+        o.frequency.setValueAtTime(f, t + i * 0.15);
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.3, t + i * 0.15 + 0.02);
+        g.gain.setValueAtTime(0.3, t + i * 0.15 + 0.1);
+        g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.15 + 0.3);
+        o.connect(g); g.connect(gainNode);
+        o.start(t + i * 0.15); o.stop(t + i * 0.15 + 0.3);
+        // Harmony
+        var o2 = audioCtx.createOscillator();
+        var g2 = audioCtx.createGain();
+        o2.type = 'triangle';
+        o2.frequency.setValueAtTime(f * 1.5, t + i * 0.15);
+        g2.gain.setValueAtTime(0, t);
+        g2.gain.linearRampToValueAtTime(0.15, t + i * 0.15 + 0.02);
+        g2.gain.exponentialRampToValueAtTime(0.001, t + i * 0.15 + 0.3);
+        o2.connect(g2); g2.connect(gainNode);
+        o2.start(t + i * 0.15); o2.stop(t + i * 0.15 + 0.3);
+      });
+    },
+
+    // ODIN PROTOCOL - machine gun rapid fire
+    machinegun: function() {
+      var t = audioCtx.currentTime;
+      for (var i = 0; i < 16; i++) {
+        var offset = i * 0.05;
+        // Click noise
+        var bufLen = Math.floor(audioCtx.sampleRate * 0.03);
+        var buf = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
+        var d = buf.getChannelData(0);
+        for (var j = 0; j < bufLen; j++) {
+          d[j] = (Math.random() * 2 - 1) * Math.exp(-j / (bufLen * 0.15));
+        }
+        var src = audioCtx.createBufferSource();
+        src.buffer = buf;
+        var g = audioCtx.createGain();
+        g.gain.setValueAtTime(0.5, t + offset);
+        g.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.04);
+        src.connect(g); g.connect(gainNode);
+        src.start(t + offset);
+        // Low thud
+        var o = audioCtx.createOscillator();
+        var g2 = audioCtx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(80, t + offset);
+        o.frequency.exponentialRampToValueAtTime(30, t + offset + 0.03);
+        g2.gain.setValueAtTime(0.3, t + offset);
+        g2.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.04);
+        o.connect(g2); g2.connect(gainNode);
+        o.start(t + offset); o.stop(t + offset + 0.04);
+      }
+    }
+  };
+
+  // Button interactions
+  document.querySelectorAll('.sb-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      ensureAudio();
+
+      var soundKey = btn.getAttribute('data-sound');
+      if (soundMap[soundKey]) soundMap[soundKey]();
+
+      // Ripple effect
+      var ripple = btn.querySelector('.btn-ripple');
+      var rect = btn.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.style.width = '60px';
+      ripple.style.height = '60px';
+      ripple.classList.remove('active');
+      void ripple.offsetWidth; // force reflow
+      ripple.classList.add('active');
+
+      // Glow class
+      btn.classList.add('playing');
+      setTimeout(function() {
+        btn.classList.remove('playing');
+      }, 500);
+    });
+  });
+})();
+</script>
