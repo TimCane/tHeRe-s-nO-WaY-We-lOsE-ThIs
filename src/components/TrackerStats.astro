@@ -1,0 +1,180 @@
+---
+interface AgentStat {
+  name: string;
+  matches: number;
+  kd: string;
+  wr: string;
+  acs?: string;
+}
+
+interface WeaponStat {
+  name: string;
+  kills: number;
+  hs: string;
+}
+
+interface MapStat {
+  name: string;
+  wr: string;
+  record: string;
+  kd: string;
+}
+
+interface Props {
+  accent: string;
+  agents: AgentStat[];
+  weapons: WeaponStat[];
+  maps: MapStat[];
+}
+
+const { accent, agents, weapons, maps } = Astro.props;
+---
+
+<section class="tracker-deep-stats" style={`--accent: ${accent}`}>
+  <div class="tracker-container">
+
+    <div class="tracker-section">
+      <h2 class="tracker-heading">TOP AGENTS</h2>
+      <div class="tracker-table">
+        <div class="tracker-row tracker-header-row">
+          <span class="tracker-cell agent-name-cell">AGENT</span>
+          <span class="tracker-cell">MATCHES</span>
+          <span class="tracker-cell">K/D</span>
+          <span class="tracker-cell">WIN %</span>
+          {agents[0]?.acs && <span class="tracker-cell">ACS</span>}
+        </div>
+        {agents.map((agent, i) => (
+          <div class={`tracker-row ${i === 0 ? 'tracker-row-highlight' : ''}`}>
+            <span class="tracker-cell agent-name-cell">{agent.name}</span>
+            <span class="tracker-cell">{agent.matches.toLocaleString()}</span>
+            <span class="tracker-cell">{agent.kd}</span>
+            <span class="tracker-cell">{agent.wr}</span>
+            {agent.acs && <span class="tracker-cell">{agent.acs}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="tracker-section">
+      <h2 class="tracker-heading">TOP WEAPONS</h2>
+      <div class="tracker-table">
+        <div class="tracker-row tracker-header-row">
+          <span class="tracker-cell agent-name-cell">WEAPON</span>
+          <span class="tracker-cell">KILLS</span>
+          <span class="tracker-cell">HS %</span>
+        </div>
+        {weapons.map((weapon, i) => (
+          <div class={`tracker-row ${i === 0 ? 'tracker-row-highlight' : ''}`}>
+            <span class="tracker-cell agent-name-cell">{weapon.name}</span>
+            <span class="tracker-cell">{weapon.kills.toLocaleString()}</span>
+            <span class="tracker-cell">{weapon.hs}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="tracker-section">
+      <h2 class="tracker-heading">MAP PERFORMANCE</h2>
+      <div class="tracker-table">
+        <div class="tracker-row tracker-header-row">
+          <span class="tracker-cell agent-name-cell">MAP</span>
+          <span class="tracker-cell">W/L</span>
+          <span class="tracker-cell">WIN %</span>
+          <span class="tracker-cell">K/D</span>
+        </div>
+        {maps.map((map, i) => (
+          <div class={`tracker-row ${i === 0 ? 'tracker-row-highlight' : ''}`}>
+            <span class="tracker-cell agent-name-cell">{map.name}</span>
+            <span class="tracker-cell">{map.record}</span>
+            <span class="tracker-cell">{map.wr}</span>
+            <span class="tracker-cell">{map.kd}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .tracker-deep-stats {
+    padding: 4rem;
+    border-top: 1px solid rgba(236,232,225,0.05);
+  }
+
+  .tracker-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .tracker-heading {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+
+  .tracker-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tracker-row {
+    display: flex;
+    gap: 0;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(236,232,225,0.05);
+    align-items: center;
+  }
+
+  .tracker-header-row {
+    border-bottom: 1px solid rgba(236,232,225,0.15);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .tracker-header-row .tracker-cell {
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    opacity: 0.35;
+    font-weight: 700;
+  }
+
+  .tracker-cell {
+    flex: 1;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .agent-name-cell {
+    flex: 1.5;
+    text-align: left;
+    letter-spacing: 1px;
+  }
+
+  .tracker-row-highlight .tracker-cell {
+    color: var(--accent);
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  @media (max-width: 968px) {
+    .tracker-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .tracker-deep-stats {
+      padding: 2rem;
+    }
+  }
+</style>

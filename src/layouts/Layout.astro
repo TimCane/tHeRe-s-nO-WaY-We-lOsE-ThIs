@@ -1,0 +1,938 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Tungsten+Semibold:wght@400;700&display=swap" rel="stylesheet" />
+  <title>{title}</title>
+</head>
+<body>
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="loading-text">CONNECTING TO SERVER...</div>
+      <div class="loading-callsigns" id="loading-callsigns"></div>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loading-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM CROSSHAIR CURSOR -->
+  <div id="custom-cursor" class="custom-cursor"></div>
+
+  <!-- MOUSE TRAIL CANVAS -->
+  <canvas id="mouse-trail-canvas"></canvas>
+
+  <!-- AMBIENT PARTICLES CANVAS -->
+  <canvas id="ambient-particles-canvas"></canvas>
+
+  <!-- PAGE TRANSITION OVERLAY -->
+  <div id="page-transition-overlay"></div>
+
+  <nav class="top-nav">
+    <a href="/" class="nav-logo">tHeRe's nO WaY</a>
+    <div class="nav-links">
+      <a href="/">HOME</a>
+      <a href="/#roster">ROSTER</a>
+      <a href="/glossary">GLOSSARY</a>
+      <a href="/quiz">QUIZ</a>
+      <a href="/awards">AWARDS</a>
+      <a href="/memes">MEMES</a>
+      <a href="/soundboard">SOUNDS</a>
+      <a href="/agents">AGENTS</a>
+      <a href="/alignment">ALIGNMENT</a>
+      <a href="/bingo">BINGO</a>
+      <a href="/callouts">CALLOUTS</a>
+      <a href="/lessons">LESSONS</a>
+      <a href="/maps">MAPS</a>
+      <a href="/timeline">TIMELINE</a>
+      <a href="/chat">CHAT</a>
+      <a href="/wheel">WHEEL</a>
+      <a href="/guestbook">GUESTBOOK</a>
+    </div>
+    <div class="nav-controls">
+      <button id="theme-toggle" class="nav-btn" title="Toggle light/dark mode">
+        <span class="theme-icon" id="theme-icon">&#9788;</span>
+      </button>
+      <button id="music-toggle" class="nav-btn" title="Toggle ambient music">
+        <span class="music-icon" id="music-icon">&#9835;</span>
+      </button>
+    </div>
+  </nav>
+  <slot />
+
+  <!-- KILL FEED -->
+  <div class="kill-feed" id="kill-feed"></div>
+
+  <footer>
+    <div class="footer-line"></div>
+    <p>tHeRe's nO WaY We lOsE ThIs&#8482; // GG GO NEXT</p>
+  </footer>
+  <script is:inline>
+  (function() {
+    /* ==================== LOADING SCREEN ==================== */
+    const callsigns = ['DOODLLEUS', 'TJC', 'PRETTY MOUTH BOY', 'GOOD CHILL NIGHT', 'NEILATRON'];
+    const callsignEl = document.getElementById('loading-callsigns');
+    const fillBar = document.getElementById('loading-bar-fill');
+    const loadingScreen = document.getElementById('loading-screen');
+
+    let csIndex = 0;
+    function showNextCallsign() {
+      if (csIndex < callsigns.length && callsignEl) {
+        const span = document.createElement('span');
+        span.textContent = (csIndex > 0 ? ' // ' : '') + callsigns[csIndex];
+        span.style.opacity = '0';
+        span.style.transition = 'opacity 0.3s';
+        callsignEl.appendChild(span);
+        requestAnimationFrame(() => { span.style.opacity = '1'; });
+        csIndex++;
+        if (fillBar) fillBar.style.width = ((csIndex / callsigns.length) * 100) + '%';
+      }
+    }
+
+    const csInterval = setInterval(() => {
+      if (csIndex >= callsigns.length) { clearInterval(csInterval); return; }
+      showNextCallsign();
+    }, 350);
+
+    setTimeout(() => {
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+          document.body.classList.add('loaded');
+        }, 500);
+      }
+    }, 2500);
+
+    /* ==================== CUSTOM CROSSHAIR CURSOR ==================== */
+    const cursor = document.getElementById('custom-cursor');
+    let cursorX = -100, cursorY = -100;
+
+    document.addEventListener('mousemove', function(e) {
+      cursorX = e.clientX;
+      cursorY = e.clientY;
+      if (cursor) {
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+      }
+    });
+
+    document.addEventListener('mouseleave', function() {
+      if (cursor) cursor.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', function() {
+      if (cursor) cursor.style.opacity = '1';
+    });
+
+    // Change cursor on interactive elements
+    document.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        if (cursor) cursor.classList.add('cursor-hover');
+      });
+      el.addEventListener('mouseleave', function() {
+        if (cursor) cursor.classList.remove('cursor-hover');
+      });
+    });
+
+    /* ==================== MOUSE TRAIL PARTICLES ==================== */
+    const trailCanvas = document.getElementById('mouse-trail-canvas');
+    if (trailCanvas) {
+      const tCtx = trailCanvas.getContext('2d');
+      trailCanvas.width = window.innerWidth;
+      trailCanvas.height = window.innerHeight;
+      window.addEventListener('resize', function() {
+        trailCanvas.width = window.innerWidth;
+        trailCanvas.height = window.innerHeight;
+      });
+
+      const trailParticles = [];
+      const trailColors = ['#ff4655', '#17ecc2'];
+
+      document.addEventListener('mousemove', function(e) {
+        for (let i = 0; i < 2; i++) {
+          trailParticles.push({
+            x: e.clientX,
+            y: e.clientY,
+            vx: (Math.random() - 0.5) * 2,
+            vy: (Math.random() - 0.5) * 2,
+            life: 1,
+            color: trailColors[Math.floor(Math.random() * trailColors.length)],
+            size: Math.random() * 3 + 1
+          });
+        }
+      });
+
+      function animateTrail() {
+        tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+        for (let i = trailParticles.length - 1; i >= 0; i--) {
+          const p = trailParticles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life -= 0.033; // ~500ms at 60fps
+          if (p.life <= 0) { trailParticles.splice(i, 1); continue; }
+          tCtx.globalAlpha = p.life;
+          tCtx.shadowBlur = 6;
+          tCtx.shadowColor = p.color;
+          tCtx.fillStyle = p.color;
+          tCtx.beginPath();
+          tCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          tCtx.fill();
+        }
+        tCtx.globalAlpha = 1;
+        tCtx.shadowBlur = 0;
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+    }
+
+    /* ==================== AMBIENT BACKGROUND PARTICLES ==================== */
+    const ambientCanvas = document.getElementById('ambient-particles-canvas');
+    if (ambientCanvas) {
+      const aCtx = ambientCanvas.getContext('2d');
+      ambientCanvas.width = window.innerWidth;
+      ambientCanvas.height = window.innerHeight;
+      window.addEventListener('resize', function() {
+        ambientCanvas.width = window.innerWidth;
+        ambientCanvas.height = window.innerHeight;
+      });
+
+      const ambientParticles = [];
+      const ambientColors = ['#ff4655', '#17ecc2'];
+      const AMBIENT_COUNT = 40;
+
+      for (let i = 0; i < AMBIENT_COUNT; i++) {
+        ambientParticles.push({
+          x: Math.random() * ambientCanvas.width,
+          y: Math.random() * ambientCanvas.height,
+          vy: -(Math.random() * 0.3 + 0.1),
+          vx: (Math.random() - 0.5) * 0.2,
+          size: Math.random() * 3 + 1,
+          opacity: Math.random() * 0.1 + 0.1,
+          color: ambientColors[Math.floor(Math.random() * ambientColors.length)],
+          diamond: Math.random() > 0.5
+        });
+      }
+
+      function animateAmbient() {
+        aCtx.clearRect(0, 0, ambientCanvas.width, ambientCanvas.height);
+        for (let i = 0; i < ambientParticles.length; i++) {
+          const p = ambientParticles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y < -10) { p.y = ambientCanvas.height + 10; p.x = Math.random() * ambientCanvas.width; }
+          if (p.x < -10) p.x = ambientCanvas.width + 10;
+          if (p.x > ambientCanvas.width + 10) p.x = -10;
+
+          aCtx.globalAlpha = p.opacity;
+          aCtx.fillStyle = p.color;
+
+          if (p.diamond) {
+            aCtx.save();
+            aCtx.translate(p.x, p.y);
+            aCtx.rotate(Math.PI / 4);
+            aCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            aCtx.restore();
+          } else {
+            aCtx.beginPath();
+            aCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            aCtx.fill();
+          }
+        }
+        aCtx.globalAlpha = 1;
+        requestAnimationFrame(animateAmbient);
+      }
+      animateAmbient();
+    }
+
+    /* ==================== SCROLL REVEAL ANIMATIONS ==================== */
+    const revealSelectors = '.section-header, .about-grid, .player-card, .flow-card, .term-card, .gun-step, .compare-row, .odin-msg, .value';
+    document.querySelectorAll(revealSelectors).forEach(function(el) {
+      el.classList.add('reveal');
+    });
+
+    const revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+
+    /* ==================== KILL FEED ==================== */
+    var killFeed = document.getElementById('kill-feed');
+    var killPlayers = [
+      { name: 'DOODLLEUS', color: '#c742f5' },
+      { name: 'TJC', color: '#17ecc2' },
+      { name: 'PRETTY MOUTH BOY', color: '#f5a623' },
+      { name: 'GOOD CHILL NIGHT', color: '#f5d623' },
+      { name: 'NEILATRON', color: '#7aff4a' }
+    ];
+    var killEnemies = ['enemy_jett', 'xX_Reyna_Xx', 'sage_main_99', 'ttv_phoenix', 'killjoy420', 'raze_diff', 'enemy_omen', 'sova_lineups'];
+    var killWeapons = ['Vandal', 'Phantom', 'Operator', 'Odin', 'Sheriff', 'Spectre', 'Judge', 'Knife', 'Bucky', 'Wasteland Vandal'];
+
+    function addKillEntry() {
+      if (!killFeed) return;
+      var isSquadKill = Math.random() > 0.4;
+      var killer, victim, kColor;
+      if (isSquadKill) {
+        var k = killPlayers[Math.floor(Math.random() * killPlayers.length)];
+        killer = k.name;
+        kColor = k.color;
+        victim = killEnemies[Math.floor(Math.random() * killEnemies.length)];
+      } else {
+        var v = killPlayers[Math.floor(Math.random() * killPlayers.length)];
+        killer = killEnemies[Math.floor(Math.random() * killEnemies.length)];
+        kColor = '#ff4655';
+        victim = v.name;
+      }
+      var weapon = killWeapons[Math.floor(Math.random() * killWeapons.length)];
+      var isHS = Math.random() > 0.7;
+
+      var entry = document.createElement('div');
+      entry.className = 'kill-entry';
+      entry.innerHTML = '<span style="color:' + kColor + '">' + killer + '</span> <span class="kill-weapon">[' + weapon + (isHS ? ' HS' : '') + ']</span> <span style="opacity:0.5">' + victim + '</span>';
+      killFeed.appendChild(entry);
+
+      if (killFeed.children.length > 5) {
+        killFeed.children[0].style.opacity = '0';
+        killFeed.children[0].style.transform = 'translateX(20px)';
+        setTimeout(function() { if (killFeed.children.length > 5) killFeed.removeChild(killFeed.children[0]); }, 300);
+      }
+
+      setTimeout(function() { entry.style.opacity = '0'; entry.style.transform = 'translateX(20px)'; }, 5000);
+    }
+
+    setInterval(addKillEntry, 3000);
+    setTimeout(addKillEntry, 1000);
+
+    /* ==================== LIGHT MODE TOGGLE ==================== */
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      document.documentElement.classList.add('light-mode');
+      if (themeIcon) themeIcon.innerHTML = '&#9789;';
+    }
+    if (themeToggle) {
+      themeToggle.addEventListener('click', function() {
+        document.documentElement.classList.toggle('light-mode');
+        const isLight = document.documentElement.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        if (themeIcon) themeIcon.innerHTML = isLight ? '&#9789;' : '&#9788;';
+      });
+    }
+
+    /* ==================== AMBIENT MUSIC TOGGLE ==================== */
+    var audioCtx = null;
+    var musicPlaying = false;
+    var musicNodes = {};
+    var musicToggle = document.getElementById('music-toggle');
+    var musicIcon = document.getElementById('music-icon');
+
+    function startMusic() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var ctx = audioCtx;
+
+      // Create a dark ambient drone
+      var gain = ctx.createGain();
+      gain.gain.value = 0.06;
+      gain.connect(ctx.destination);
+
+      // Base drone
+      var osc1 = ctx.createOscillator();
+      osc1.type = 'sine';
+      osc1.frequency.value = 55;
+      osc1.connect(gain);
+      osc1.start();
+
+      // Fifth harmony
+      var osc2 = ctx.createOscillator();
+      osc2.type = 'sine';
+      osc2.frequency.value = 82.5;
+      var g2 = ctx.createGain();
+      g2.gain.value = 0.4;
+      osc2.connect(g2);
+      g2.connect(gain);
+      osc2.start();
+
+      // Slow LFO for movement
+      var lfo = ctx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.15;
+      var lfoGain = ctx.createGain();
+      lfoGain.gain.value = 8;
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc1.frequency);
+      lfo.start();
+
+      // Filtered noise for atmosphere
+      var bufferSize = ctx.sampleRate * 2;
+      var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      var output = noiseBuffer.getChannelData(0);
+      for (var i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+      var noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      noise.loop = true;
+      var noiseFilter = ctx.createBiquadFilter();
+      noiseFilter.type = 'lowpass';
+      noiseFilter.frequency.value = 200;
+      var noiseGain = ctx.createGain();
+      noiseGain.gain.value = 0.15;
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(gain);
+      noise.start();
+
+      musicNodes = { osc1: osc1, osc2: osc2, lfo: lfo, noise: noise, gain: gain, g2: g2, noiseGain: noiseGain, noiseFilter: noiseFilter, lfoGain: lfoGain };
+      musicPlaying = true;
+      if (musicIcon) musicIcon.style.color = 'var(--val-teal)';
+    }
+
+    function stopMusic() {
+      if (musicNodes.osc1) { try { musicNodes.osc1.stop(); } catch(e){} }
+      if (musicNodes.osc2) { try { musicNodes.osc2.stop(); } catch(e){} }
+      if (musicNodes.lfo) { try { musicNodes.lfo.stop(); } catch(e){} }
+      if (musicNodes.noise) { try { musicNodes.noise.stop(); } catch(e){} }
+      musicNodes = {};
+      musicPlaying = false;
+      if (musicIcon) musicIcon.style.color = '';
+    }
+
+    if (musicToggle) {
+      musicToggle.addEventListener('click', function() {
+        if (musicPlaying) stopMusic();
+        else startMusic();
+      });
+    }
+
+    /* ==================== PAGE TRANSITION EFFECT ==================== */
+    const transitionOverlay = document.getElementById('page-transition-overlay');
+    document.querySelectorAll('a').forEach(function(link) {
+      if (link.hostname === window.location.hostname && !link.hasAttribute('download') && link.getAttribute('href') && !link.getAttribute('href').startsWith('#')) {
+        link.addEventListener('click', function(e) {
+          var href = link.getAttribute('href');
+          // Allow hash-only or same-page hash links
+          if (!href || href.startsWith('#')) return;
+          e.preventDefault();
+          if (transitionOverlay) {
+            transitionOverlay.classList.add('active');
+            setTimeout(function() {
+              window.location.href = href;
+            }, 350);
+          } else {
+            window.location.href = href;
+          }
+        });
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
+
+<style is:global>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --val-red: #ff4655;
+    --val-dark: #0f1923;
+    --val-darker: #0a1018;
+    --val-teal: #17ecc2;
+    --val-cream: #ece8e1;
+    --val-gold: #f5a623;
+    --val-blue: #4a90d9;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--val-darker);
+    color: var(--val-cream);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: var(--val-red);
+    color: white;
+  }
+
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background: linear-gradient(180deg, rgba(10,16,24,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--val-red);
+    text-decoration: none;
+    letter-spacing: 6px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .nav-links a {
+    color: var(--val-cream);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    opacity: 0.7;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--val-red);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem;
+    border-top: 1px solid rgba(236,232,225,0.05);
+  }
+
+  .footer-line {
+    width: 60px;
+    height: 2px;
+    background: var(--val-red);
+    margin: 0 auto 1.5rem;
+  }
+
+  footer p {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    opacity: 0.3;
+    font-weight: 600;
+  }
+
+  /* ==================== LOADING SCREEN ==================== */
+  #loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a1018;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+  }
+
+  .loading-content {
+    text-align: center;
+    width: 400px;
+    max-width: 90vw;
+  }
+
+  .loading-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--val-red);
+    margin-bottom: 1.5rem;
+    animation: loadingPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes loadingPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .loading-callsigns {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--val-cream);
+    opacity: 0.7;
+    margin-bottom: 2rem;
+    min-height: 1.5em;
+  }
+
+  .loading-bar-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(236, 232, 225, 0.1);
+    position: relative;
+  }
+
+  .loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--val-red);
+    transition: width 0.3s ease;
+  }
+
+  /* ==================== CUSTOM CROSSHAIR CURSOR ==================== */
+  body {
+    cursor: none;
+  }
+
+  /* Ensure cursor:none on all elements */
+  a, button, input, select, textarea, [role="button"] {
+    cursor: none !important;
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: width 0.15s, height 0.15s, opacity 0.15s;
+  }
+
+  .custom-cursor::before,
+  .custom-cursor::after {
+    content: '';
+    position: absolute;
+    background: #ff4655;
+    border-radius: 1px;
+  }
+
+  .custom-cursor::before {
+    width: 2px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .custom-cursor::after {
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .custom-cursor.cursor-hover {
+    width: 32px;
+    height: 32px;
+  }
+
+  .custom-cursor.cursor-hover::before,
+  .custom-cursor.cursor-hover::after {
+    background: var(--val-teal);
+  }
+
+  /* ==================== MOUSE TRAIL CANVAS ==================== */
+  #mouse-trail-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* ==================== AMBIENT PARTICLES CANVAS ==================== */
+  #ambient-particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ==================== SCROLL REVEAL ANIMATIONS ==================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ==================== GLITCH EFFECT ON SECTION HEADERS ==================== */
+  .section-header h2 {
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2:hover {
+    animation: glitchHeader 0.4s steps(2) forwards;
+  }
+
+  .section-header h2::before,
+  .section-header h2::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .section-header h2:hover::before {
+    opacity: 1;
+    color: var(--val-teal);
+    animation: glitchClipTop 0.4s steps(2) infinite;
+    clip-path: inset(0 0 60% 0);
+    transform: translateX(-4px);
+  }
+
+  .section-header h2:hover::after {
+    opacity: 1;
+    color: var(--val-red);
+    animation: glitchClipBottom 0.4s steps(2) infinite;
+    clip-path: inset(60% 0 0 0);
+    transform: translateX(4px);
+  }
+
+  @keyframes glitchHeader {
+    0% { transform: translate(0); }
+    25% { transform: translate(-2px, 1px); }
+    50% { transform: translate(2px, -1px); }
+    75% { transform: translate(-1px, -1px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes glitchClipTop {
+    0% { clip-path: inset(0 0 60% 0); transform: translateX(-4px); }
+    50% { clip-path: inset(10% 0 50% 0); transform: translateX(4px); }
+    100% { clip-path: inset(0 0 60% 0); transform: translateX(-4px); }
+  }
+
+  @keyframes glitchClipBottom {
+    0% { clip-path: inset(60% 0 0 0); transform: translateX(4px); }
+    50% { clip-path: inset(50% 0 10% 0); transform: translateX(-4px); }
+    100% { clip-path: inset(60% 0 0 0); transform: translateX(4px); }
+  }
+
+  /* ==================== PAGE TRANSITION OVERLAY ==================== */
+  #page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a1018;
+    z-index: 99990;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  #page-transition-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ==================== KILL FEED ==================== */
+  .kill-feed {
+    position: fixed;
+    top: 80px;
+    right: 1rem;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    pointer-events: none;
+  }
+
+  .kill-entry {
+    background: rgba(10,16,24,0.85);
+    backdrop-filter: blur(8px);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-right: 2px solid rgba(255,70,85,0.4);
+    white-space: nowrap;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.3s, transform 0.3s;
+    animation: killSlideIn 0.3s ease;
+  }
+
+  .kill-weapon {
+    color: rgba(236,232,225,0.3);
+    font-size: 0.55rem;
+    margin: 0 0.3rem;
+  }
+
+  @keyframes killSlideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @media (max-width: 768px) {
+    .kill-feed { display: none; }
+  }
+
+  /* ==================== NAV CONTROLS ==================== */
+  .nav-controls {
+    display: flex;
+    gap: 0.75rem;
+    margin-left: 1.5rem;
+  }
+
+  .nav-btn {
+    background: rgba(236,232,225,0.05);
+    border: 1px solid rgba(236,232,225,0.1);
+    color: var(--val-cream);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  }
+
+  .nav-btn:hover {
+    background: rgba(255,70,85,0.15);
+    border-color: var(--val-red);
+    color: var(--val-red);
+  }
+
+  .theme-icon, .music-icon {
+    transition: color 0.3s;
+  }
+
+  /* ==================== LIGHT MODE ==================== */
+  html.light-mode {
+    --val-dark: #e8e4dd;
+    --val-darker: #f5f1ea;
+    --val-cream: #1a1a2e;
+  }
+
+  html.light-mode body {
+    background: #f5f1ea;
+    color: #1a1a2e;
+  }
+
+  html.light-mode .top-nav {
+    background: linear-gradient(180deg, rgba(245,241,234,0.95) 0%, transparent 100%);
+  }
+
+  html.light-mode .nav-logo {
+    color: var(--val-red);
+  }
+
+  html.light-mode .nav-links a {
+    color: #1a1a2e;
+  }
+
+  html.light-mode .nav-btn {
+    background: rgba(26,26,46,0.05);
+    border-color: rgba(26,26,46,0.15);
+    color: #1a1a2e;
+  }
+
+  html.light-mode #loading-screen {
+    background: #f5f1ea;
+  }
+
+  html.light-mode .loading-callsigns {
+    color: #1a1a2e;
+  }
+
+  html.light-mode footer {
+    border-top-color: rgba(26,26,46,0.1);
+  }
+
+  html.light-mode footer p {
+    color: #1a1a2e;
+  }
+
+  html.light-mode #page-transition-overlay {
+    background: #f5f1ea;
+  }
+
+  @media (max-width: 768px) {
+    .top-nav {
+      padding: 0.75rem 1rem;
+      flex-wrap: wrap;
+    }
+    .nav-links {
+      gap: 0.8rem;
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      padding-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+    }
+    .nav-controls {
+      margin-left: auto;
+    }
+    .custom-cursor {
+      display: none !important;
+    }
+    body {
+      cursor: auto;
+    }
+  }
+</style>
