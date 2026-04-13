@@ -1,0 +1,170 @@
+<!-- WHY WE LOST EXCUSE GENERATOR -->
+<section class="excuse-gen" id="excuses">
+  <div class="section-header">
+    <span class="section-tag">// WHY WE LOST</span>
+    <h2>EXCUSE GENERATOR</h2>
+  </div>
+  <div class="excuse-display">
+    <p class="excuse-text glitch-text" id="excuse-text">Press the button. You know you need one.</p>
+  </div>
+  <button class="excuse-btn" id="excuse-btn">GENERATE EXCUSE</button>
+</section>
+
+<script>
+  const excuses = [
+    "Pretty Mouth Boy was in Factorio",
+    "Doodlleus's gaming chair expired at 11pm",
+    "Neilatron was still in spawn",
+    "TJC bait rez'd everyone",
+    "Good Chill Night was site adjacent",
+    "Nobody bought util",
+    "We all bought Odins and they had an Op",
+    "TJC fell asleep",
+    "The Wasteland Vandal energy was off",
+    "Good Chill Night said 'Mayb' and we took that as a yes",
+    "We tried lineups for the first time",
+    "Pretty Mouth Boy's pipe burst again",
+    "Neilatron said 'Aye' but meant 'nay'",
+    "Someone called a stinger rush mid on round 12",
+    "The vibes were off",
+    "TJC said 'This is why im the viper' and then whiffed",
+    "Good Chill Night's turret got more kills than the team combined",
+    "We were winning until we started losing",
+    "Doodlleus blue screened",
+    "Pretty Mouth Boy said 'purchance' and we didn't know if that meant he was playing",
+    "Doodlleus said 'Fuck you Good Chill Night' and she took it personally",
+    "Good Chill Night existed and Doodlleus couldn't cope"
+  ];
+
+  const excuseText = document.getElementById('excuse-text');
+  const excuseBtn = document.getElementById('excuse-btn');
+
+  if (excuseBtn && excuseText) {
+    excuseBtn.addEventListener('click', () => {
+      const excuse = excuses[Math.floor(Math.random() * excuses.length)];
+      excuseText.style.opacity = '0';
+      excuseText.style.transform = 'skewX(-5deg)';
+      setTimeout(() => {
+        excuseText.textContent = excuse;
+        excuseText.style.opacity = '1';
+        excuseText.style.transform = 'skewX(0deg)';
+      }, 200);
+    });
+  }
+</script>
+
+<style>
+  .excuse-gen {
+    padding: 6rem 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255,70,85,0.3);
+  }
+
+  .section-header h2 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--val-cream) 0%, rgba(236,232,225,0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .excuse-display {
+    margin: 3rem auto;
+    padding: 3rem 2rem;
+    background: rgba(255,70,85,0.03);
+    border: 1px solid rgba(255,70,85,0.15);
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .excuse-text {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--val-cream);
+    text-shadow: 0 0 30px rgba(255,70,85,0.4), 0 0 60px rgba(255,70,85,0.1);
+    line-height: 1.4;
+  }
+
+  .glitch-text {
+    animation: excuseGlitch 4s ease-in-out infinite;
+  }
+
+  @keyframes excuseGlitch {
+    0%, 90%, 100% { opacity: 1; transform: none; }
+    91% { opacity: 0.7; transform: skewX(-2deg); text-shadow: -3px 0 #17ecc2, 3px 0 #ff4655; }
+    93% { opacity: 1; transform: skewX(1deg); text-shadow: 2px 0 #ff4655, -2px 0 #17ecc2; }
+    95% { opacity: 0.8; transform: skewX(-1deg); }
+    97% { opacity: 1; transform: none; }
+  }
+
+  .excuse-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1.2rem 3.5rem;
+    background: var(--val-red);
+    color: white;
+    border: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255,70,85,0.3), inset 0 0 30px rgba(255,70,85,0.1);
+  }
+
+  .excuse-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: ctaSweep 3s ease-in-out infinite;
+  }
+
+  @keyframes ctaSweep {
+    0%, 60%, 100% { left: -100%; }
+    30% { left: 100%; }
+  }
+
+  .excuse-btn:hover {
+    background: white;
+    color: var(--val-dark);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 50px rgba(255,70,85,0.4), 0 0 80px rgba(255,70,85,0.2);
+  }
+
+  @media (max-width: 768px) {
+    .excuse-gen {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+</style>

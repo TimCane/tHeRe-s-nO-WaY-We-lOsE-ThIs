@@ -1,0 +1,193 @@
+<!-- MATCH HISTORY -->
+<section class="match-history" id="matchhistory">
+  <div class="section-header">
+    <span class="section-tag">// MATCH HISTORY</span>
+    <h2>RECENT MATCHES</h2>
+  </div>
+  <div class="match-list">
+    <div class="match-entry win">
+      <span class="match-map">LOTUS</span>
+      <span class="match-score">13-7</span>
+      <span class="match-result">W</span>
+      <span class="match-comment">"The 4-knife round. We peaked."</span>
+    </div>
+    <div class="match-entry loss">
+      <span class="match-map">ASCENT</span>
+      <span class="match-score">5-13</span>
+      <span class="match-result">L</span>
+      <span class="match-comment">"Pretty Mouth Boy was in Factorio for 9 rounds."</span>
+    </div>
+    <div class="match-entry win">
+      <span class="match-map">BIND</span>
+      <span class="match-score">13-11</span>
+      <span class="match-result">W</span>
+      <span class="match-comment">"Odin protocol activated. Enemy team in shambles."</span>
+    </div>
+    <div class="match-entry loss">
+      <span class="match-map">HAVEN</span>
+      <span class="match-score">2-13</span>
+      <span class="match-result">L</span>
+      <span class="match-comment">"Nobody wanted to play but Doodlleus said 'Sploink?'"</span>
+    </div>
+    <div class="match-entry loss">
+      <span class="match-map">ICEBOX</span>
+      <span class="match-score">8-13</span>
+      <span class="match-result">L</span>
+      <span class="match-comment">"TJC bait rez'd 4 times. All died."</span>
+    </div>
+    <div class="match-entry win">
+      <span class="match-map">SPLIT</span>
+      <span class="match-score">13-10</span>
+      <span class="match-result">W</span>
+      <span class="match-comment">"Good Chill Night MVP'd. Announced it immediately."</span>
+    </div>
+    <div class="match-entry loss">
+      <span class="match-map">BREEZE</span>
+      <span class="match-score">6-13</span>
+      <span class="match-result">L</span>
+      <span class="match-comment">"Neilatron never left spawn. Literally."</span>
+    </div>
+    <div class="match-entry loss">
+      <span class="match-map">SUNSET</span>
+      <span class="match-score">4-13</span>
+      <span class="match-result">L</span>
+      <span class="match-comment">"Gaming chair expired at round 8. It was 10:47pm."</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .match-history {
+    padding: 6rem 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255,70,85,0.3);
+  }
+
+  .section-header h2 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--val-cream) 0%, rgba(236,232,225,0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .match-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .match-entry {
+    display: grid;
+    grid-template-columns: 100px 80px 40px 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(236,232,225,0.02);
+    border: 1px solid rgba(236,232,225,0.05);
+    clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+    transition: all 0.3s;
+  }
+
+  .match-entry:hover {
+    background: rgba(236,232,225,0.05);
+    transform: translateX(4px);
+  }
+
+  .match-entry.win {
+    border-left: 3px solid #17ecc2;
+  }
+
+  .match-entry.loss {
+    border-left: 3px solid #ff4655;
+  }
+
+  .match-map {
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    color: var(--val-cream);
+  }
+
+  .match-score {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .match-result {
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+  }
+
+  .win .match-result {
+    background: rgba(23,236,194,0.2);
+    color: #17ecc2;
+  }
+
+  .loss .match-result {
+    background: rgba(255,70,85,0.2);
+    color: #ff4655;
+  }
+
+  .win .match-score {
+    color: #17ecc2;
+  }
+
+  .loss .match-score {
+    color: #ff4655;
+  }
+
+  .match-comment {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .match-history {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    .match-entry {
+      grid-template-columns: 70px 60px 30px 1fr;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+    }
+    .match-map { font-size: 0.75rem; letter-spacing: 1px; }
+    .match-comment { font-size: 0.7rem; }
+  }
+
+  @media (max-width: 480px) {
+    .match-entry {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+      text-align: center;
+    }
+  }
+</style>

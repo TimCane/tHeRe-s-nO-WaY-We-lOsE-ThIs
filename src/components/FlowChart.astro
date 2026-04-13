@@ -1,0 +1,177 @@
+<!-- WILL THEY PLAY TONIGHT -->
+<section class="flowchart" id="flowchart">
+  <div class="section-header">
+    <span class="section-tag">// 003</span>
+    <h2>WILL THEY PLAY TONIGHT?</h2>
+  </div>
+  <div class="flow-grid">
+    <div class="flow-card" style="--accent: #c742f5">
+      <h3>DOODLLEUS</h3>
+      <div class="flow-steps">
+        <div class="flow-step">Drops "Sploink?" in chat</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">Sorts Calpol for kiddo</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">Makes coffee</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step result yes">ALWAYS YES</div>
+        <div class="flow-note">* gaming chair expires at 11pm</div>
+      </div>
+    </div>
+    <div class="flow-card" style="--accent: #17ecc2">
+      <h3>TJC</h3>
+      <div class="flow-steps">
+        <div class="flow-step">"I need a minute to think"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">Gets off sofa</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">"I could do exactly one"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step result maybe">PLAYS 4</div>
+        <div class="flow-note">* may fall asleep mid-queue</div>
+      </div>
+    </div>
+    <div class="flow-card" style="--accent: #f5a623">
+      <h3>PRETTY MOUTH BOY</h3>
+      <div class="flow-steps">
+        <div class="flow-step">"Not a gamer anymore"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">Good Chill Night answers for him</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">"purchance"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step result yes">QUEUES UP ANYWAY</div>
+        <div class="flow-note">* Factorio running on 2nd monitor</div>
+      </div>
+    </div>
+    <div class="flow-card" style="--accent: #f5d623">
+      <h3>GOOD CHILL NIGHT</h3>
+      <div class="flow-steps">
+        <div class="flow-step">"Mayb"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">"Mayhaps"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">"Only 1"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step result maybe">YES (EVENTUALLY)</div>
+        <div class="flow-note">* ace still pending</div>
+      </div>
+    </div>
+    <div class="flow-card" style="--accent: #7aff4a">
+      <h3>NEILATRON</h3>
+      <div class="flow-steps">
+        <div class="flow-step">"Aye"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">"I could be persuaded"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step">"Im up for losing some rr"</div>
+        <div class="flow-arrow">&darr;</div>
+        <div class="flow-step result yes">AYE</div>
+        <div class="flow-note">* may fall asleep before lobby</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .flowchart {
+    padding: 6rem 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255,70,85,0.3);
+  }
+
+  .section-header h2 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-top: 0.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--val-cream) 0%, rgba(236,232,225,0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .flow-card {
+    background: rgba(236,232,225,0.02);
+    border: 1px solid rgba(236,232,225,0.06);
+    padding: 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.3s;
+  }
+
+  .flow-card:hover {
+    border-color: var(--accent);
+    background: rgba(236,232,225,0.04);
+    box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .flow-card h3 {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .flow-step {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.06);
+    width: 100%;
+    opacity: 0.7;
+  }
+
+  .flow-arrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+    opacity: 0.4;
+  }
+
+  .flow-step.result {
+    font-weight: 700;
+    letter-spacing: 3px;
+    border-color: var(--accent);
+    color: var(--accent);
+    opacity: 1;
+    font-size: 0.8rem;
+  }
+
+  .flow-note {
+    font-size: 0.6rem;
+    opacity: 0.3;
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+    font-style: italic;
+  }
+</style>
