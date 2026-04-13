@@ -42,22 +42,41 @@ const { title } = Astro.props;
     <div class="nav-links">
       <a href="/">HOME</a>
       <a href="/#roster">ROSTER</a>
-      <a href="/glossary">GLOSSARY</a>
-      <a href="/quiz">QUIZ</a>
-      <a href="/awards">AWARDS</a>
-      <a href="/memes">MEMES</a>
-      <a href="/soundboard">SOUNDS</a>
-      <a href="/agents">AGENTS</a>
-      <a href="/alignment">ALIGNMENT</a>
-      <a href="/bingo">BINGO</a>
-      <a href="/callouts">CALLOUTS</a>
-      <a href="/lessons">LESSONS</a>
-      <a href="/maps">MAPS</a>
-      <a href="/timeline">TIMELINE</a>
-      <a href="/chat">CHAT</a>
-      <a href="/wheel">WHEEL</a>
-      <a href="/guestbook">GUESTBOOK</a>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-trigger">SQUAD <span class="dropdown-arrow">&#9662;</span></button>
+        <div class="nav-dropdown-menu">
+          <a href="/glossary">GLOSSARY</a>
+          <a href="/awards">AWARDS</a>
+          <a href="/alignment">ALIGNMENT</a>
+          <a href="/timeline">TIMELINE</a>
+          <a href="/chat">CHAT</a>
+          <a href="/memes">MEMES</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-trigger">GAME <span class="dropdown-arrow">&#9662;</span></button>
+        <div class="nav-dropdown-menu">
+          <a href="/agents">AGENTS</a>
+          <a href="/maps">MAPS</a>
+          <a href="/callouts">CALLOUTS</a>
+          <a href="/strats">STRATS</a>
+          <a href="/lessons">LESSONS</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-trigger">FUN <span class="dropdown-arrow">&#9662;</span></button>
+        <div class="nav-dropdown-menu">
+          <a href="/quiz">QUIZ</a>
+          <a href="/soundboard">SOUNDS</a>
+          <a href="/wheel">WHEEL</a>
+          <a href="/guestbook">GUESTBOOK</a>
+        </div>
+      </div>
     </div>
+    <!-- MOBILE HAMBURGER -->
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-controls">
       <button id="theme-toggle" class="nav-btn" title="Toggle light/dark mode">
         <span class="theme-icon" id="theme-icon">&#9788;</span>
@@ -84,34 +103,43 @@ const { title } = Astro.props;
     const fillBar = document.getElementById('loading-bar-fill');
     const loadingScreen = document.getElementById('loading-screen');
 
-    let csIndex = 0;
-    function showNextCallsign() {
-      if (csIndex < callsigns.length && callsignEl) {
-        const span = document.createElement('span');
-        span.textContent = (csIndex > 0 ? ' // ' : '') + callsigns[csIndex];
-        span.style.opacity = '0';
-        span.style.transition = 'opacity 0.3s';
-        callsignEl.appendChild(span);
-        requestAnimationFrame(() => { span.style.opacity = '1'; });
-        csIndex++;
-        if (fillBar) fillBar.style.width = ((csIndex / callsigns.length) * 100) + '%';
-      }
-    }
-
-    const csInterval = setInterval(() => {
-      if (csIndex >= callsigns.length) { clearInterval(csInterval); return; }
-      showNextCallsign();
-    }, 350);
-
-    setTimeout(() => {
+    // Only show loading screen once per session
+    if (sessionStorage.getItem('loaded')) {
       if (loadingScreen) {
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-          loadingScreen.style.display = 'none';
-          document.body.classList.add('loaded');
-        }, 500);
+        loadingScreen.style.display = 'none';
       }
-    }, 2500);
+      document.body.classList.add('loaded');
+    } else {
+      let csIndex = 0;
+      function showNextCallsign() {
+        if (csIndex < callsigns.length && callsignEl) {
+          const span = document.createElement('span');
+          span.textContent = (csIndex > 0 ? ' // ' : '') + callsigns[csIndex];
+          span.style.opacity = '0';
+          span.style.transition = 'opacity 0.3s';
+          callsignEl.appendChild(span);
+          requestAnimationFrame(() => { span.style.opacity = '1'; });
+          csIndex++;
+          if (fillBar) fillBar.style.width = ((csIndex / callsigns.length) * 100) + '%';
+        }
+      }
+
+      const csInterval = setInterval(() => {
+        if (csIndex >= callsigns.length) { clearInterval(csInterval); return; }
+        showNextCallsign();
+      }, 350);
+
+      setTimeout(() => {
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.body.classList.add('loaded');
+            sessionStorage.setItem('loaded', '1');
+          }, 500);
+        }
+      }, 2500);
+    }
 
     /* ==================== CUSTOM CROSSHAIR CURSOR ==================== */
     const cursor = document.getElementById('custom-cursor');
@@ -271,6 +299,30 @@ const { title } = Astro.props;
     document.querySelectorAll('.reveal').forEach(function(el) {
       revealObserver.observe(el);
     });
+
+    /* ==================== MOBILE NAV ==================== */
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('mobile-open');
+      });
+      // Close mobile nav on link click
+      navLinks.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('mobile-open');
+        });
+      });
+      // Mobile dropdown toggle
+      document.querySelectorAll('.nav-dropdown-trigger').forEach(function(trigger) {
+        trigger.addEventListener('click', function() {
+          var parent = trigger.closest('.nav-dropdown');
+          if (parent) parent.classList.toggle('mobile-expanded');
+        });
+      });
+    }
 
     /* ==================== KILL FEED ==================== */
     var killFeed = document.getElementById('kill-feed');
@@ -503,26 +555,27 @@ const { title } = Astro.props;
 
   .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
+    align-items: center;
   }
 
-  .nav-links a {
+  .nav-links > a {
     color: var(--val-cream);
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     letter-spacing: 3px;
     opacity: 0.7;
     transition: all 0.3s;
     position: relative;
   }
 
-  .nav-links a:hover {
+  .nav-links > a:hover {
     opacity: 1;
     color: var(--val-red);
   }
 
-  .nav-links a::after {
+  .nav-links > a::after {
     content: '';
     position: absolute;
     bottom: -4px;
@@ -533,9 +586,119 @@ const { title } = Astro.props;
     transition: width 0.3s;
   }
 
-  .nav-links a:hover::after {
+  .nav-links > a:hover::after {
     width: 100%;
   }
+
+  /* DROPDOWN */
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    background: none;
+    border: none;
+    color: var(--val-cream);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    opacity: 0.7;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0;
+  }
+
+  .nav-dropdown-trigger:hover {
+    opacity: 1;
+    color: var(--val-red);
+  }
+
+  .dropdown-arrow {
+    font-size: 0.5rem;
+    transition: transform 0.3s;
+  }
+
+  .nav-dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10,16,24,0.97);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,70,85,0.15);
+    padding: 0.5rem 0;
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-8px);
+    transition: all 0.25s ease;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .nav-dropdown:hover .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .nav-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+  }
+
+  .nav-dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1.25rem;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    opacity: 0.6;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown-menu a:hover {
+    opacity: 1;
+    color: var(--val-red);
+    background: rgba(255,70,85,0.08);
+    padding-left: 1.5rem;
+  }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+    z-index: 101;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--val-cream);
+    transition: all 0.3s;
+  }
+
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
   footer {
     text-align: center;
@@ -878,7 +1041,17 @@ const { title } = Astro.props;
     color: var(--val-red);
   }
 
-  html.light-mode .nav-links a {
+  html.light-mode .nav-links > a,
+  html.light-mode .nav-dropdown-trigger {
+    color: #1a1a2e;
+  }
+
+  html.light-mode .nav-dropdown-menu {
+    background: rgba(245,241,234,0.97);
+    border-color: rgba(255,70,85,0.2);
+  }
+
+  html.light-mode .nav-dropdown-menu a {
     color: #1a1a2e;
   }
 
@@ -886,6 +1059,10 @@ const { title } = Astro.props;
     background: rgba(26,26,46,0.05);
     border-color: rgba(26,26,46,0.15);
     color: #1a1a2e;
+  }
+
+  html.light-mode .hamburger span {
+    background: #1a1a2e;
   }
 
   html.light-mode #loading-screen {
@@ -911,19 +1088,66 @@ const { title } = Astro.props;
   @media (max-width: 768px) {
     .top-nav {
       padding: 0.75rem 1rem;
-      flex-wrap: wrap;
+    }
+    .hamburger {
+      display: flex;
     }
     .nav-links {
-      gap: 0.8rem;
-      order: 3;
-      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10,16,24,0.98);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      padding-top: 0.5rem;
-      flex-wrap: wrap;
+      gap: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 100;
     }
-    .nav-links a {
-      font-size: 0.65rem;
-      letter-spacing: 1.5px;
+    .nav-links.mobile-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-links > a {
+      font-size: 1rem;
+      letter-spacing: 4px;
+      padding: 0.5rem 0;
+    }
+    .nav-dropdown-trigger {
+      font-size: 1rem !important;
+      letter-spacing: 4px !important;
+      padding: 0.5rem 0;
+    }
+    .nav-dropdown-menu {
+      position: static;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      background: transparent;
+      backdrop-filter: none;
+      border: none;
+      clip-path: none;
+      padding: 0;
+      min-width: 0;
+      display: none;
+      text-align: center;
+    }
+    .nav-dropdown.mobile-expanded .nav-dropdown-menu {
+      display: block;
+    }
+    .nav-dropdown-menu a {
+      font-size: 0.75rem;
+      padding: 0.35rem 0;
+      text-align: center;
+      opacity: 0.5;
+    }
+    .nav-dropdown-menu a:hover {
+      padding-left: 0;
     }
     .nav-controls {
       margin-left: auto;
@@ -933,6 +1157,9 @@ const { title } = Astro.props;
     }
     body {
       cursor: auto;
+    }
+    html.light-mode .nav-links {
+      background: rgba(245,241,234,0.98);
     }
   }
 </style>

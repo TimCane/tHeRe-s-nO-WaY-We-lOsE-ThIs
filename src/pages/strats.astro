@@ -1,0 +1,431 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="STRAT GENERATOR // tHeRe's nO WaY We lOsE ThIs™">
+  <section class="strat-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <a href="/" class="back-link">&larr; BACK TO BASE</a>
+      <span class="section-tag">// TACTICAL OPERATIONS</span>
+      <h1>STRAT GENERATOR</h1>
+      <p class="hero-sub">ELITE STRATEGIES FROM GOLD ELO</p>
+    </div>
+  </section>
+
+  <section class="strat-section">
+    <div class="strat-display" id="strat-display">
+      <div class="strat-label">CURRENT STRATEGY</div>
+      <div class="strat-card" id="strat-card">
+        <div class="strat-classification">CLASSIFIED // SQUAD EYES ONLY</div>
+        <h2 class="strat-name" id="strat-name">Press the button to receive your orders.</h2>
+        <p class="strat-desc" id="strat-desc">The squad awaits tactical guidance.</p>
+        <div class="strat-meta" id="strat-meta"></div>
+      </div>
+    </div>
+
+    <button class="strat-btn" id="strat-btn">
+      <span class="btn-text">GENERATE STRAT</span>
+      <span class="btn-flash"></span>
+    </button>
+
+    <div class="strat-counter">
+      STRATS GENERATED: <span id="strat-count">0</span> // STRATS FOLLOWED: 0
+    </div>
+
+    <div class="strat-disclaimer">
+      <span class="disclaimer-tag">// DISCLAIMER</span>
+      <p>These strategies have a combined win rate of approximately 49%. All strats have been field-tested in Gold lobbies and deemed "good enough." None of them involve lineups because nobody knows any.</p>
+    </div>
+  </section>
+
+  <script is:inline>
+  (function() {
+    const strats = [
+      {
+        name: "THE ODIN PROTOCOL",
+        desc: "Everyone buys Odins. No exceptions. Push as a 5-stack through main and hold mouse 1. If they complain in all chat, it's working.",
+        tags: ["ALL MAPS", "FULL BUY ONLY", "100% VIBES"],
+        color: "#ff4655"
+      },
+      {
+        name: "THE FACTORIO FAKE",
+        desc: "Pretty Mouth Boy dies first to bait the enemy into rotating, then alt-tabs to Factorio. The enemy thinks it's a 4v5 — and they're right, but now they're overconfident.",
+        tags: ["ANY SITE", "REQUIRES FACTORIO", "50/50"],
+        color: "#f5a623"
+      },
+      {
+        name: "BAIT REZ BLITZ",
+        desc: "Send one player to die in the open. TJC rezzes them. No smoke. No wall. The enemy watches in confusion. While they're processing what they just saw, the other 3 push.",
+        tags: ["SAGE REQUIRED", "12% SURVIVAL RATE", "EMOTIONAL DAMAGE"],
+        color: "#17ecc2"
+      },
+      {
+        name: "SITE ADJACENT ANCHOR",
+        desc: "Good Chill Night holds site from approximately 30 metres away. Close enough to hear the plant. Too far to do anything about it. Rotate when the bomb goes down.",
+        tags: ["DEFENCE ONLY", "KILLJOY TURRET DOES THE WORK", "SITE ADJACENT"],
+        color: "#f5d623"
+      },
+      {
+        name: "THE 11PM RUSH",
+        desc: "Check the time. If it's before 11pm, Doodlleus entries with Reyna. If it's after 11pm, send literally anyone else. The gaming chair has no power.",
+        tags: ["TIME-SENSITIVE", "PRE-11PM ONLY", "GAMING CHAIR DEPENDENT"],
+        color: "#c742f5"
+      },
+      {
+        name: "AYE DEFAULT",
+        desc: "Neilatron says 'Aye' and everyone spreads out. No plan. No coordination. Just vibes. If someone gets a pick, everyone rotates. If nobody gets a pick, buy Odins next round.",
+        tags: ["DEFAULT STRAT", "REQUIRES NEILATRON BEING AWAKE", "AYE"],
+        color: "#7aff4a"
+      },
+      {
+        name: "THE CRASHOUT",
+        desc: "Type CRASHOUT in team chat 7 times. Rush B. No abilities. No util. Just raw aggression and the power of the meme. If you die, type CRASHOUT again.",
+        tags: ["B SITE", "NO UTIL", "CRASHOUT"],
+        color: "#17ecc2"
+      },
+      {
+        name: "WASTELAND VANDAL ENERGY",
+        desc: "TJC buys the Wasteland Vandal and channels its cursed energy. The squad follows his lead. Nobody knows what this means tactically, but TJC insists the skin has power.",
+        tags: ["TJC ONLY", "WASTELAND VANDAL", "SKIN DIFF"],
+        color: "#17ecc2"
+      },
+      {
+        name: "THE SPLOINK EXECUTE",
+        desc: "Doodlleus types 'Sploink?' in team chat. This is the signal. Everyone pushes their assigned site simultaneously. Nobody has actually discussed which site. It works 40% of the time.",
+        tags: ["A OR B (UNCLEAR)", "REQUIRES SPLOINK", "CHAOTIC GOOD"],
+        color: "#c742f5"
+      },
+      {
+        name: "PURCHANCE ROTATE",
+        desc: "Fake A. Pretty Mouth Boy says 'purchance.' This means rotate B. Or stay A. Nobody is entirely sure what purchance means in a tactical context, but the squad moves anyway.",
+        tags: ["FAKE EXECUTE", "PURCHANCE", "DEFINITION UNCLEAR"],
+        color: "#f5a623"
+      },
+      {
+        name: "THE 5-STACK HOLD",
+        desc: "All 5 players hold the same angle. Same corner. Same site. Whoever peeks first dies first, but the refrag is guaranteed. The trade chain is unbreakable (in theory).",
+        tags: ["DEFENCE", "ONE ANGLE", "STACK CITY"],
+        color: "#ff4655"
+      },
+      {
+        name: "MAYB DEFENCE",
+        desc: "Good Chill Night says 'Mayb' when asked to rotate. By the time she arrives, the round is over. Adjust expectations accordingly. The turret is doing its best.",
+        tags: ["SLOW ROTATE", "KILLJOY PASSIVE", "MAYB"],
+        color: "#f5d623"
+      },
+      {
+        name: "THE KNIFE ROUND GAMBIT",
+        desc: "Buy nothing. Rush with knives. If you get a kill, it counts double in squad lore. Reference The Lotus Incident for motivation. 4 knife kills. One round. We peaked.",
+        tags: ["KNIFE ONLY", "SAVE ROUND", "PEAK PERFORMANCE"],
+        color: "#ff4655"
+      },
+      {
+        name: "NEILATRON'S NAP TRAP",
+        desc: "Neilatron goes quiet for 3 rounds. The enemy assumes he's AFK and pushes his site. He's not AFK — he's just very quiet. Gekko ult into the push. Wake up. Get a kill. Go back to sleep.",
+        tags: ["REQUIRES SILENCE", "NAP-BASED", "AYE"],
+        color: "#7aff4a"
+      },
+      {
+        name: "THE RETIREMENT FAKE",
+        desc: "Pretty Mouth Boy announces he's 'not a gamer anymore' and goes AFK. The enemy plays 5v4 aggro. Pretty Mouth Boy alt-tabs back from Factorio and orbital strikes their push.",
+        tags: ["MINDGAMES", "FACTORIO POWERED", "NOT A GAMER"],
+        color: "#f5a623"
+      },
+      {
+        name: "ECO? NEVER HEARD OF HER",
+        desc: "Buy every round regardless of money. If you can afford a Vandal, buy a Vandal. If you can't, buy a Spectre. If you can't afford that, buy a Sheriff. If you can't afford that, buy Odins next round.",
+        tags: ["EVERY ROUND", "ECONOMY IS A SUGGESTION", "FULL SEND"],
+        color: "#ff4655"
+      },
+      {
+        name: "THE BRIMJOB SPECIAL",
+        desc: "Pretty Mouth Boy smokes everything. All three smokes. Doesn't matter where. Molly the choke. Stim the team. Orbital the other site entirely. The squad types 'That's a brimjob' regardless of outcome.",
+        tags: ["BRIMSTONE", "ALL UTILITY", "BRIMJOB"],
+        color: "#f5a623"
+      },
+      {
+        name: "GOOD CHILL NIGHT'S LAST STAND",
+        desc: "The entire team dies. Good Chill Night is alone. The ace watch is ON. She has a turret, an alarmbot, and the silent prayers of 4 spectators. She gets 2 kills and dies. The ace watch continues.",
+        tags: ["CLUTCH SCENARIO", "ACE WATCH", "NEXT TIME"],
+        color: "#f5d623"
+      },
+      {
+        name: "THE VIPER CALL",
+        desc: "TJC picks Viper. Places wall. Misses the site by 15 degrees. 'This is why im the viper,' he says, as the wall covers nothing. The squad pushes through the gap in the wall because the gap IS the strat.",
+        tags: ["VIPER WALL", "ACCIDENTAL GENIUS", "THIS IS WHY"],
+        color: "#17ecc2"
+      },
+      {
+        name: "JUST DO WHATEVER",
+        desc: "No strat. No plan. No util. No coordination. Everyone does whatever they want. Doodlleus lurks, TJC heals nobody, Pretty Mouth Boy is in Factorio, Good Chill Night is site adjacent, Neilatron is asleep. Somehow win 13-4.",
+        tags: ["DEFAULT", "ZERO COORDINATION", "IT JUST WORKS"],
+        color: "#ff4655"
+      },
+    ];
+
+    let count = 0;
+    const nameEl = document.getElementById('strat-name');
+    const descEl = document.getElementById('strat-desc');
+    const metaEl = document.getElementById('strat-meta');
+    const countEl = document.getElementById('strat-count');
+    const card = document.getElementById('strat-card');
+    const btn = document.getElementById('strat-btn');
+
+    function generateStrat() {
+      const strat = strats[Math.floor(Math.random() * strats.length)];
+      count++;
+
+      // Glitch animation
+      card.classList.add('glitching');
+      setTimeout(function() {
+        nameEl.textContent = strat.name;
+        nameEl.style.color = strat.color;
+        nameEl.style.textShadow = '0 0 30px ' + strat.color;
+        descEl.textContent = strat.desc;
+        metaEl.innerHTML = strat.tags.map(function(t) {
+          return '<span class="strat-tag" style="border-color: ' + strat.color + '">' + t + '</span>';
+        }).join('');
+        countEl.textContent = count;
+        card.classList.remove('glitching');
+        card.classList.add('revealed');
+        setTimeout(function() { card.classList.remove('revealed'); }, 500);
+      }, 300);
+    }
+
+    btn.addEventListener('click', generateStrat);
+  })();
+  </script>
+</Layout>
+
+<style>
+  .strat-hero {
+    position: relative;
+    padding: 10rem 4rem 4rem;
+    background: var(--val-darker);
+    overflow: hidden;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(255,70,85,0.08) 0%, transparent 60%);
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .back-link {
+    display: inline-block;
+    color: var(--val-cream);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+    transition: all 0.3s;
+  }
+
+  .back-link:hover { opacity: 1; color: var(--val-red); }
+
+  .section-tag {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    line-height: 0.9;
+  }
+
+  .hero-sub {
+    margin-top: 1rem;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    opacity: 0.4;
+    font-weight: 600;
+  }
+
+  /* STRAT SECTION */
+  .strat-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+    text-align: center;
+  }
+
+  .strat-display {
+    margin-bottom: 3rem;
+  }
+
+  .strat-label {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    opacity: 0.3;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  .strat-card {
+    background: rgba(236,232,225,0.03);
+    border: 1px solid rgba(236,232,225,0.08);
+    padding: 3rem;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .strat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--val-red), var(--val-teal));
+    opacity: 0.5;
+  }
+
+  .strat-card.glitching {
+    animation: cardGlitch 0.3s steps(4);
+  }
+
+  .strat-card.revealed {
+    animation: cardReveal 0.5s ease;
+  }
+
+  @keyframes cardGlitch {
+    0% { transform: translate(0); filter: hue-rotate(0); }
+    25% { transform: translate(-3px, 1px); filter: hue-rotate(90deg); }
+    50% { transform: translate(3px, -1px); filter: hue-rotate(180deg); }
+    75% { transform: translate(-1px, -2px); filter: hue-rotate(270deg); }
+    100% { transform: translate(0); filter: hue-rotate(360deg); }
+  }
+
+  @keyframes cardReveal {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .strat-classification {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    opacity: 0.2;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .strat-name {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+
+  .strat-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    opacity: 0.65;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .strat-meta {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .strat-tag {
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid rgba(236,232,225,0.15);
+    opacity: 0.6;
+  }
+
+  /* BUTTON */
+  .strat-btn {
+    display: inline-block;
+    padding: 1.2rem 3.5rem;
+    background: var(--val-red);
+    color: white;
+    border: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255,70,85,0.3);
+  }
+
+  .strat-btn:hover {
+    background: white;
+    color: var(--val-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 50px rgba(255,70,85,0.4);
+  }
+
+  .btn-flash {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: btnFlash 3s ease-in-out infinite;
+  }
+
+  @keyframes btnFlash {
+    0%, 60%, 100% { left: -100%; }
+    30% { left: 100%; }
+  }
+
+  .strat-counter {
+    margin-top: 2rem;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    opacity: 0.25;
+    font-weight: 600;
+  }
+
+  /* DISCLAIMER */
+  .strat-disclaimer {
+    margin-top: 4rem;
+    padding: 2rem;
+    border-top: 1px solid rgba(236,232,225,0.05);
+    text-align: left;
+  }
+
+  .disclaimer-tag {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: var(--val-red);
+    font-weight: 600;
+  }
+
+  .strat-disclaimer p {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    opacity: 0.35;
+  }
+
+  @media (max-width: 768px) {
+    .strat-hero { padding: 8rem 2rem 3rem; }
+    .strat-section { padding: 3rem 1.5rem 4rem; }
+    .strat-card { padding: 2rem 1.5rem; }
+  }
+</style>

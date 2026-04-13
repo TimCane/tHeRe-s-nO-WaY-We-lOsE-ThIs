@@ -52,24 +52,33 @@ import Layout from '../layouts/Layout.astro';
 
     /* HERO */
     .bingo-hero {
-      padding: 2rem 3rem 3rem;
       position: relative;
+      padding: 4rem 4rem 3rem;
+      overflow: hidden;
+    }
+
+    .bingo-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, rgba(255,70,85,0.06) 0%, transparent 60%);
+      pointer-events: none;
     }
 
     .back-link {
       display: inline-block;
-      color: var(--val-red);
+      color: var(--val-cream);
       text-decoration: none;
-      font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       letter-spacing: 3px;
+      opacity: 0.5;
       margin-bottom: 2rem;
-      opacity: 0.8;
-      transition: opacity 0.3s;
+      transition: all 0.3s;
     }
 
     .back-link:hover {
       opacity: 1;
+      color: var(--val-red);
     }
 
     .hero-content {
@@ -79,66 +88,67 @@ import Layout from '../layouts/Layout.astro';
 
     .hero-accent {
       width: 60px;
-      height: 4px;
+      height: 3px;
       background: var(--val-red);
       margin: 0 auto 1.5rem;
+      box-shadow: 0 0 15px rgba(255,70,85,0.4);
     }
 
     .bingo-hero h1 {
       font-family: 'Rajdhani', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 700;
-      letter-spacing: 12px;
+      letter-spacing: 8px;
       color: var(--val-cream);
       text-transform: uppercase;
-      position: relative;
+      line-height: 0.9;
     }
 
     .hero-sub {
-      font-size: 0.9rem;
-      letter-spacing: 6px;
-      opacity: 0.5;
-      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 5px;
+      opacity: 0.4;
+      margin-top: 1rem;
       font-weight: 600;
     }
 
     .hero-players {
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
+      margin-top: 2rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
     }
 
     .hero-players .sep {
-      opacity: 0.3;
+      opacity: 0.2;
       margin: 0 0.5rem;
       color: var(--val-cream);
     }
 
     /* BINGO SECTION */
     .bingo-section {
-      max-width: 700px;
+      max-width: 750px;
       margin: 0 auto;
-      padding: 0 1.5rem 4rem;
+      padding: 0 2rem 6rem;
     }
 
     .bingo-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       gap: 1rem;
       flex-wrap: wrap;
     }
 
     .btn-new-card {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 4px;
-      padding: 0.75rem 2rem;
+      padding: 0.7rem 2rem;
       background: transparent;
-      border: 2px solid var(--val-red);
+      border: 1px solid var(--val-red);
       color: var(--val-red);
       clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
       transition: all 0.3s;
@@ -146,25 +156,27 @@ import Layout from '../layouts/Layout.astro';
 
     .btn-new-card:hover {
       background: var(--val-red);
-      color: var(--val-darker);
+      color: white;
+      box-shadow: 0 0 25px rgba(255,70,85,0.3);
     }
 
     .bingo-status {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 3px;
       color: var(--val-teal);
       min-height: 1.2em;
+      text-shadow: 0 0 10px rgba(23,236,194,0.3);
     }
 
     /* GRID */
     .bingo-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-      background: rgba(236, 232, 225, 0.05);
-      border: 2px solid rgba(236, 232, 225, 0.1);
-      padding: 4px;
+      gap: 10px;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1rem;
     }
 
     .bingo-cell {
@@ -173,30 +185,32 @@ import Layout from '../layouts/Layout.astro';
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8px 6px;
+      padding: 14px 10px;
       font-family: 'Rajdhani', sans-serif;
-      font-size: clamp(0.55rem, 1.4vw, 0.78rem);
+      font-size: clamp(0.55rem, 1.3vw, 0.75rem);
       font-weight: 600;
       letter-spacing: 0.5px;
-      line-height: 1.2;
-      background: var(--val-dark);
+      line-height: 1.3;
+      background: #131f2b;
       color: var(--val-cream);
       position: relative;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
       user-select: none;
       overflow: hidden;
-      border: 1px solid transparent;
+      border: 2px solid #1e2d3a;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
+    /* Player color top bar */
     .bingo-cell::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 2px;
-      opacity: 0.5;
-      transition: opacity 0.3s;
+      height: 3px;
+      opacity: 0.7;
     }
 
     .bingo-cell[data-player="doodlleus"]::before { background: #c742f5; }
@@ -204,48 +218,63 @@ import Layout from '../layouts/Layout.astro';
     .bingo-cell[data-player="pmb"]::before { background: #f5a623; }
     .bingo-cell[data-player="gcn"]::before { background: #f5d623; }
     .bingo-cell[data-player="neilatron"]::before { background: #7aff4a; }
-    .bingo-cell[data-player="squad"]::before { background: var(--val-red); }
-    .bingo-cell[data-player="free"]::before { background: var(--val-red); }
+    .bingo-cell[data-player="squad"]::before { background: #ff4655; }
+    .bingo-cell[data-player="free"]::before { background: #ff4655; }
 
     .bingo-cell:hover {
-      border-color: rgba(236, 232, 225, 0.2);
-      background: rgba(15, 25, 35, 0.9);
+      border-color: #3a4d5e;
+      background: #192a38;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      z-index: 2;
     }
 
+    /* ===== MARKED STATE ===== */
     .bingo-cell.marked {
-      background: rgba(255, 70, 85, 0.12);
-      border-color: rgba(255, 70, 85, 0.4);
+      background: #2a1520;
+      border-color: #ff4655;
+      box-shadow: 0 0 12px rgba(255,70,85,0.2), inset 0 0 20px rgba(255,70,85,0.06);
     }
 
     .bingo-cell.marked::after {
-      content: '';
+      content: '✕';
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 70%;
-      height: 70%;
-      transform: translate(-50%, -50%) rotate(-8deg);
-      border: 3px solid var(--val-red);
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: stampIn 0.25s ease-out;
+      transform: translate(-50%, -50%);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: #ff4655;
+      opacity: 0.35;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 0;
+      line-height: 1;
     }
 
     .bingo-cell.marked .cell-text {
-      opacity: 0.5;
+      opacity: 0.35;
     }
 
+    /* ===== FREE SPACE ===== */
     .bingo-cell.free-space {
-      background: rgba(255, 70, 85, 0.08);
-      border-color: rgba(255, 70, 85, 0.25);
+      background: #1f1018;
+      border-color: rgba(255,70,85,0.4);
+    }
+
+    .bingo-cell.free-space .cell-text {
+      color: #ff4655;
+      font-weight: 700;
+      font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+      letter-spacing: 1px;
     }
 
     .bingo-cell.free-space.marked {
-      background: rgba(255, 70, 85, 0.18);
+      background: #2a1520;
     }
 
+    /* ===== BINGO WINNER ===== */
     .bingo-cell.bingo-winner {
-      animation: bingoFlash 0.6s ease infinite alternate;
+      animation: bingoFlash 0.7s ease infinite alternate;
     }
 
     .cell-text {
@@ -254,25 +283,16 @@ import Layout from '../layouts/Layout.astro';
       transition: opacity 0.2s;
     }
 
-    @keyframes stampIn {
-      0% {
-        transform: translate(-50%, -50%) rotate(-8deg) scale(1.8);
-        opacity: 0;
-      }
-      100% {
-        transform: translate(-50%, -50%) rotate(-8deg) scale(1);
-        opacity: 0.6;
-      }
-    }
-
     @keyframes bingoFlash {
       0% {
-        background: rgba(255, 70, 85, 0.15);
-        border-color: rgba(255, 70, 85, 0.6);
+        background: #2a1520;
+        border-color: #ff4655;
+        box-shadow: 0 0 20px rgba(255,70,85,0.25);
       }
       100% {
-        background: rgba(23, 236, 194, 0.15);
-        border-color: rgba(23, 236, 194, 0.6);
+        background: #0f2a25;
+        border-color: #17ecc2;
+        box-shadow: 0 0 20px rgba(23,236,194,0.25);
       }
     }
 
@@ -283,7 +303,7 @@ import Layout from '../layouts/Layout.astro';
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(10, 16, 24, 0.92);
+      background: rgba(10,16,24,0.95);
       z-index: 9000;
       display: flex;
       align-items: center;
@@ -304,55 +324,56 @@ import Layout from '../layouts/Layout.astro';
 
     .celebration-content h2 {
       font-family: 'Rajdhani', sans-serif;
-      font-size: clamp(4rem, 12vw, 8rem);
+      font-size: clamp(4rem, 14vw, 9rem);
       font-weight: 700;
-      letter-spacing: 20px;
+      letter-spacing: 16px;
       color: var(--val-red);
       animation: celebGlitch 0.5s steps(3) infinite;
+      text-shadow: 0 0 80px rgba(255,70,85,0.5);
     }
 
     .celebration-content p {
-      font-size: 1.2rem;
+      font-size: 1rem;
       letter-spacing: 6px;
-      opacity: 0.6;
-      margin: 1rem 0 2.5rem;
+      opacity: 0.4;
+      margin: 1.5rem 0 3rem;
       font-weight: 600;
     }
 
     @keyframes celebGlitch {
-      0% { text-shadow: 3px 0 var(--val-teal), -3px 0 var(--val-red); }
-      33% { text-shadow: -2px 1px var(--val-teal), 2px -1px var(--val-red); }
-      66% { text-shadow: 1px -2px var(--val-teal), -1px 2px var(--val-red); }
-      100% { text-shadow: -3px 0 var(--val-teal), 3px 0 var(--val-red); }
+      0% { text-shadow: 3px 0 var(--val-teal), -3px 0 var(--val-red), 0 0 80px rgba(255,70,85,0.5); }
+      33% { text-shadow: -2px 1px var(--val-teal), 2px -1px var(--val-red), 0 0 80px rgba(255,70,85,0.5); }
+      66% { text-shadow: 1px -2px var(--val-teal), -1px 2px var(--val-red), 0 0 80px rgba(255,70,85,0.5); }
+      100% { text-shadow: -3px 0 var(--val-teal), 3px 0 var(--val-red), 0 0 80px rgba(255,70,85,0.5); }
     }
 
     /* LIGHT MODE */
     :global(html.light-mode) .bingo-cell {
-      background: #e2ded7;
+      background: #e8e4dd;
       color: #1a1a2e;
     }
 
     :global(html.light-mode) .bingo-cell:hover {
-      background: #d8d4cc;
+      background: #ddd9d2;
     }
 
     :global(html.light-mode) .bingo-cell.marked {
-      background: rgba(255, 70, 85, 0.15);
+      background: rgba(255,70,85,0.12);
     }
 
     :global(html.light-mode) .bingo-grid {
-      background: rgba(26, 26, 46, 0.08);
-      border-color: rgba(26, 26, 46, 0.15);
+      background: rgba(26,26,46,0.06);
+      border-color: rgba(26,26,46,0.12);
     }
 
     /* RESPONSIVE */
     @media (max-width: 600px) {
       .bingo-hero {
-        padding: 1.5rem 1rem 2rem;
+        padding: 3rem 1.5rem 2rem;
       }
 
       .bingo-hero h1 {
-        letter-spacing: 6px;
+        letter-spacing: 4px;
       }
 
       .hero-players {
@@ -360,21 +381,22 @@ import Layout from '../layouts/Layout.astro';
         flex-wrap: wrap;
         justify-content: center;
         gap: 0.25rem;
-        font-size: 0.65rem;
+        font-size: 0.6rem;
       }
 
       .bingo-section {
-        padding: 0 0.5rem 3rem;
+        padding: 0 0.75rem 4rem;
       }
 
       .bingo-grid {
-        gap: 2px;
-        padding: 2px;
+        gap: 6px;
+        padding: 0.5rem;
       }
 
       .bingo-cell {
-        padding: 4px 3px;
-        font-size: clamp(0.45rem, 2.5vw, 0.65rem);
+        padding: 6px 4px;
+        font-size: clamp(0.42rem, 2.3vw, 0.6rem);
+        border-radius: 3px;
       }
 
       .bingo-controls {
