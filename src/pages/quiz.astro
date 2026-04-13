@@ -346,7 +346,7 @@ import Layout from '../layouts/Layout.astro';
       name: "DOODLLEUS",
       accent: "#c742f5",
       role: "DUELIST // REYNA & NEON",
-      description: "You are the heart and soul of whatever group you are in. You show up with chaotic energy, cryptic messages, and an unshakable good mood. You might lose power at 11pm and your callouts might just be \"Sploink?\" but when you are there, EVERYONE has a good time. You also say \"Fuck you Good Chill Night\" with the warmth of a thousand suns.",
+      description: "You are the heart and soul of whatever group you are in. You show up with chaotic energy, cryptic messages, and an unshakable good mood. You might lose power at 11pm and your callouts might just be \"Sploink?\" but when you are there, EVERYONE has a good time. You also say \"Fuck you Chill Good Night\" with the warmth of a thousand suns.",
       quote: "\"SPLOINK?\""
     },
     tjc: {
@@ -363,8 +363,8 @@ import Layout from '../layouts/Layout.astro';
       description: "You claim you are done. You are NOT done. You are never done. You will say \"not a gamer anymore\" and then queue up four games. Your real strategy is dying first so you can alt-tab to whatever side project has captured your brain. You live in a state of beautiful contradiction. Purchance.",
       quote: "\"PURCHANCE.\""
     },
-    goodchillnight: {
-      name: "GOOD CHILL NIGHT",
+    chillgoodnight: {
+      name: "CHILL GOOD NIGHT",
       accent: "#f5d623",
       role: "SENTINEL // KILLJOY",
       description: "Mayb. Mayhaps. Mebe3. You are the squad member who answers every invitation with glorious noncommitment, but you ALWAYS show up. Healing goes against everything you believe in. You position site-adjacent. The ace watch continues. But you are the steady, reliable presence that keeps it all together.",
@@ -386,7 +386,7 @@ import Layout from '../layouts/Layout.astro';
         { label: "Send a cryptic one-word message in the group chat. \"Boing?\"", player: "doodlleus" },
         { label: "Say \"I could do exactly one\" knowing full well it will be four.", player: "tjc" },
         { label: "\"Not a gamer anymore\" you type, already launching Valorant.", player: "prettymouthboy" },
-        { label: "\"Mayb.\" (You are already logging in.)", player: "goodchillnight" },
+        { label: "\"Mayb.\" (You are already logging in.)", player: "chillgoodnight" },
         { label: "\"Aye.\" Then close your eyes for just a second...", player: "neilatron" }
       ]
     },
@@ -396,7 +396,7 @@ import Layout from '../layouts/Layout.astro';
         { label: "Immediately blame the gaming chair. It is losing power.", player: "doodlleus" },
         { label: "\"This is why I'm the Viper.\" (You were playing Sage.)", player: "tjc" },
         { label: "Alt-tab. You have a factory that needs optimizing.", player: "prettymouthboy" },
-        { label: "Stare silently. Site adjacent was the correct call. The site was wrong.", player: "goodchillnight" },
+        { label: "Stare silently. Site adjacent was the correct call. The site was wrong.", player: "chillgoodnight" },
         { label: "\"Aye, that's rough.\" Continue vibing regardless.", player: "neilatron" }
       ]
     },
@@ -406,17 +406,17 @@ import Layout from '../layouts/Layout.astro';
         { label: "Rez them while yelling encouragement. THE HEART OF THE SQUAD.", player: "doodlleus" },
         { label: "Rez them with no smoke, no wall, no plan. Just vibes. 12% survival rate.", player: "tjc" },
         { label: "You died before them. You are already in Factorio.", player: "prettymouthboy" },
-        { label: "Healing goes against everything you believe in. Place a turret instead.", player: "goodchillnight" },
+        { label: "Healing goes against everything you believe in. Place a turret instead.", player: "chillgoodnight" },
         { label: "Switch to whatever agent fixes this. You are the flex. You adapt.", player: "neilatron" }
       ]
     },
     {
       text: "THE SQUAD WINS A CLOSE GAME. HOW DO YOU CELEBRATE?",
       answers: [
-        { label: "\"FUCK YOU GOOD CHILL NIGHT\" (said with love, always with love)", player: "doodlleus" },
+        { label: "\"FUCK YOU CHILL GOOD NIGHT\" (said with love, always with love)", player: "doodlleus" },
         { label: "\"One more.\" (The one-game commitment is void. It was always void.)", player: "tjc" },
         { label: "\"Purchance we run it back.\" You were going to anyway.", player: "prettymouthboy" },
-        { label: "A single \"nice\" in chat. Emotional range: site adjacent.", player: "goodchillnight" },
+        { label: "A single \"nice\" in chat. Emotional range: site adjacent.", player: "chillgoodnight" },
         { label: "\"Im up for losing some RR.\" (You just gained RR but the bit must continue.)", player: "neilatron" }
       ]
     },
@@ -426,7 +426,7 @@ import Layout from '../layouts/Layout.astro';
         { label: "Whatever is loudest and most obnoxious. It matches your energy.", player: "doodlleus" },
         { label: "Wasteland Vandal. The squad has staged interventions. You will not change.", player: "tjc" },
         { label: "You forgot to buy a skin. You forgot to buy armor. You are alt-tabbed.", player: "prettymouthboy" },
-        { label: "Default skin. Skins are a distraction from turret placement.", player: "goodchillnight" },
+        { label: "Default skin. Skins are a distraction from turret placement.", player: "chillgoodnight" },
         { label: "Whatever the squad is running. You are here for the vibes, not the drip.", player: "neilatron" }
       ]
     },
@@ -436,7 +436,7 @@ import Layout from '../layouts/Layout.astro';
         { label: "You are already fading. The gaming chair has lost all power. One more though.", player: "doodlleus" },
         { label: "Boot back into Valorant OS. Dual-booting is a lifestyle, not a choice.", player: "tjc" },
         { label: "\"I should sleep\" you say, queueing up. You are always a gamer.", player: "prettymouthboy" },
-        { label: "\"Mebe3.\" This translates to yes but you need 10 minutes.", player: "goodchillnight" },
+        { label: "\"Mebe3.\" This translates to yes but you need 10 minutes.", player: "chillgoodnight" },
         { label: "You are asleep. The lobby is loading. Your agent is auto-locked.", player: "neilatron" }
       ]
     },
@@ -446,13 +446,13 @@ import Layout from '../layouts/Layout.astro';
         { label: "Type something so cryptic they stop fighting to figure out what it means.", player: "doodlleus" },
         { label: "\"This is why I'm the Viper.\" They have no idea what this means. Good.", player: "tjc" },
         { label: "You are not reading chat. You are thinking about conveyor belt ratios.", player: "prettymouthboy" },
-        { label: "You do not engage. You place a turret facing their spawn. Statement made.", player: "goodchillnight" },
+        { label: "You do not engage. You place a turret facing their spawn. Statement made.", player: "chillgoodnight" },
         { label: "\"Aye.\" One word. Zero elaboration. Maximum confusion.", player: "neilatron" }
       ]
     }
   ];
 
-  const scores = { doodlleus: 0, tjc: 0, prettymouthboy: 0, goodchillnight: 0, neilatron: 0 };
+  const scores = { doodlleus: 0, tjc: 0, prettymouthboy: 0, chillgoodnight: 0, neilatron: 0 };
   let currentQ = 0;
 
   const questionArea = document.getElementById('question-area');
