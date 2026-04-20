@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 ---
 
 <Layout title="SPIKE TIMER // tHeRe's nO WaY We lOsE ThIs™">
@@ -190,15 +191,25 @@ import Layout from '../layouts/Layout.astro';
         exploded = true;
         running = false;
         clearInterval(interval);
-        if (spikeStatus) {
-          spikeStatus.textContent = 'DETONATED';
-          spikeStatus.classList.add('exploded');
+
+        // 20% chance of rickroll instead of normal detonation
+        if (Math.random() < 0.2 && window.rickroll) {
+          if (timerLabel) timerLabel.textContent = '???';
+          if (beepText) beepText.textContent = 'SOMETHING IS WRONG...';
+          setTimeout(function() {
+            window.rickroll('SPIKE DETONATED');
+          }, 500);
+        } else {
+          if (spikeStatus) {
+            spikeStatus.textContent = 'DETONATED';
+            spikeStatus.classList.add('exploded');
+          }
+          if (timerLabel) timerLabel.textContent = 'BOOM';
+          if (beepText) beepText.textContent = 'SPIKE DETONATED';
+          if (timerRing) timerRing.classList.add('exploded');
+          beep(120, 0.5);
+          setTimeout(function() { beep(80, 0.8); }, 100);
         }
-        if (timerLabel) timerLabel.textContent = 'BOOM';
-        if (beepText) beepText.textContent = 'SPIKE DETONATED';
-        if (timerRing) timerRing.classList.add('exploded');
-        beep(120, 0.5);
-        setTimeout(function() { beep(80, 0.8); }, 100);
 
         // Show drift
         if (sabotageLog) {
@@ -322,6 +333,7 @@ import Layout from '../layouts/Layout.astro';
     updateDisplay();
   })();
   </script>
+  <RickRoll />
 </Layout>
 
 <style>

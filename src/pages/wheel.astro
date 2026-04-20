@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 ---
 
 <Layout title="EXCUSE WHEEL // tHeRe's nO WaY We lOsE ThIs™">
@@ -299,14 +300,16 @@ import Layout from '../layouts/Layout.astro';
     "Chill Good Night's turret did more damage than all of us",
     "Pretty Mouth Man said 'not a gamer anymore' and meant it",
     "Neilatron's Gekko ult went the wrong way",
-    "CRASHOUT"
+    "CRASHOUT",
+    "Rick Astley showed up mid-game"
   ];
 
   const segmentColors = [
     '#ff4655', '#17ecc2', '#f5a623', '#4a90d9',
     '#c742f5', '#ff4655', '#17ecc2', '#f5a623',
     '#4a90d9', '#c742f5', '#ff4655', '#17ecc2',
-    '#f5a623', '#4a90d9', '#c742f5', '#ff4655'
+    '#f5a623', '#4a90d9', '#c742f5', '#ff4655',
+    '#ff0000'
   ];
 
   const canvas = document.getElementById('wheel-canvas');
@@ -480,6 +483,14 @@ import Layout from '../layouts/Layout.astro';
     var idx = getSelectedIndex(currentAngle);
     var excuse = excuses[idx];
 
+    // If it lands on Rick Astley, rickroll them
+    if (excuse.indexOf('Rick Astley') !== -1 && window.rickroll) {
+      setTimeout(function() {
+        window.rickroll('NEVER GONNA GIVE YOU UP');
+      }, 400);
+      return;
+    }
+
     // Dramatic delay then reveal
     setTimeout(function() {
       resultText.textContent = excuse;
@@ -504,3 +515,4 @@ import Layout from '../layouts/Layout.astro';
   spinAgainBtn.addEventListener('click', spin);
 })();
 </script>
+  <RickRoll />

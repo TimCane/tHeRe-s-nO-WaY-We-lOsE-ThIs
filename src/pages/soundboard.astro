@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 
 const sounds = [
   { phrase: "SPLOINK?", player: "Doodlleus", color: "#c742f5", sound: "boop" },
@@ -14,6 +15,7 @@ const sounds = [
   { phrase: "ONLY 1", player: "Chill Good Night", color: "#f5d623", sound: "ping" },
   { phrase: "BRIMJOB", player: "squad", color: "#ff4655", sound: "fanfare" },
   { phrase: "ODIN PROTOCOL", player: "squad", color: "#ff4655", sound: "machinegun" },
+  { phrase: "NEVER GONNA GIVE YOU UP", player: "Rick Astley", color: "#ff0000", sound: "rickroll" },
 ];
 ---
 
@@ -51,6 +53,7 @@ const sounds = [
       ))}
     </div>
   </section>
+  <RickRoll />
 </Layout>
 
 <style>
@@ -564,6 +567,11 @@ const sounds = [
         o2.connect(g2); g2.connect(gainNode);
         o2.start(t + i * 0.15); o2.stop(t + i * 0.15 + 0.3);
       });
+    },
+
+    // NEVER GONNA GIVE YOU UP - rickroll
+    rickroll: function() {
+      if (window.rickroll) window.rickroll('NEVER GONNA GIVE YOU UP');
     },
 
     // ODIN PROTOCOL - machine gun rapid fire

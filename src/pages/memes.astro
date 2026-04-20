@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 
 const playerColors = {
   'Doodlleus': '#c742f5',
@@ -185,6 +186,16 @@ const memes = [
       { from: 'DOODLLEUS', color: '#c742f5', text: 'I thought we were forcing' },
     ],
   },
+  {
+    id: 13,
+    type: 'moment',
+    title: 'The Ace That Finally Happened',
+    badge: 'HALL OF FAME',
+    detail: 'LOTUS // KILLJOY // 5K // THE WATCH IS OVER',
+    players: ['Chill Good Night'],
+    description: "After 812 matches and 0 aces, it happened. Chill Good Night got an ace. On Lotus. With a Killjoy turret assist. The entire squad went silent. Then the screaming started. Click this card to watch the clip.",
+    clickToWatch: true,
+  },
 ];
 
 const types = ['all', 'chat', 'scoreboard', 'quote', 'moment'];
@@ -307,7 +318,7 @@ const allPlayers = ['Doodlleus', 'TJC', 'Pretty Mouth Man', 'Chill Good Night', 
 
       if (meme.type === 'moment') {
         return (
-          <div class="meme-card card-moment" data-type={meme.type} data-players={meme.players.join(',')}>
+          <div class={`meme-card card-moment ${meme.clickToWatch ? 'card-click-to-watch' : ''}`} data-type={meme.type} data-players={meme.players.join(',')} data-click-to-watch={meme.clickToWatch ? 'true' : undefined}>
             <div class="card-header">
               <span class="card-type-tag tag-moment">{meme.badge}</span>
               <span class="card-number">#{String(meme.id).padStart(2, '0')}</span>
@@ -318,6 +329,7 @@ const allPlayers = ['Doodlleus', 'TJC', 'Pretty Mouth Man', 'Chill Good Night', 
             <h3 class="card-title moment-title">{meme.title}</h3>
             <p class="moment-detail">{meme.detail}</p>
             <p class="moment-desc">{meme.description}</p>
+            {meme.clickToWatch && <div class="watch-clip-btn">&#9654; WATCH CLIP</div>}
           </div>
         );
       }
@@ -325,6 +337,7 @@ const allPlayers = ['Doodlleus', 'TJC', 'Pretty Mouth Man', 'Chill Good Night', 
       return null;
     })}
   </section>
+  <RickRoll />
 </Layout>
 
 <script is:inline>
@@ -375,10 +388,42 @@ const allPlayers = ['Doodlleus', 'TJC', 'Pretty Mouth Man', 'Chill Good Night', 
       filterCards();
     });
   });
+  // Rickroll click-to-watch cards
+  document.querySelectorAll('.card-click-to-watch').forEach(function(card) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function() {
+      if (window.rickroll) window.rickroll('THE ACE FOOTAGE');
+    });
+  });
 })();
 </script>
 
 <style>
+  .card-click-to-watch {
+    border: 1px solid rgba(255,0,0,0.3) !important;
+    transition: all 0.3s;
+  }
+  .card-click-to-watch:hover {
+    border-color: rgba(255,0,0,0.6) !important;
+    box-shadow: 0 0 30px rgba(255,0,0,0.15);
+  }
+  .watch-clip-btn {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(255,70,85,0.15);
+    border: 1px solid rgba(255,70,85,0.4);
+    color: #ff4655;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-align: center;
+    animation: watchPulse 2s ease-in-out infinite;
+  }
+  @keyframes watchPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; box-shadow: 0 0 15px rgba(255,70,85,0.3); }
+  }
   /* ==================== HERO ==================== */
   .meme-hero {
     position: relative;

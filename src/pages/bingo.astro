@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 ---
 
 <Layout title="SQUAD BINGO // tHeRe's nO WaY">
@@ -594,7 +595,12 @@ import Layout from '../layouts/Layout.astro';
       if (hasBingo && !bingoAchieved) {
         bingoAchieved = true;
         statusEl.textContent = 'BINGO! ' + (winCount > 1 ? winCount + 'x LINES!' : '');
-        celebrationEl.classList.add('active');
+        // 25% chance of rickroll celebration instead
+        if (Math.random() < 0.25 && window.rickroll) {
+          window.rickroll('BINGO! (YOU LOSE)');
+        } else {
+          celebrationEl.classList.add('active');
+        }
       } else if (hasBingo) {
         statusEl.textContent = 'BINGO! ' + (winCount > 1 ? winCount + 'x LINES!' : '');
       } else {
@@ -619,4 +625,5 @@ import Layout from '../layouts/Layout.astro';
     generateCard();
   })();
   </script>
+  <RickRoll />
 </Layout>

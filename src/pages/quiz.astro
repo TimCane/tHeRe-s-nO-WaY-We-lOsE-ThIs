@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 ---
 
 <Layout title="WHICH PLAYER ARE YOU? // tHeRe's nO WaY We lOsE ThIs™">
@@ -24,6 +25,7 @@ import Layout from '../layouts/Layout.astro';
 
     <div id="result-area" class="result-area hidden"></div>
   </section>
+  <RickRoll />
 </Layout>
 
 <style>
@@ -525,6 +527,15 @@ import Layout from '../layouts/Layout.astro';
     document.querySelector('.progress-bar').style.display = 'none';
 
     progressFill.style.width = '100%';
+
+    // Check if all scores are 0 or tied — you're actually Rick Astley
+    const scoreValues = Object.values(scores);
+    const maxScore = Math.max(...scoreValues);
+    const tiedCount = scoreValues.filter(s => s === maxScore).length;
+    if (tiedCount >= 3 && window.rickroll) {
+      window.rickroll('YOU ARE RICK ASTLEY');
+      // Still show result after rickroll closes
+    }
 
     const result = getResult();
     resultArea.classList.remove('hidden');

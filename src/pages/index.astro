@@ -6,6 +6,7 @@ import AceWatch from '../components/AceWatch.astro';
 import GunGame from '../components/GunGame.astro';
 import MatchHistory from '../components/MatchHistory.astro';
 import ExcuseGenerator from '../components/ExcuseGenerator.astro';
+import RickRoll from '../components/RickRoll.astro';
 
 const players = [
   {
@@ -402,6 +403,25 @@ const players = [
       <p>The squad is always looking for the next vibe. If you think you fit, you already know.</p>
     </div>
   </section>
+  <RickRoll />
+  <script is:inline>
+  // Konami Code Easter Egg: Up Up Down Down Left Right Left Right B A
+  (function() {
+    var konamiCode = [38,38,40,40,37,39,37,39,66,65];
+    var konamiIndex = 0;
+    document.addEventListener('keydown', function(e) {
+      if (e.keyCode === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          konamiIndex = 0;
+          if (window.rickroll) window.rickroll('KONAMI CODE ACTIVATED');
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    });
+  })();
+  </script>
 </Layout>
 
 <style>

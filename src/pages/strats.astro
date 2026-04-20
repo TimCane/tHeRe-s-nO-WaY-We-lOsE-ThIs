@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 ---
 
 <Layout title="STRAT GENERATOR // tHeRe's nO WaY We lOsE ThIs™">
@@ -180,6 +181,13 @@ import Layout from '../layouts/Layout.astro';
         tags: ["EVERY ROUND", "ECONOMY IS A MYTH", "I THOUGHT WE WERE SAVING"],
         color: "#ff4655"
       },
+      {
+        name: "THE CLASSIFIED STRAT",
+        desc: "This strategy is so powerful it has been redacted by Riot Games. Click 'GENERATE STRAT' again to unlock the full briefing. Trust us. It's worth it.",
+        tags: ["TOP SECRET", "REDACTED", "DEFINITELY NOT A TRAP"],
+        color: "#ff0000",
+        rickroll: true
+      },
     ];
 
     let count = 0;
@@ -191,8 +199,21 @@ import Layout from '../layouts/Layout.astro';
     const btn = document.getElementById('strat-btn');
 
     function generateStrat() {
-      const strat = strats[Math.floor(Math.random() * strats.length)];
       count++;
+      // Every 10th strat is a guaranteed rickroll
+      var strat;
+      if (count % 10 === 0) {
+        strat = strats[strats.length - 1]; // The classified strat
+      } else {
+        strat = strats[Math.floor(Math.random() * strats.length)];
+      }
+
+      // If this strat is the rickroll trap
+      if (strat.rickroll && window.rickroll) {
+        window.rickroll('CLASSIFIED STRAT UNLOCKED');
+        countEl.textContent = count;
+        return;
+      }
 
       // Glitch animation
       card.classList.add('glitching');
@@ -214,6 +235,7 @@ import Layout from '../layouts/Layout.astro';
     btn.addEventListener('click', generateStrat);
   })();
   </script>
+  <RickRoll />
 </Layout>
 
 <style>

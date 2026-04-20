@@ -1,0 +1,166 @@
+<!-- RICKROLL OVERLAY COMPONENT -->
+<!-- Usage: Include once per page, then call window.rickroll() from JS -->
+<div id="rickroll-overlay" class="rickroll-overlay">
+  <div class="rickroll-inner">
+    <div class="rickroll-glitch-text" id="rickroll-text">GET RICK ROLLED</div>
+    <video id="rickroll-video" class="rickroll-video" playsinline>
+      <source src="/assets/Rick Astley - Never Gonna Give You Up.mp4" type="video/mp4" />
+    </video>
+    <button class="rickroll-close" id="rickroll-close">&times; I'VE BEEN GOT</button>
+  </div>
+</div>
+
+<style>
+  .rickroll-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: rickFadeIn 0.3s ease;
+  }
+
+  .rickroll-overlay.active {
+    display: flex;
+  }
+
+  .rickroll-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .rickroll-glitch-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 700;
+    letter-spacing: 12px;
+    color: #ff4655;
+    text-shadow:
+      0 0 40px rgba(255,70,85,0.8),
+      0 0 80px rgba(255,70,85,0.4),
+      3px 3px 0 #17ecc2,
+      -3px -3px 0 #c742f5;
+    z-index: 2;
+    animation: rickGlitch 0.8s steps(4) forwards;
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .rickroll-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.6s;
+  }
+
+  .rickroll-video.playing {
+    opacity: 1;
+  }
+
+  .rickroll-close {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(255,70,85,0.2);
+    border: 1px solid rgba(255,70,85,0.5);
+    color: #ece8e1;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    z-index: 3;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: rickCloseAppear 0.5s ease 2s forwards;
+  }
+
+  .rickroll-close:hover {
+    background: rgba(255,70,85,0.5);
+    border-color: #ff4655;
+    transform: scale(1.05);
+  }
+
+  @keyframes rickFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes rickGlitch {
+    0% { opacity: 1; transform: translate(-50%, -50%) skewX(0deg); }
+    25% { transform: translate(-48%, -52%) skewX(-5deg); text-shadow: 5px 0 0 #17ecc2, -5px 0 0 #c742f5; }
+    50% { transform: translate(-52%, -48%) skewX(3deg); text-shadow: -3px 0 0 #17ecc2, 3px 0 0 #c742f5; }
+    75% { transform: translate(-50%, -50%) skewX(-2deg); opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -50%) skewX(0deg); }
+  }
+
+  @keyframes rickCloseAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 0.7; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .rickroll-close {
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      padding: 0.6rem 1rem;
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  var overlay = document.getElementById('rickroll-overlay');
+  var video = document.getElementById('rickroll-video');
+  var closeBtn = document.getElementById('rickroll-close');
+  var glitchText = document.getElementById('rickroll-text');
+
+  function rickroll(message) {
+    if (message) glitchText.textContent = message;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(function() {
+      video.classList.add('playing');
+      video.currentTime = 0;
+      video.play().catch(function() {});
+    }, 600);
+  }
+
+  function closeRickroll() {
+    video.pause();
+    video.classList.remove('playing');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeRickroll);
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeRickroll();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeRickroll();
+  });
+
+  // Expose globally
+  window.rickroll = rickroll;
+})();
+</script>

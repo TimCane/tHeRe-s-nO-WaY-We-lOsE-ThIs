@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 
 const terms = [
   { term: "BRIMJOB", def: "When Pretty Mouth Man does something good as Brimstone. The squad types it in chat. He has never asked them to stop.", color: "#f5a623" },
@@ -29,7 +30,11 @@ const terms = [
   { term: "THE MINIMAP", def: "A feature of Valorant that Doodlleus refuses to acknowledge exists. The minimap shows enemy positions, teammate locations, and utility placement. Doodlleus uses none of this information. He plays Valorant like it's a horror game — everything is a surprise. The squad has pointed at the minimap. They have pinged the minimap. They have screamed about the minimap. He does not look at it. He will never look at it.", color: "#c742f5" },
   { term: "MAKE CLAUDE FIX MY NAME", def: "The time an AI was given the wrong name for Chill Good Night and confidently renamed her across 135 occurrences in 27 files. The original site said 'Good Chill Night.' she noticed. The squad's reaction: 'Smh Claude is so rude.' Claude has not apologised. She has not recovered. TJC thought it was hilarious. The AI did exactly what it was told, which is the most dangerous thing an AI can do.", color: "#f5d623" },
   { term: "PRETTY MOUTH MAN", def: "Formerly Pretty Mouth Boy. Chill Good Night decided he was too old to be a 'boy' and made him change it about a year ago. Or did she? The squad isn't entirely sure whether this was a democratic decision or a decree. Either way, Pretty Mouth Man grew up. He still dies first. He's still in Factorio. But now he does it as a man.", color: "#f5a623" },
+  { term: "THERE'S NO WAY WE LOSE THIS", def: "A guaranteed loss. When Doodlleus says this, the game is over. It does not matter if the squad is up 12-2. It does not matter if it is match point. The universe hears Doodlleus speak these words and rearranges itself to ensure defeat. The squad has begged him to stop. He cannot. He believes it every time. He is wrong every time.", color: "#c742f5" },
+  { term: "THE TWO GAME LIMIT", def: "Doodlleus plays exactly two games of Valorant before announcing he's going to bed. Not three. Not one more. Two. The squad has accepted this, because after Doodlleus leaves, the real second half of game night begins: Golf With Your Friends. The transition is seamless. The Vandals become putters. The callouts become 'NICE HOLE.' The vibes shift from tactical shooter to mini golf chaos. Doodlleus has never seen the golf. He is asleep. He does not know what he's missing. He would not care if he did.", color: "#c742f5" },
   { term: "THE WEBSITE MAKES MY PHONE WARM", def: "A known feature of this website. Three canvas particle animations run simultaneously at 60fps, a kill feed spawns new DOM elements every 3 seconds, and a custom crosshair cursor tracks your mouse across the entire page. On desktop this is 'aesthetic.' On mobile this is 'my phone is now a space heater.' The squad considers this a feature, not a bug. If your phone is warm, the vibes are working.", color: "#ff4655" },
+  { term: "THE ACE FOOTAGE", def: "Chill Good Night's first ever ace was finally captured on video. The squad has reviewed the footage 47 times. Click this card to witness the historic moment. You will not believe what happens at 0:12. This is not a drill. This is real. This happened. We promise.", color: "#ff0000", clickable: true },
+  { term: "NEVER GONNA GIVE YOU UP", def: "A solemn promise made by every squad member upon joining tHeRe's nO WaY We lOsE ThIs™. You will never be abandoned. You will never be let down. You will never be run around or deserted. Your feelings will never be hurt. You will never be said goodbye to. You will never be told a lie. This is the squad code. This is the way. (Also a banger.)", color: "#ff0000" },
 ];
 ---
 
@@ -46,15 +51,26 @@ const terms = [
 
   <section class="glossary-list">
     {terms.map((t, i) => (
-      <div class="term-card" style={`--accent: ${t.color}; --i: ${i}`}>
+      <div class={`term-card ${t.clickable ? 'term-clickable' : ''}`} style={`--accent: ${t.color}; --i: ${i}`} data-clickable={t.clickable ? 'true' : undefined}>
         <div class="term-index">{String(i + 1).padStart(2, '0')}</div>
         <div class="term-content">
-          <h2 class="term-name">{t.term}</h2>
+          <h2 class="term-name">{t.term}{t.clickable ? <span class="click-hint"> [CLICK TO VIEW]</span> : null}</h2>
           <p class="term-def">{t.def}</p>
         </div>
       </div>
     ))}
   </section>
+  <RickRoll />
+  <script is:inline>
+  (function() {
+    document.querySelectorAll('.term-clickable').forEach(function(card) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        if (window.rickroll) window.rickroll('ACE FOOTAGE LOADING...');
+      });
+    });
+  })();
+  </script>
 </Layout>
 
 <style>
@@ -154,6 +170,23 @@ const terms = [
     font-size: 0.95rem;
     line-height: 1.7;
     opacity: 0.65;
+  }
+
+  .term-clickable:hover {
+    background: rgba(255, 0, 0, 0.05);
+    border-color: rgba(255, 0, 0, 0.2);
+  }
+
+  .click-hint {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    animation: hintPulse 1.5s ease-in-out infinite;
+    margin-left: 0.5rem;
+  }
+
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
   }
 
   @media (max-width: 768px) {

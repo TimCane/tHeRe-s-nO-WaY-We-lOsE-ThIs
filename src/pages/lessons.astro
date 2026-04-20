@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
 ---
 
 <Layout title="POST-MATCH DEBRIEF // tHeRe's nO WaY">
@@ -85,9 +86,19 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- CLASSIFICATION FOOTER -->
         <div class="classification-bar bottom">END OF REPORT // FILE UNDER: COPIUM</div>
+
+        <!-- VOD REVIEW BUTTON -->
+        <div class="vod-review-section">
+          <button class="vod-review-btn" id="vod-review-btn">
+            <span class="vod-icon">&#9654;</span>
+            WATCH VOD REVIEW
+            <span class="vod-hint">// FULL GAME FOOTAGE</span>
+          </button>
+        </div>
       </div>
     </section>
   </main>
+  <RickRoll />
 
   <script is:inline>
   (function() {
@@ -341,6 +352,10 @@ import Layout from '../layouts/Layout.astro';
     }
 
     document.getElementById('generate-btn').addEventListener('click', generateDebrief);
+
+    document.getElementById('vod-review-btn').addEventListener('click', function() {
+      if (window.rickroll) window.rickroll('VOD REVIEW LOADING...');
+    });
   })();
   </script>
 
@@ -716,6 +731,49 @@ import Layout from '../layouts/Layout.astro';
       opacity: 0.45;
       font-style: italic;
       letter-spacing: 1px;
+    }
+
+    /* VOD REVIEW */
+    .vod-review-section {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .vod-review-btn {
+      background: linear-gradient(135deg, rgba(255,70,85,0.15), rgba(255,0,0,0.1));
+      border: 1px solid rgba(255,70,85,0.4);
+      color: var(--val-cream);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      padding: 1rem 2.5rem;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .vod-review-btn:hover {
+      background: linear-gradient(135deg, rgba(255,70,85,0.3), rgba(255,0,0,0.2));
+      border-color: #ff4655;
+      transform: scale(1.03);
+      box-shadow: 0 0 30px rgba(255,70,85,0.2);
+    }
+
+    .vod-icon {
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .vod-hint {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      opacity: 0.4;
+      margin-top: 0.3rem;
+      font-weight: 600;
     }
 
     /* SCANLINE EFFECT ON REPORT */
