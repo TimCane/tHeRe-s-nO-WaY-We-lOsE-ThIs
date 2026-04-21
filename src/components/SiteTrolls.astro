@@ -1,0 +1,860 @@
+<!-- SITE TROLLS: The ultimate collection of annoyances -->
+
+<!-- FAKE NOTIFICATIONS -->
+<div id="troll-notifications" class="troll-notifications"></div>
+
+<!-- ODIN PROTOCOL POPUP (un-closable) -->
+<div id="odin-popup" class="odin-popup">
+  <div class="odin-popup-inner">
+    <button class="odin-close" id="odin-close">&times;</button>
+    <div class="odin-content">
+      <div class="odin-icon">&#9876;</div>
+      <h3>SUBSCRIBE TO ODIN PROTOCOL</h3>
+      <p>Receive daily Odin buy recommendations straight to your inbox. Never miss a force buy again.</p>
+      <div class="odin-buttons">
+        <button class="odin-btn odin-yes" id="odin-yes">YES, I LOVE ODINS</button>
+        <button class="odin-btn odin-no" id="odin-no">No thanks</button>
+      </div>
+      <div class="odin-subtext">By clicking YES you agree to buy an Odin every round for the rest of your career.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAKE LOADING OVERLAY -->
+<div id="fake-loading" class="fake-loading">
+  <div class="fake-loading-inner">
+    <div class="fake-loading-text" id="fake-loading-text">DOWNLOADING AIM...</div>
+    <div class="fake-loading-bar">
+      <div class="fake-loading-fill" id="fake-loading-fill"></div>
+    </div>
+    <div class="fake-loading-percent" id="fake-loading-percent">0%</div>
+  </div>
+</div>
+
+<!-- EXIT INTENT POPUP -->
+<div id="exit-popup" class="exit-popup">
+  <div class="exit-popup-inner">
+    <div class="exit-glitch">ARE YOU SURE?</div>
+    <p class="exit-text">THE SQUAD NEEDS YOU. DOODLLEUS IS ALREADY ASKING "SPLOINK?" IN THE GROUP CHAT.</p>
+    <div class="exit-buttons">
+      <button class="exit-btn exit-stay" id="exit-stay">I'LL STAY</button>
+      <button class="exit-btn exit-leave" id="exit-leave">I'm leaving</button>
+    </div>
+    <div class="exit-guilt">Pretty Mouth Man just said he'd play one more. Don't let him down.</div>
+  </div>
+</div>
+
+<!-- CURSOR SWARM (fake cursors) -->
+<div id="cursor-swarm" class="cursor-swarm">
+  <div class="fake-cursor" data-lerp="0.08" data-orbit="25"></div>
+  <div class="fake-cursor" data-lerp="0.06" data-orbit="35"></div>
+  <div class="fake-cursor" data-lerp="0.04" data-orbit="45"></div>
+  <div class="fake-cursor" data-lerp="0.03" data-orbit="55"></div>
+  <div class="fake-cursor" data-lerp="0.02" data-orbit="65"></div>
+</div>
+
+<!-- HIDDEN BACKGROUND RICKROLL AUDIO -->
+<video id="bg-rickroll" class="bg-rickroll" playsinline preload="auto">
+  <source src="/assets/Rick Astley - Never Gonna Give You Up.mp4" type="video/mp4" />
+</video>
+
+<style>
+  /* ==================== NOTIFICATIONS ==================== */
+  .troll-notifications {
+    position: fixed;
+    top: 80px;
+    left: 1rem;
+    z-index: 9500;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: none;
+    max-width: 340px;
+  }
+
+  .troll-notif {
+    background: rgba(10,16,24,0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,70,85,0.3);
+    border-left: 3px solid var(--notif-color, #ff4655);
+    padding: 0.75rem 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    animation: notifSlideIn 0.4s ease, notifFadeOut 0.5s ease 4.5s forwards;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    pointer-events: auto;
+  }
+
+  .notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .notif-type {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--notif-color, #ff4655);
+    opacity: 0.8;
+  }
+
+  .notif-time {
+    font-size: 0.55rem;
+    opacity: 0.3;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .notif-body {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    color: var(--val-cream);
+  }
+
+  @keyframes notifSlideIn {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes notifFadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-20px); }
+  }
+
+  /* ==================== ODIN POPUP ==================== */
+  .odin-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(10,16,24,0.85);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .odin-popup.active { display: flex; }
+
+  .odin-popup-inner {
+    background: rgba(15, 25, 35, 0.98);
+    border: 1px solid rgba(255,70,85,0.4);
+    max-width: 420px;
+    width: 90%;
+    padding: 2.5rem 2rem;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    animation: popupAppear 0.3s ease;
+  }
+
+  @keyframes popupAppear {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .odin-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--val-cream);
+    font-size: 1.4rem;
+    opacity: 0.4;
+    transition: all 0.1s;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .odin-content { text-align: center; }
+
+  .odin-icon {
+    font-size: 3rem;
+    color: var(--val-red);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 30px rgba(255,70,85,0.5);
+  }
+
+  .odin-content h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--val-red);
+    margin-bottom: 0.75rem;
+  }
+
+  .odin-content p {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .odin-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .odin-btn {
+    padding: 0.8rem 1.5rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    border: none;
+    transition: all 0.3s;
+  }
+
+  .odin-yes {
+    background: var(--val-red);
+    color: white;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .odin-yes:hover { background: #ff5c6a; transform: scale(1.02); }
+
+  .odin-no {
+    background: transparent;
+    border: 1px solid rgba(236,232,225,0.15);
+    color: var(--val-cream);
+    opacity: 0.4;
+    font-size: 0.7rem;
+  }
+
+  .odin-no:hover { opacity: 0.6; }
+
+  .odin-subtext {
+    margin-top: 1rem;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    opacity: 0.2;
+    line-height: 1.5;
+  }
+
+  /* ==================== FAKE LOADING ==================== */
+  .fake-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9900;
+    background: rgba(10,16,24,0.92);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fake-loading.active { display: flex; }
+
+  .fake-loading-inner {
+    text-align: center;
+    width: 350px;
+    max-width: 85vw;
+  }
+
+  .fake-loading-text {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: var(--val-teal);
+    margin-bottom: 1.5rem;
+    animation: loadingPulse 1s ease-in-out infinite;
+  }
+
+  .fake-loading-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(236,232,225,0.08);
+    margin-bottom: 0.75rem;
+  }
+
+  .fake-loading-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--val-teal), var(--val-red));
+    transition: width 0.3s;
+  }
+
+  .fake-loading-percent {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    font-weight: 700;
+  }
+
+  /* ==================== EXIT POPUP ==================== */
+  .exit-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(10,16,24,0.9);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .exit-popup.active { display: flex; }
+
+  .exit-popup-inner {
+    text-align: center;
+    max-width: 450px;
+    padding: 2rem;
+  }
+
+  .exit-glitch {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: var(--val-red);
+    text-shadow: 3px 3px 0 var(--val-teal), -3px -3px 0 #c742f5;
+    animation: celebGlitch 0.5s steps(3) infinite;
+    margin-bottom: 1.5rem;
+  }
+
+  .exit-text {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    line-height: 1.7;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+  }
+
+  .exit-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .exit-btn {
+    padding: 0.8rem 2rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    border: none;
+    transition: all 0.3s;
+  }
+
+  .exit-stay {
+    background: var(--val-teal);
+    color: var(--val-darker);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .exit-stay:hover { transform: scale(1.05); }
+
+  .exit-leave {
+    background: transparent;
+    border: 1px solid rgba(236,232,225,0.15);
+    color: var(--val-cream);
+    opacity: 0.3;
+    font-size: 0.7rem;
+  }
+
+  .exit-guilt {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    opacity: 0.25;
+    font-style: italic;
+  }
+
+  /* ==================== FAKE CURSORS ==================== */
+  .cursor-swarm {
+    display: none;
+  }
+
+  .cursor-swarm.active {
+    display: block;
+  }
+
+  .fake-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 99997;
+    opacity: 0.6;
+    transform: translate(-50%, -50%);
+  }
+
+  .fake-cursor::before,
+  .fake-cursor::after {
+    content: '';
+    position: absolute;
+    background: #ff4655;
+    border-radius: 1px;
+    box-shadow: 0 0 4px rgba(255,70,85,0.5);
+  }
+
+  .fake-cursor::before {
+    width: 2px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .fake-cursor::after {
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .fake-cursor:nth-child(2)::before,
+  .fake-cursor:nth-child(2)::after { background: #17ecc2; box-shadow: 0 0 4px rgba(23,236,194,0.5); }
+  .fake-cursor:nth-child(3)::before,
+  .fake-cursor:nth-child(3)::after { background: #c742f5; box-shadow: 0 0 4px rgba(199,66,245,0.5); }
+  .fake-cursor:nth-child(4)::before,
+  .fake-cursor:nth-child(4)::after { background: #f5a623; box-shadow: 0 0 4px rgba(245,166,35,0.5); }
+  .fake-cursor:nth-child(5)::before,
+  .fake-cursor:nth-child(5)::after { background: #7aff4a; box-shadow: 0 0 4px rgba(122,255,74,0.5); }
+
+  /* ==================== BACKGROUND RICKROLL ==================== */
+  .bg-rickroll {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ==================== SLOW ROTATION ==================== */
+  .page-tilting {
+    transition: transform 2s ease;
+  }
+
+  /* ==================== MOBILE ==================== */
+  @media (max-width: 768px) {
+    .troll-notifications { display: none; }
+    .cursor-swarm { display: none !important; }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  // Don't run trolls during loading
+  var trollReady = false;
+  setTimeout(function() { trollReady = true; }, 3500);
+
+  /* ==================== 1. TAB TITLE TROLL ==================== */
+  var originalTitle = document.title;
+  var altTitles = [
+    'COME BACK WE\'RE LOSING',
+    'DOODLLEUS IS CARRYING WITHOUT YOU',
+    'PRETTY MOUTH MAN ALT-TABBED TOO',
+    'THE GAMING CHAIR MISSES YOU',
+    'CHILL GOOD NIGHT IS SITE ADJACENT TO YOUR TAB',
+    'NEILATRON FELL ASLEEP WAITING',
+    'YOUR RANK IS DECAYING',
+    'CRASHOUT CRASHOUT CRASHOUT',
+    'TJC SAID HE\'D DO EXACTLY ONE WITHOUT YOU',
+    'THE ODIN PROTOCOL REQUIRES YOUR PRESENCE'
+  ];
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      document.title = altTitles[Math.floor(Math.random() * altTitles.length)];
+    } else {
+      document.title = originalTitle;
+    }
+  });
+
+  /* ==================== 2. FAKE NOTIFICATIONS ==================== */
+  var notifContainer = document.getElementById('troll-notifications');
+  var notifications = [
+    { type: 'SYSTEM', color: '#ff4655', text: 'RANK UPDATE: Gold 3 → Gold 2. Again.' },
+    { type: 'PARTY', color: '#c742f5', text: 'Doodlleus has disconnected. Gaming chair lost power.' },
+    { type: 'PARTY', color: '#f5a623', text: 'Pretty Mouth Man is now playing Factorio.' },
+    { type: 'PARTY', color: '#17ecc2', text: 'TJC has equipped the Wasteland Vandal. God help us.' },
+    { type: 'PARTY', color: '#f5d623', text: 'Chill Good Night says: "Mayb"' },
+    { type: 'PARTY', color: '#7aff4a', text: 'Neilatron has fallen asleep in the lobby.' },
+    { type: 'SYSTEM', color: '#ff4655', text: 'VALORANT has detected you are hardstuck.' },
+    { type: 'ALERT', color: '#17ecc2', text: 'ACE WATCH UPDATE: Still 0 aces. The vigil continues.' },
+    { type: 'PARTY', color: '#c742f5', text: 'Doodlleus: "Sploink?"' },
+    { type: 'PARTY', color: '#17ecc2', text: 'TJC: "I could do exactly one"' },
+    { type: 'SYSTEM', color: '#ff4655', text: 'ODIN PROTOCOL has been activated by the squad.' },
+    { type: 'ALERT', color: '#f5a623', text: 'Pretty Mouth Man has minimized Valorant.' },
+    { type: 'PARTY', color: '#f5d623', text: 'Chill Good Night has placed a turret. That\'s all she\'s doing.' },
+    { type: 'SYSTEM', color: '#ff4655', text: 'WARNING: No one on your team knows a single lineup.' },
+    { type: 'PARTY', color: '#7aff4a', text: 'Neilatron: "aye"' },
+    { type: 'ALERT', color: '#17ecc2', text: 'TJC bait rez\'d someone. Survival rate: 12%.' },
+    { type: 'SYSTEM', color: '#c742f5', text: 'Doodlleus: "tHeRe\'s nO wAy We LoSe ThIs" — GG.' },
+    { type: 'SYSTEM', color: '#ff4655', text: 'ECONOMY ALERT: The squad has $200 combined.' },
+    { type: 'PARTY', color: '#f5a623', text: 'Pretty Mouth Man: "not a gamer anymore" (queuing up)' },
+    { type: 'SYSTEM', color: '#ff4655', text: 'Your aim has been reported to the authorities.' },
+  ];
+
+  function showNotification() {
+    if (!trollReady || !notifContainer) return;
+    var n = notifications[Math.floor(Math.random() * notifications.length)];
+    var el = document.createElement('div');
+    el.className = 'troll-notif';
+    el.style.setProperty('--notif-color', n.color);
+    el.innerHTML = '<div class="notif-header"><span class="notif-type">' + n.type + '</span><span class="notif-time">JUST NOW</span></div><div class="notif-body">' + n.text + '</div>';
+    notifContainer.appendChild(el);
+
+    // Remove after animation
+    setTimeout(function() {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }, 5500);
+
+    // Keep max 3
+    while (notifContainer.children.length > 3) {
+      notifContainer.removeChild(notifContainer.children[0]);
+    }
+  }
+
+  // First notification after 15-30s, then every 20-45s
+  setTimeout(function() {
+    showNotification();
+    setInterval(function() {
+      if (Math.random() < 0.7) showNotification();
+    }, 20000 + Math.random() * 25000);
+  }, 15000 + Math.random() * 15000);
+
+  /* ==================== 3. UN-CLOSABLE ODIN POPUP ==================== */
+  var odinPopup = document.getElementById('odin-popup');
+  var odinClose = document.getElementById('odin-close');
+  var odinYes = document.getElementById('odin-yes');
+  var odinNo = document.getElementById('odin-no');
+  var odinShown = sessionStorage.getItem('odin-shown');
+  var mouseX = 0, mouseY = 0;
+
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  // Show after 60-120s on the site (once per session)
+  if (!odinShown) {
+    setTimeout(function() {
+      if (!trollReady) return;
+      odinPopup.classList.add('active');
+      sessionStorage.setItem('odin-shown', '1');
+    }, 60000 + Math.random() * 60000);
+  }
+
+  // The close button dodges the mouse
+  if (odinClose) {
+    odinClose.addEventListener('mouseenter', function() {
+      var rect = odinClose.parentElement.getBoundingClientRect();
+      var maxX = rect.width - 30;
+      var maxY = rect.height - 30;
+      var newX = Math.random() * maxX;
+      var newY = Math.random() * maxY;
+      odinClose.style.position = 'absolute';
+      odinClose.style.left = newX + 'px';
+      odinClose.style.top = newY + 'px';
+    });
+  }
+
+  // "No thanks" also dodges
+  if (odinNo) {
+    odinNo.addEventListener('mouseenter', function() {
+      var parent = odinNo.parentElement;
+      var rect = parent.getBoundingClientRect();
+      odinNo.style.transform = 'translateX(' + (Math.random() * 100 - 50) + 'px) translateY(' + (Math.random() * 40 - 20) + 'px)';
+    });
+  }
+
+  // "Yes" closes and shows a notification
+  if (odinYes) {
+    odinYes.addEventListener('click', function() {
+      odinPopup.classList.remove('active');
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'troll-notif';
+        el.style.setProperty('--notif-color', '#ff4655');
+        el.innerHTML = '<div class="notif-header"><span class="notif-type">ODIN PROTOCOL</span><span class="notif-time">NOW</span></div><div class="notif-body">You are now subscribed. An Odin will be purchased on your behalf every round. There is no unsubscribe.</div>';
+        if (notifContainer) notifContainer.appendChild(el);
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 6000);
+      }, 500);
+    });
+  }
+
+  /* ==================== 4. CLIPBOARD HIJACK ==================== */
+  document.addEventListener('copy', function(e) {
+    // 40% chance of hijacking
+    if (Math.random() < 0.4) {
+      var hijacks = [
+        'CRASHOUT',
+        'purchance',
+        'this is why im the viper',
+        'ODIN PROTOCOL ACTIVATED',
+        'im up for losing some rr',
+        'Sploink?',
+        'not a gamer anymore',
+        'mayb',
+        'FUCK YOU CHILL GOOD NIGHT',
+        'aye',
+      ];
+      e.preventDefault();
+      e.clipboardData.setData('text/plain', hijacks[Math.floor(Math.random() * hijacks.length)]);
+    }
+  });
+
+  /* ==================== 5. SLOW PAGE ROTATION ==================== */
+  var currentRotation = 0;
+  var rotationInterval = setInterval(function() {
+    if (!trollReady) return;
+    currentRotation += 0.1;
+    if (currentRotation > 3) {
+      // Reset after getting noticeable enough
+      clearInterval(rotationInterval);
+      setTimeout(function() {
+        document.body.style.transition = 'transform 1s ease';
+        document.body.style.transform = 'rotate(0deg)';
+        currentRotation = 0;
+        // Start again after a while
+        setTimeout(function() {
+          rotationInterval = setInterval(function() {
+            currentRotation += 0.1;
+            document.body.style.transform = 'rotate(' + currentRotation + 'deg)';
+            if (currentRotation > 3) clearInterval(rotationInterval);
+          }, 30000);
+        }, 120000);
+      }, 3000);
+      return;
+    }
+    document.body.style.transition = 'transform 2s ease';
+    document.body.style.transform = 'rotate(' + currentRotation + 'deg)';
+  }, 30000);
+
+  /* ==================== 6. FAKE LOADING SCREEN ==================== */
+  var fakeLoading = document.getElementById('fake-loading');
+  var fakeLoadingText = document.getElementById('fake-loading-text');
+  var fakeLoadingFill = document.getElementById('fake-loading-fill');
+  var fakeLoadingPercent = document.getElementById('fake-loading-percent');
+  var fakeLoadingShown = sessionStorage.getItem('fake-loading-shown');
+
+  var loadingMessages = [
+    'DOWNLOADING AIM...',
+    'INSTALLING GAME SENSE...',
+    'LOADING LINEUPS... ERROR: NONE FOUND',
+    'BUFFERING SKILL...',
+    'IMPORTING CROSSHAIR SETTINGS...',
+    'CALIBRATING GAMING CHAIR...',
+    'SYNCING WITH ODIN PROTOCOL...',
+  ];
+
+  function showFakeLoading() {
+    if (!fakeLoading || !trollReady) return;
+    var msg = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+    fakeLoadingText.textContent = msg;
+    fakeLoadingFill.style.width = '0%';
+    fakeLoadingPercent.textContent = '0%';
+    fakeLoading.classList.add('active');
+
+    var progress = 0;
+    var loadInterval = setInterval(function() {
+      // Gets exponentially slower as it approaches 99%
+      var increment = Math.max(0.1, (100 - progress) * 0.08);
+      progress = Math.min(99, progress + increment);
+      fakeLoadingFill.style.width = progress + '%';
+      fakeLoadingPercent.textContent = Math.floor(progress) + '%';
+
+      if (progress >= 98.5) {
+        clearInterval(loadInterval);
+        // Stuck at 99% for 3 seconds then dismiss
+        fakeLoadingPercent.textContent = '99%';
+        fakeLoadingFill.style.width = '99%';
+        setTimeout(function() {
+          fakeLoadingText.textContent = 'DOWNLOAD FAILED. SKILL NOT FOUND.';
+          fakeLoadingPercent.textContent = 'ERROR';
+          fakeLoadingFill.style.background = 'var(--val-red)';
+          setTimeout(function() {
+            fakeLoading.classList.remove('active');
+            fakeLoadingFill.style.background = '';
+          }, 2000);
+        }, 3000);
+      }
+    }, 100);
+  }
+
+  // Show once per session, after 90-180s
+  if (!fakeLoadingShown) {
+    setTimeout(function() {
+      showFakeLoading();
+      sessionStorage.setItem('fake-loading-shown', '1');
+    }, 90000 + Math.random() * 90000);
+  }
+
+  /* ==================== 7. CURSOR SWARM ==================== */
+  var cursorSwarm = document.getElementById('cursor-swarm');
+  var fakeCursors = cursorSwarm ? cursorSwarm.querySelectorAll('.fake-cursor') : [];
+  var cursorPositions = [];
+  var swarmActive = false;
+
+  // Initialize positions
+  for (var i = 0; i < fakeCursors.length; i++) {
+    cursorPositions.push({ x: -100, y: -100 });
+  }
+
+  // Track real mouse with lerp for fake cursors
+  var realMX = -100, realMY = -100;
+  document.addEventListener('mousemove', function(e) {
+    realMX = e.clientX;
+    realMY = e.clientY;
+  });
+
+  function updateFakeCursors() {
+    if (!swarmActive) { requestAnimationFrame(updateFakeCursors); return; }
+    for (var i = 0; i < fakeCursors.length; i++) {
+      var lerpSpeed = parseFloat(fakeCursors[i].getAttribute('data-lerp')) || 0.05;
+      var orbit = parseFloat(fakeCursors[i].getAttribute('data-orbit')) || 30;
+      cursorPositions[i].x += (realMX - cursorPositions[i].x) * lerpSpeed;
+      cursorPositions[i].y += (realMY - cursorPositions[i].y) * lerpSpeed;
+      // Orbit around the target position so they spread out
+      var angle = Date.now() * 0.001 * (1 + i * 0.3) + i * (Math.PI * 2 / fakeCursors.length);
+      var offsetX = Math.sin(angle) * orbit;
+      var offsetY = Math.cos(angle) * orbit;
+      fakeCursors[i].style.left = (cursorPositions[i].x + offsetX) + 'px';
+      fakeCursors[i].style.top = (cursorPositions[i].y + offsetY) + 'px';
+    }
+    requestAnimationFrame(updateFakeCursors);
+  }
+  requestAnimationFrame(updateFakeCursors);
+
+  // Activate cursor swarm after 25-60s, lasts 30-60s, then repeats
+  function startSwarm() {
+    if (window.innerWidth < 768) return;
+    swarmActive = true;
+    cursorSwarm.classList.add('active');
+
+    // Initialize fake cursor positions to current mouse
+    for (var i = 0; i < cursorPositions.length; i++) {
+      cursorPositions[i].x = realMX;
+      cursorPositions[i].y = realMY;
+    }
+
+    // Show a notification
+    var el = document.createElement('div');
+    el.className = 'troll-notif';
+    el.style.setProperty('--notif-color', '#c742f5');
+    el.innerHTML = '<div class="notif-header"><span class="notif-type">SYSTEM</span><span class="notif-time">NOW</span></div><div class="notif-body">CURSOR MULTIPLIER ACTIVATED. You now have 6 cursors. You\'re welcome.</div>';
+    if (notifContainer) notifContainer.appendChild(el);
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 6000);
+
+    // Deactivate after 30-60s, then schedule next swarm
+    setTimeout(function() {
+      swarmActive = false;
+      cursorSwarm.classList.remove('active');
+      // Next swarm in 60-180s
+      setTimeout(function() {
+        if (trollReady) startSwarm();
+      }, 60000 + Math.random() * 120000);
+    }, 30000 + Math.random() * 30000);
+  }
+
+  setTimeout(function() {
+    if (trollReady) startSwarm();
+  }, 25000 + Math.random() * 35000);
+
+  /* ==================== 8. RANDOM UPSIDE DOWN (1% chance) ==================== */
+  if (Math.random() < 0.01) {
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.transform = 'rotate(180deg)';
+      document.body.style.transformOrigin = 'center center';
+    });
+  }
+
+  /* ==================== 9. EXIT INTENT POPUP ==================== */
+  var exitPopup = document.getElementById('exit-popup');
+  var exitShown = false;
+
+  document.addEventListener('mouseleave', function(e) {
+    if (e.clientY < 5 && !exitShown && trollReady) {
+      exitShown = true;
+      exitPopup.classList.add('active');
+    }
+  });
+
+  var exitStay = document.getElementById('exit-stay');
+  var exitLeave = document.getElementById('exit-leave');
+
+  if (exitStay) {
+    exitStay.addEventListener('click', function() {
+      exitPopup.classList.remove('active');
+    });
+  }
+
+  // "Leave" button shows second confirmation, then closes
+  if (exitLeave) {
+    var leaveClicks = 0;
+    exitLeave.addEventListener('click', function() {
+      leaveClicks++;
+      if (leaveClicks === 1) {
+        exitLeave.textContent = 'Are you REALLY sure?';
+      } else if (leaveClicks === 2) {
+        exitLeave.textContent = 'The squad will never forgive you';
+      } else if (leaveClicks === 3) {
+        exitLeave.textContent = 'Fine. Go.';
+      } else {
+        exitPopup.classList.remove('active');
+      }
+    });
+  }
+
+  /* ==================== 10. HIDDEN BACKGROUND RICKROLL ==================== */
+  var bgRickroll = document.getElementById('bg-rickroll');
+  var bgRickrollStarted = false;
+  var bgRickrollInterval = null;
+
+  if (bgRickroll) {
+    bgRickroll.volume = 0.04; // Very quiet
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        // Tab is hidden — start the sneaky rickroll after a short delay
+        if (!bgRickrollStarted) {
+          bgRickrollStarted = true;
+          // Wait 5s before starting, to make sure they've actually left
+          bgRickrollInterval = setTimeout(function() {
+            playSnippet();
+          }, 5000);
+        }
+      } else {
+        // Tab is visible — stop immediately
+        if (bgRickrollInterval) {
+          clearTimeout(bgRickrollInterval);
+          bgRickrollInterval = null;
+        }
+        bgRickroll.pause();
+      }
+    });
+
+    function playSnippet() {
+      if (!document.hidden) return; // They came back, abort
+
+      // Pick a random spot in the video (first 2 minutes)
+      bgRickroll.currentTime = Math.random() * 120;
+      bgRickroll.play().catch(function() {});
+
+      // Play for 3-4 seconds, then pause
+      var duration = 3000 + Math.random() * 1000;
+      setTimeout(function() {
+        bgRickroll.pause();
+        // If still hidden, schedule another snippet in 15-30s
+        if (document.hidden) {
+          bgRickrollInterval = setTimeout(function() {
+            playSnippet();
+          }, 15000 + Math.random() * 15000);
+        }
+      }, duration);
+    }
+  }
+
+})();
+</script>

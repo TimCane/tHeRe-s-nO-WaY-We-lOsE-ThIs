@@ -1,4 +1,6 @@
 ---
+import SiteTrolls from '../components/SiteTrolls.astro';
+
 interface Props {
   title: string;
 }
@@ -92,6 +94,8 @@ const { title } = Astro.props;
 
   <!-- KILL FEED -->
   <div class="kill-feed" id="kill-feed"></div>
+
+  <SiteTrolls />
 
   <footer>
     <div class="footer-line"></div>

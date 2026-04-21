@@ -1,0 +1,219 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RickRoll from '../components/RickRoll.astro';
+---
+
+<Layout title="LOST // SITE ADJACENT TO THE PAGE YOU WANTED">
+  <section class="lost-hero">
+    <div class="lost-bg"></div>
+    <div class="lost-content">
+      <div class="lost-code">404</div>
+      <div class="lost-tag">// PAGE NOT FOUND</div>
+      <h1>YOU'RE LOST.</h1>
+      <h2>JUST LIKE CHILL GOOD NIGHT.</h2>
+      <p class="lost-desc">Site adjacent to where you wanted to be. Close enough to see the URL. Too far to load the content.</p>
+
+      <div class="lost-excuses">
+        <div class="excuse-card">
+          <span class="excuse-icon">&#9670;</span>
+          <span>The page was last seen site adjacent</span>
+        </div>
+        <div class="excuse-card">
+          <span class="excuse-icon">&#9670;</span>
+          <span>Pretty Mouth Man deleted it while alt-tabbed to Factorio</span>
+        </div>
+        <div class="excuse-card">
+          <span class="excuse-icon">&#9670;</span>
+          <span>Doodlleus said "tHeRe's nO wAy We LoSe ThIs page" and the page vanished</span>
+        </div>
+        <div class="excuse-card">
+          <span class="excuse-icon">&#9670;</span>
+          <span>Neilatron fell asleep before the page could load</span>
+        </div>
+        <div class="excuse-card">
+          <span class="excuse-icon">&#9670;</span>
+          <span>TJC bait-rez'd the page and it died again immediately</span>
+        </div>
+      </div>
+
+      <div class="lost-actions">
+        <a href="/" class="lost-btn lost-home">&larr; BACK TO BASE</a>
+        <button class="lost-btn lost-watch" id="lost-watch">WATCH THE REPLAY</button>
+      </div>
+
+      <div class="lost-footer-text">
+        <p>ERROR CODE: SITE-ADJACENT-404 // FILED UNDER: COPIUM</p>
+      </div>
+    </div>
+  </section>
+  <RickRoll />
+
+  <script is:inline>
+  (function() {
+    var watchBtn = document.getElementById('lost-watch');
+    if (watchBtn) {
+      watchBtn.addEventListener('click', function() {
+        if (window.rickroll) window.rickroll('404: PAGE NOT FOUND');
+      });
+    }
+  })();
+  </script>
+</Layout>
+
+<style>
+  .lost-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 2rem;
+  }
+
+  .lost-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(255,70,85,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 60%, rgba(23,236,194,0.04) 0%, transparent 50%);
+  }
+
+  .lost-content {
+    position: relative;
+    text-align: center;
+    max-width: 700px;
+    z-index: 2;
+  }
+
+  .lost-code {
+    font-size: clamp(8rem, 20vw, 16rem);
+    font-weight: 700;
+    letter-spacing: 12px;
+    line-height: 0.8;
+    color: var(--val-red);
+    opacity: 0.08;
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .lost-tag {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--val-red);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  .lost-content h1 {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: 8px;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .lost-content h2 {
+    font-size: clamp(1rem, 3vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: 5px;
+    color: var(--val-teal);
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .lost-desc {
+    font-size: 0.95rem;
+    opacity: 0.45;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+  }
+
+  .lost-excuses {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+    text-align: left;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .excuse-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    font-size: 0.85rem;
+    opacity: 0.5;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+  }
+
+  .excuse-icon {
+    color: var(--val-red);
+    font-size: 0.5rem;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .lost-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .lost-btn {
+    padding: 0.9rem 2.5rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    text-decoration: none;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .lost-home {
+    background: transparent;
+    border: 1px solid rgba(23,236,194,0.4);
+    color: var(--val-teal);
+  }
+
+  .lost-home:hover {
+    background: var(--val-teal);
+    color: var(--val-darker);
+  }
+
+  .lost-watch {
+    background: rgba(255,70,85,0.15);
+    border: 1px solid rgba(255,70,85,0.4);
+    color: var(--val-red);
+  }
+
+  .lost-watch:hover {
+    background: var(--val-red);
+    color: white;
+  }
+
+  .lost-footer-text {
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    opacity: 0.15;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .lost-hero { padding: 8rem 1.5rem 4rem; }
+    .lost-code { font-size: 8rem; top: -1rem; }
+  }
+</style>
